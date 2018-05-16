@@ -11,7 +11,6 @@ public class SuperTest {
 
     @BeforeClass(alwaysRun=true)
     public void setUp() {
-        RestAssured.proxy("10.10.0.110",8888);
 
         if (AUTH_TOKEN.equals("")){
             AuthAPI auth = new AuthAPI();
