@@ -35,17 +35,16 @@ public class ScreensTest extends SuperTest {
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Create screen")
     public void createScreenInDaFolder() {
-        folderSteps.createFolder(ROOT_FOLDER);
-        screenSteps.createScreen(folderSteps.testFolderId);
+        screenSteps.createScreen(folderForTests);
         screenSteps.checkStatusCode(201);
         screenSteps.getScreen();
-        screenSteps.checkThatBodyHasValue(folderSteps.testFolderId);
+        screenSteps.checkThatBodyHasValue(folderForTests);
     }
 
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Create screen")
     public void createScreenInDaRootWithoutDescription() {
-        screenSteps.createScreen(getRandomTextField("Screen name"), null, ROOT_FOLDER);
+        screenSteps.createScreen(getRandomTextField("Screen name"), null, folderForTests);
         screenSteps.checkStatusCode(201);
     }
 
@@ -53,15 +52,15 @@ public class ScreensTest extends SuperTest {
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Create screen")
     public void createScreenInDaRootWithSameName() {
-        screenSteps.createScreen(ROOT_FOLDER);
-        screenSteps.createScreen(screenSteps.testScreen.name, null, ROOT_FOLDER);
+        screenSteps.createScreen(folderForTests);
+        screenSteps.createScreen(screenSteps.testScreen.name, null, folderForTests);
         screenSteps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS, PATH_ERROR);
     }
 
     //TODO Enable when method implemented
     @Test (dependsOnMethods = "createScreenInDaRoot", enabled = false)
     public void editScreenName() {
-        screenSteps.createScreen(ROOT_FOLDER);
+        screenSteps.createScreen(folderForTests);
         screenSteps.testScreen.name = "Changed" + screenSteps.testScreen.name;
         screenSteps.testScreen.description = "Changed" +screenSteps.testScreen.description;
         screenSteps.editScreen();
@@ -73,8 +72,8 @@ public class ScreensTest extends SuperTest {
     //TODO Enable when method implemented
     @Test (dependsOnMethods = "createScreenInDaRoot", enabled = false)
     public void deleteScreen() {
-        screenSteps.createScreen(ROOT_FOLDER);
-        screenSteps.deleteScreen();
+        screenSteps.createScreen(folderForTests);
+        screenSteps.deleteScreen(screenSteps.testScreenId);
         screenSteps.checkStatusCode(204);
         screenSteps.getScreen();
         screenSteps.checkStatusCode(404);
@@ -83,8 +82,8 @@ public class ScreensTest extends SuperTest {
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Move screen")
     public void moveScreen(){
-        folderSteps.createFolder(ROOT_FOLDER);
-        screenSteps.createScreen(ROOT_FOLDER);
+        folderSteps.createFolder(folderForTests);
+        screenSteps.createScreen(folderForTests);
         screenSteps.moveScreen(folderSteps.testFolderId);
         screenSteps.checkStatusCode(200);
     }
@@ -92,8 +91,8 @@ public class ScreensTest extends SuperTest {
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Copy screen")
     public void copyEmptyScreenTwice(){
-        folderSteps.createFolder(ROOT_FOLDER);
-        screenSteps.createScreen(ROOT_FOLDER);
+        folderSteps.createFolder(folderForTests);
+        screenSteps.createScreen(folderForTests);
         String originalId = screenSteps.testScreenId;
 
         screenSteps.copyScreen(folderSteps.testFolderId);
@@ -111,8 +110,8 @@ public class ScreensTest extends SuperTest {
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Copy screen")
     public void copyScreenWithBlock(){
-        folderSteps.createFolder(ROOT_FOLDER);
-        screenSteps.createScreen(ROOT_FOLDER);
+        folderSteps.createFolder(folderForTests);
+        screenSteps.createScreen(folderForTests);
         titleSteps.createTitle(screenSteps.testScreenId);
 
         screenSteps.copyScreen(folderSteps.testFolderId);

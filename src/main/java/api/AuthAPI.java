@@ -1,6 +1,7 @@
 package main.java.api;
 
 import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 
 import static io.restassured.RestAssured.given;
 import static main.java.properties.Context.*;
@@ -17,6 +18,7 @@ public class AuthAPI extends CommonAPI{
     public String getToken(){
         return
                 given()
+                        .filter(new AllureRestAssured())
                         .formParam("grant_type", GRANT_TYPE)
                         .formParam("username", STAGE_USER)
                         .formParam("password", STAGE_PASSWORD)

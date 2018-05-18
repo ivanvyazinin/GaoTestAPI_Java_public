@@ -1,5 +1,6 @@
 package test.java.steps.blocks;
 
+import io.qameta.allure.Step;
 import main.java.api.contentCloud.SubtitlesAPI;
 import main.java.entities.contentCloud.blocks.Subtitle;
 import test.java.steps.CommonSteps;
@@ -12,6 +13,7 @@ public class SubtitlesSteps extends CommonSteps {
 
     SubtitlesAPI titlesAPI = new SubtitlesAPI();
 
+    @Step("Creating Subtitle with random name in screen '{screen}'")
     public void createSubtitle(String screen){
         testSubtitle = new Subtitle(screen);
         response = titlesAPI.post(testSubtitle);

@@ -11,7 +11,7 @@ public class FolderSteps extends CommonSteps {
     public Folder testFolder;
     public String testFolderId;
 
-    FoldersAPI api = new FoldersAPI();
+    public FoldersAPI api = new FoldersAPI();
 
     @Step("Creating folder with random name into folder '{parentFolder}'")
     public void createFolder(String parentFolder){
@@ -48,6 +48,10 @@ public class FolderSteps extends CommonSteps {
         response = api.delete(testFolderId);
     }
 
+    public void deleteFolder(String folderId){
+        response = api.delete(folderId);
+    }
+
     public void getFolder(){
         response = api.getById(testFolderId);
     }
@@ -56,16 +60,10 @@ public class FolderSteps extends CommonSteps {
         response = api.get();
     }
 
-    public void getFolderItems(){
-        response = api.getFolderItems(testFolderId);
-    }
-
     public void getFolderItems(String folderId){
-        response = api.getFolderItems(testFolderId);
-    }
 
-    public void getRootFolderItems(){
-        response = api.getFolderItems(ROOT_FOLDER);
+
+        response = api.getFolderItems(folderId);
     }
 
 }

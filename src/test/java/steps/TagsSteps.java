@@ -1,5 +1,6 @@
 package test.java.steps;
 
+import io.qameta.allure.Step;
 import main.java.api.contentCloud.TagsAPI;
 import main.java.entities.contentCloud.Tag;
 
@@ -12,12 +13,14 @@ public class TagsSteps extends CommonSteps {
 
     TagsAPI tagsAPI = new TagsAPI();
 
+    @Step("Adding tag to '{resource}' with id '{resourceId}'")
     public void addTag(String resource, String resourceId){
         testTag = new Tag(getRandomTextField("Tag name"));
         response = tagsAPI.addTag(resource, resourceId, testTag);
         testTagId = response.jsonPath().getString(PATH_ID);
     }
 
+    @Step("Deleting tag from '{resource}' with id '{resourceId}'")
     public void deleteTag(String resource, String resourceId) {
         response = tagsAPI.deleteTag(resource, resourceId, testTagId);
     }

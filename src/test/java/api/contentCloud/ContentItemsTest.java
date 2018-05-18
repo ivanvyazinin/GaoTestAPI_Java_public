@@ -7,6 +7,8 @@ import test.java.api.SuperTest;
 import test.java.steps.ContentItemSteps;
 import test.java.steps.FolderSteps;
 
+import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
+import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.utils.Generator.getRandomTextField;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
@@ -28,23 +30,24 @@ public class ContentItemsTest extends SuperTest {
         contentItemSteps.getContentItem();
         contentItemSteps.checkThatBodyHasValue("tail");
         contentItemSteps.checkThatBodyHasValue("head");
+        contentItemSteps.checkThatJsonContains(-2,"data.constructorItems[1].positionY");
+        contentItemSteps.checkThatJsonContains(0,"data.constructorItems[1].positionX");
     }
 
-    @Test(dependsOnMethods = "createContentItemInDaRoot")
+    @Test
     @Story("Create Content Item")
     public void createContentItemInDaFolder() {
-        folderSteps.createFolder(ROOT_FOLDER);
-        contentItemSteps.createContentItem(folderSteps.testFolderId);
+        contentItemSteps.createContentItem(folderForTests);
         contentItemSteps.checkStatusCode(201);
 
         contentItemSteps.getContentItem();
-        contentItemSteps.checkThatBodyHasValue(folderSteps.testFolderId);
+        contentItemSteps.checkThatBodyHasValue(folderForTests);
     }
 
     @Test(dependsOnMethods = "createContentItemInDaRoot")
     @Story("Create Content Item")
     public void createContentItemWithoutDescription() {
-        contentItemSteps.createContentItem(getRandomTextField("name"),null,ROOT_FOLDER);
+        contentItemSteps.createContentItem(getRandomTextField("name"),null,folderForTests);
         contentItemSteps.checkStatusCode(201);
     }
 
@@ -57,8 +60,8 @@ public class ContentItemsTest extends SuperTest {
 
     @Test(dependsOnMethods = "createContentItemInDaRoot")
     @Story("Edit Content Item")
-    public void EditContentItem() {
-        contentItemSteps.createContentItem(ROOT_FOLDER);
+    public void editContentItem() {
+        contentItemSteps.createContentItem(folderForTests);
         contentItemSteps.testContentItem.name = "Changed" + contentItemSteps.testContentItem.name;
         contentItemSteps.testContentItem.description = "Changed" + contentItemSteps.testContentItem.description;
         contentItemSteps.editContentItem();
@@ -67,35 +70,23 @@ public class ContentItemsTest extends SuperTest {
         contentItemSteps.checkThatBodyHasValue(contentItemSteps.testContentItem.name);
     }
 
-/*
     @Test(dependsOnMethods = "createContentItemInDaRoot")
-    @Story("Add tag to Content Item")
-    public void AddTagToContentItem() {
-        ContentItem contentItemInDaRoot = steps.createContentItem(ROOT_FOLDER);
-
-        Response response = contentItemInDaRoot.addTag(getRandomTextField("Tag"));
-        checkStatusCode(201, response.statusCode());
-
-        Response getItem = contentItemInDaRoot.getItem();
-        checkThatBodyHasValue(getItem.asString(),contentItemInDaRoot.id);
+    @Story("Move Content Item")
+    public void moveContentItem() {
+        contentItemSteps.createContentItem(ROOT_FOLDER);
+        contentItemSteps.moveContentItem(folderForTests);
+        contentItemSteps.checkStatusCode(200);
+        contentItemSteps.getContentItem();
+        contentItemSteps.checkThatBodyHasValue(folderForTests);
     }
 
     @Test(dependsOnMethods = "createContentItemInDaRoot")
-    @Story("Delete tag from Content Item")
-    public void DeleteTagFromContentItem() {
-        String tagId;
-
-        ContentItem contentItemInDaRoot = steps.createContentItem(ROOT_FOLDER);
-
-        contentItemInDaRoot.addTag(getRandomTextField("Tag"));
-
-        Response getItem = contentItemInDaRoot.getItem();
-        tagId = getItem.jsonPath().get("data.tags[0].id");
-
-        Response response = contentItemInDaRoot.deleteTag(tagId);
-
-        checkStatusCode(204, response.statusCode());
-        assertTrue(!contentItemInDaRoot.getItem().jsonPath().get("data.tags").toString().contains(tagId));
+    @Story("Move Content Item")
+    public void moveContentItemToFolderWithSameContentItem() {
+        contentItemSteps.createContentItem(folderForTests);
+        contentItemSteps.createContentItem(contentItemSteps.testContentItem.name, contentItemSteps.testContentItem.description, ROOT_FOLDER);
+        contentItemSteps.moveContentItem(folderForTests);
+        contentItemSteps.checkStatusCode(400);
+        contentItemSteps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS,PATH_ERROR);
     }
-*/
 }

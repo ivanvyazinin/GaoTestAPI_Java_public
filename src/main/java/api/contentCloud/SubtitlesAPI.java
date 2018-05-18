@@ -9,6 +9,5 @@ public class SubtitlesAPI extends CommonAPI {
 
     public SubtitlesAPI(){
         setURL(API_PREFIX, ENDPOINT_SUBTITLES);
-        //parameters = "?embed[]=" + EMBED_FOLDER + "&embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
     }
 }

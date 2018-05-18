@@ -20,7 +20,7 @@ public class TitlesTest extends SuperTest {
 
     @Test
     public void createTitle() {
-        screenSteps.createScreen(ROOT_FOLDER);
+        screenSteps.createScreen(folderForTests);
         titleSteps.createTitle(screenSteps.testScreenId);
         titleSteps.checkStatusCode(201);
     }

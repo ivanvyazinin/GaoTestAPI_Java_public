@@ -1,7 +1,10 @@
 package main.java.api;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import main.java.api.contentCloud.RequestParameters;
 import main.java.common.ConfigurationSetup;
 
 import static io.restassured.RestAssured.given;
@@ -9,7 +12,7 @@ import static main.java.properties.Constants.CONTENT_TYPE;
 import static main.java.properties.Context.HEADERS;
 import static main.java.properties.Endpoints.API_PREFIX;
 
-public class CommonAPI{
+public class CommonAPI extends RequestParameters {
     final ConfigurationSetup cs;
     private String URL;
     protected String parameters= "";
@@ -30,6 +33,7 @@ public class CommonAPI{
     public <T> Response post(T bodyData) {
 
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 body(bodyData).
@@ -39,6 +43,7 @@ public class CommonAPI{
 
     public <T> Response put(String id, T bodyData) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 body(bodyData).
@@ -49,14 +54,16 @@ public class CommonAPI{
 
     public Response get() {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
-                get(getURL() + parameters);
+                get(getURL() + getRequestParameters());
     }
 
     public Response getById(String id) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
@@ -65,6 +72,7 @@ public class CommonAPI{
 
     public Response delete(String id) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().

@@ -9,6 +9,5 @@ public class TitlesAPI extends CommonAPI {
 
     public TitlesAPI(){
         setURL(API_PREFIX, ENDPOINT_TITLES);
-        //parameters = "?embed[]=" + EMBED_FOLDER + "&embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
     }
 }

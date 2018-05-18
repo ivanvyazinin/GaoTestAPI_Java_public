@@ -25,14 +25,14 @@ public class FolderItemsTest extends SuperTest {
     @Test
     @Story("Get items of root folder")
     public void getItemsOfRootFolder() {
-        folderSteps.getRootFolderItems();
+        folderSteps.getFolderItems(ROOT_FOLDER);
         folderSteps.checkStatusCode(200);
     }
 
     @Test
     @Story("Folder contains folder, CI and Screen. Get items")
     public void getItemsOfFolder() {
-        folderSteps.createFolder(ROOT_FOLDER);
+        folderSteps.createFolder(folderForTests);
         String folderId = folderSteps.testFolderId;
 
         folderSteps.createFolder(folderId);

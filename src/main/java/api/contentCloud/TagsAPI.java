@@ -1,5 +1,6 @@
 package main.java.api.contentCloud;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 import main.java.api.CommonAPI;
 
@@ -13,11 +14,11 @@ public class TagsAPI extends CommonAPI {
 
     public TagsAPI(){
         setURL(API_PREFIX, ENDPOINT_TAGS);
-        //parameters = "?embed[]=" + EMBED_FOLDER + "&embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
     }
 
     public <T> Response addTag(String resource, String resourceId, T bodyData) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 body(bodyData).
@@ -27,6 +28,7 @@ public class TagsAPI extends CommonAPI {
 
     public Response deleteTag(String resource, String resourceId, String tagId) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().

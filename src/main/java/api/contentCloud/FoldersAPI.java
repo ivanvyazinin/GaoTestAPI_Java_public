@@ -1,5 +1,6 @@
 package main.java.api.contentCloud;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 import main.java.api.CommonAPI;
 
@@ -14,16 +15,15 @@ public class FoldersAPI extends CommonAPI {
 
     public FoldersAPI(){
         setURL(API_PREFIX, ENDPOINT_FOLDERS);
-        parameters = "?embed[]=" + EMBED_FOLDER;
+        resetRequestParameters();
     }
 
     public Response getFolderItems(String id) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
-                get(getURL() + "/" + id + "/items");
+                get(getURL() + "/" + id + "/items" + getRequestParameters());
     }
-
-
 }

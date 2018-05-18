@@ -11,7 +11,7 @@ public class CommonSteps {
 
     @Step("Comparing status code. Expected: '{statusCodeExpected}'")
     public void checkStatusCode(int statusCodeExpected) {
-        assertEquals(statusCodeExpected, response.statusCode());
+        assertEquals(response.statusCode(), statusCodeExpected);
     }
 
     @Step("Check, that response body contains value: '{expectedValue}'")
@@ -26,11 +26,11 @@ public class CommonSteps {
 
     @Step("Check, that response body contains value: '{expectedValue}' by path: {jsonPath}")
     public void checkThatJsonContains(Object expectedValue, String jsonPath){
-        assertEquals(expectedValue, response.jsonPath().get(jsonPath));
+        assertEquals(response.jsonPath().get(jsonPath), expectedValue);
     }
 
     @Step("Check, that response contains certain number of items: '{expectedValue}'")
     public void checkItemsNumberInResponse(Object expectedValue){
-        assertEquals(expectedValue,response.jsonPath().getList("data.items").size());
+        assertEquals(response.jsonPath().getList("data.items").size(), expectedValue);
     }
 }

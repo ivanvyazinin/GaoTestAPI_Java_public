@@ -39,8 +39,8 @@ public class ScreenSteps extends CommonSteps {
             testScreenId = response.jsonPath().getString(PATH_ID);
         }
 
-        public void deleteScreen() {
-            response = ScreensApi.delete(testScreenId);
+        public void deleteScreen(String screenId) {
+            response = ScreensApi.delete(screenId);
         }
 
         public void getScreen(){

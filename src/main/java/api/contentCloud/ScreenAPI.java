@@ -1,5 +1,6 @@
 package main.java.api.contentCloud;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 import main.java.api.CommonAPI;
 
@@ -18,6 +19,7 @@ public class ScreenAPI extends CommonAPI {
 
     public Response copy(String folderId, String screenId) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
@@ -26,6 +28,7 @@ public class ScreenAPI extends CommonAPI {
 
     public Response getBlocks(String id) {
         return given().
+                filter(new AllureRestAssured()).
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
