@@ -5,7 +5,6 @@ import main.java.api.contentCloud.FoldersAPI;
 import main.java.entities.contentCloud.Folder;
 
 import static main.java.properties.Constants.PATH_ID;
-import static main.java.properties.Constants.ROOT_FOLDER;
 
 public class FolderSteps extends CommonSteps {
     public Folder testFolder;

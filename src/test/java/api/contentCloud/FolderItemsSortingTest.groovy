@@ -11,9 +11,9 @@ import test.java.steps.ScreenSteps
 import static main.java.utils.Generator.getRandomTextField
 
 class FolderItemsSortingTest extends SuperTest {
-    private FolderSteps folderSteps;
-    private ScreenSteps screenSteps;
-    private ContentItemSteps contentItemSteps;
+    private FolderSteps folderSteps
+    private ScreenSteps screenSteps
+    private ContentItemSteps contentItemSteps
 
     private String testFolderId
     private String nameOfFirstFolder
@@ -22,9 +22,9 @@ class FolderItemsSortingTest extends SuperTest {
     @BeforeClass
     @Description("Preparing test data")
     void prepareSteps(){
-        folderSteps = new FolderSteps();
-        screenSteps = new ScreenSteps();
-        contentItemSteps = new ContentItemSteps();
+        folderSteps = new FolderSteps()
+        screenSteps = new ScreenSteps()
+        contentItemSteps = new ContentItemSteps()
 
         folderSteps.createFolder(folderForTests)
 

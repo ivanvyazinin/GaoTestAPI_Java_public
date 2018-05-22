@@ -3,7 +3,7 @@ package main.java.api.contentCloud;
 import java.util.Map;
 
 public class RequestParameters {
-    private String requestParameters;
+    private String requestParameters= "";
 
     public void setRequestParameters(Map<String, String> hashmap){
         StringBuilder params = new StringBuilder();

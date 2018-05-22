@@ -44,7 +44,7 @@
                 <version>2.21.0</version>
                 <configuration>
                     <groups>${groups}</groups>
-                    <parallel>classes</parallel>
+                    <parallel>instances</parallel>
                     <threadCount>${threads}</threadCount>
                     <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
@@ -122,6 +122,13 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.aeonbits.owner/owner -->
+            <dependency>
+                <groupId>org.aeonbits.owner</groupId>
+                <artifactId>owner-java8</artifactId>
+                <version>1.0.10</version>
+            </dependency>
 
     </dependencies>
 </project>

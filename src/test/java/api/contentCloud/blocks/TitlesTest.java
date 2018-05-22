@@ -6,8 +6,6 @@ import test.java.api.SuperTest;
 import test.java.steps.ScreenSteps;
 import test.java.steps.blocks.TitleSteps;
 
-import static main.java.properties.Constants.ROOT_FOLDER;
-
 public class TitlesTest extends SuperTest {
     private ScreenSteps screenSteps;
     private TitleSteps titleSteps;

@@ -6,7 +6,6 @@ import main.java.api.CommonAPI;
 
 import static io.restassured.RestAssured.given;
 import static main.java.properties.Constants.CONTENT_TYPE;
-import static main.java.properties.Constants.EMBED_FOLDER;
 import static main.java.properties.Context.HEADERS;
 import static main.java.properties.Endpoints.API_PREFIX;
 import static main.java.properties.Endpoints.ENDPOINT_FOLDERS;

@@ -1,24 +1,23 @@
 package main.java.api;
 
-import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import main.java.api.contentCloud.RequestParameters;
-import main.java.common.ConfigurationSetup;
+import main.java.core.ServerConfig;
 
 import static io.restassured.RestAssured.given;
+import static main.java.core.Configuration.getServerConfig;
 import static main.java.properties.Constants.CONTENT_TYPE;
 import static main.java.properties.Context.HEADERS;
-import static main.java.properties.Endpoints.API_PREFIX;
 
 public class CommonAPI extends RequestParameters {
-    final ConfigurationSetup cs;
     private String URL;
     protected String parameters= "";
+    private ServerConfig config;
 
     protected void setURL(String prefix, String endpointName) {
-        URL = cs.environment.getAPIAddress() + prefix + endpointName;
+        URL = "http://" + config.getHost() + prefix + endpointName;
     }
 
     protected String getURL() {
@@ -26,8 +25,7 @@ public class CommonAPI extends RequestParameters {
     }
 
     public CommonAPI(){
-        cs = new ConfigurationSetup();
-        URL = cs.environment.getAPIAddress() + API_PREFIX;
+        config = getServerConfig();
     }
 
     public <T> Response post(T bodyData) {

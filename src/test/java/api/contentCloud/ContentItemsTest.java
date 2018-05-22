@@ -5,7 +5,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.java.api.SuperTest;
 import test.java.steps.ContentItemSteps;
-import test.java.steps.FolderSteps;
 
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
@@ -13,12 +12,10 @@ import static main.java.utils.Generator.getRandomTextField;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
 public class ContentItemsTest extends SuperTest {
-    private FolderSteps folderSteps;
     private ContentItemSteps contentItemSteps;
 
     @BeforeClass
     public void prepareSteps(){
-        folderSteps = new FolderSteps();
         contentItemSteps = new ContentItemSteps();
     }
 

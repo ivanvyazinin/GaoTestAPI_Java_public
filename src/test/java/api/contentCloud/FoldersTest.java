@@ -8,10 +8,10 @@ import test.java.steps.FolderSteps;
 import test.java.steps.ScreenSteps;
 import test.java.steps.blocks.TitleSteps;
 
+
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.properties.Constants.ROOT_FOLDER;
-import static org.testng.Assert.assertEquals;
 
 public class FoldersTest extends SuperTest {
     FolderSteps folderSteps;
@@ -78,7 +78,7 @@ public class FoldersTest extends SuperTest {
         folderSteps.checkStatusCode(200);
     }
 
-    @Test (dependsOnMethods = "createScreenInDaRoot")
+    @Test
     @Story("Delete screen")
     public void deleteFolderWithScreenWithBlock(){
         folderSteps.createFolder(folderForTests);
