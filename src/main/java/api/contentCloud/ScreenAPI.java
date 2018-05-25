@@ -32,7 +32,7 @@ public class ScreenAPI extends CommonAPI {
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
-                get(getURL() + "/" + id + "/blocks");
+                get(getURL() + "/" + id + "/blocks" + getRequestParameters());
     }
 
 }

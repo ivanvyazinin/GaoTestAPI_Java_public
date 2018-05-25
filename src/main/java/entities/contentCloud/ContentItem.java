@@ -1,11 +1,16 @@
 package main.java.entities.contentCloud;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import static main.java.utils.Generator.getRandomTextField;
 
 public class ContentItem {
     public String name;
     public String description;
     public String parentFolder;
+    @JsonIgnore
+    public String id;
+
 
     public ContentItem(String parent){
         this.name = getRandomTextField("CI name");

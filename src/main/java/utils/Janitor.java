@@ -2,15 +2,14 @@ package main.java.utils;
 
 import io.restassured.RestAssured;
 import main.java.api.AuthAPI;
-import test.java.steps.ContentItemSteps;
-import test.java.steps.FolderSteps;
-import test.java.steps.ScreenSteps;
+import main.java.steps.ContentItemSteps;
+import main.java.steps.FolderSteps;
+import main.java.steps.ScreenSteps;
 
 import java.util.HashMap;
 import java.util.List;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
-import static main.java.properties.Context.AUTH_TOKEN;
 import static main.java.properties.Context.HEADERS;
 
 public class Janitor {
@@ -19,17 +18,15 @@ public class Janitor {
     }
 
     public static void clean() {
-        RestAssured.proxy("192.168.4.7", 8888);
         FolderSteps folderSteps = new FolderSteps();
         ScreenSteps screenSteps = new ScreenSteps();
         ContentItemSteps contentItemSteps = new ContentItemSteps();
         HashMap<String, String> params = new HashMap<>();
         params.put("pagination", "false");
 
-        if (AUTH_TOKEN.equals("")) {
+        if(HEADERS.isEmpty()){
             AuthAPI auth = new AuthAPI();
-            AUTH_TOKEN = auth.getToken();
-            HEADERS.put("authorization", AUTH_TOKEN);
+            HEADERS.put("authorization", auth.getToken());
         }
 
         folderSteps.api.setRequestParameters(params);

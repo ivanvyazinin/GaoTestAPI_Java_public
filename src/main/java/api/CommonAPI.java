@@ -1,7 +1,6 @@
 package main.java.api;
 
 import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import main.java.api.contentCloud.RequestParameters;
 import main.java.core.ServerConfig;

@@ -10,4 +10,5 @@ public class Endpoints {
     public static String ENDPOINT_TITLES="titles";
     public static String ENDPOINT_SUBTITLES="subtitles";
     public static String ENDPOINT_TAGS="tags";
+    public static String ENDPOINT_constructor_screens="constructor_screens";
 }
