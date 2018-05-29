@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.ivanvyazinin</groupId>
-    <artifactId>GaoTestAPI</artifactId>
+    <groupId>com.digitaledtech</groupId>
+    <artifactId>ta-api</artifactId>
     <version>1.1-SNAPSHOT</version>
     <properties>
         <groups>!Slow</groups>
         <aspectj.version>1.8.10</aspectj.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <threads>2</threads>
+        <threads>4</threads>
     </properties>
 
     <build>
@@ -129,6 +129,5 @@
                 <artifactId>owner-java8</artifactId>
                 <version>1.0.10</version>
             </dependency>
-
     </dependencies>
 </project>

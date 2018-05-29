@@ -12,4 +12,6 @@ public class Context {
     public static String GRANT_TYPE="password";
 
     public static Map<String, String> HEADERS = new HashMap<>();
+
+    public static String FOLDER_FOR_TESTS = "";
 }

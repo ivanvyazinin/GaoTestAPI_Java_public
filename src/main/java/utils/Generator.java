@@ -9,7 +9,7 @@ public class Generator {
         return field + "Auto" +unixTime;
     }
 
-    public static int getRandomCoorditate(){
+    public static int getRandomCoordinate(){
         Random rand = new Random();
         return rand.nextInt(100);
     }
