@@ -1,7 +1,7 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.SubtitlesAPI;
+import main.java.api.contentCloud.blocks.SubtitlesAPI;
 import main.java.entities.contentCloud.blocks.Subtitle;
 import main.java.steps.CommonSteps;
 

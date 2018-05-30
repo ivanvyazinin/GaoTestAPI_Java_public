@@ -1,4 +1,4 @@
-package main.java.api.contentCloud;
+package main.java.api.contentCloud.blocks;
 
 import main.java.api.CommonAPI;
 

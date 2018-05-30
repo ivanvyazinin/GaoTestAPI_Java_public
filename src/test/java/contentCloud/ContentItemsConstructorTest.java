@@ -1,5 +1,6 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Feature;
 import main.java.steps.ContentItemSteps;
 import main.java.steps.ScreenSteps;
 import org.testng.annotations.BeforeClass;
@@ -8,6 +9,7 @@ import test.java.SuperTest;
 
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
+@Feature("Content Items")
 public class ContentItemsConstructorTest extends SuperTest {
     ContentItemSteps contentItemSteps;
     ScreenSteps screenSteps;

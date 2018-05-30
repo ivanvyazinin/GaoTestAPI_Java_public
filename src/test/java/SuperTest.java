@@ -12,14 +12,14 @@ import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 public class SuperTest {
     private FolderSteps steps;
+    private AuthAPI auth;
 
     @BeforeSuite(alwaysRun=true)
     public void setUp() {
+        RestAssured.proxy("10.10.0.110",8888);
 
-        if(HEADERS.isEmpty()){
-            AuthAPI auth = new AuthAPI();
-            HEADERS.put("authorization", auth.getToken());
-        }
+        auth = new AuthAPI();
+        HEADERS.put("authorization", auth.getToken());
 
         steps = new FolderSteps();
         steps.createFolder(ROOT_FOLDER);

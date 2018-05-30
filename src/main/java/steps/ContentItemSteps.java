@@ -78,6 +78,7 @@ public class ContentItemSteps extends CommonSteps {
         cc = response.as(ContentItemConstructor.class).data;
     }
 
+    @Step("Add link to constructor from '{from}' to '{to}'")
     public void addConstructorLink(String from, String to){
         Link link = new Link(from, to);
         cc.links.add(link);

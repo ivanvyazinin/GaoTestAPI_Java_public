@@ -1,6 +1,7 @@
 package test.java.contentCloud
 
 import io.qameta.allure.Description
+import io.qameta.allure.Feature
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import main.java.steps.ContentItemSteps
@@ -11,6 +12,7 @@ import test.java.SuperTest
 import static main.java.utils.Generator.getRandomTextField
 import static main.java.properties.Context.FOLDER_FOR_TESTS
 
+@Feature("Folder items")
 class FolderItemsSortingTest extends SuperTest {
     private FolderSteps folderSteps
     private ScreenSteps screenSteps

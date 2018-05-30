@@ -18,6 +18,7 @@ public class Janitor {
     }
 
     public static void clean() {
+        //RestAssured.proxy("10.10.0.110", 8888);
         FolderSteps folderSteps = new FolderSteps();
         ScreenSteps screenSteps = new ScreenSteps();
         ContentItemSteps contentItemSteps = new ContentItemSteps();

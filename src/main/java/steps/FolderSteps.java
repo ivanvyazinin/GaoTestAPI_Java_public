@@ -17,17 +17,20 @@ public class FolderSteps extends CommonSteps {
         testFolder.id = response.jsonPath().getString(PATH_ID);
     }
 
+    @Step("Creating folder with name '{name}' into folder '{parentFolder}'")
     public void createFolder(String name, String parentFolder){
         testFolder = new Folder(name, parentFolder);
         response = api.post(testFolder);
         testFolder.id = response.jsonPath().getString(PATH_ID);
     }
 
+    @Step("Edit folder")
     public void editFolder(){
         response = api.put(testFolder.id, testFolder);
         testFolder.id = response.jsonPath().getString(PATH_ID);
     }
 
+    @Step("Move folder")
     public void moveFolder(String parent){
         testFolder.parentFolder = parent;
         response = api.put(testFolder.id, testFolder);
@@ -35,16 +38,19 @@ public class FolderSteps extends CommonSteps {
     }
 
     //TODO
+    @Step("Copy folder")
     public void copyFolder(String parent){
         testFolder.parentFolder = parent;
         response = api.put(testFolder.id, testFolder);
         testFolder.id = response.jsonPath().getString(PATH_ID);
     }
 
+    @Step("Delete folder")
     public void deleteFolder(){
         response = api.delete(testFolder.id);
     }
 
+    @Step("Delete folder with id '{folderId}'")
     public void deleteFolder(String folderId){
         response = api.delete(folderId);
     }
@@ -53,10 +59,12 @@ public class FolderSteps extends CommonSteps {
         response = api.getById(testFolder.id);
     }
 
+    @Step("Get all folders")
     public void getAllFolder(){
         response = api.get();
     }
 
+    @Step("Get items into folder '{folderId}'")
     public void getFolderItems(String folderId){
         response = api.getFolderItems(folderId);
     }

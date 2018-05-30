@@ -1,7 +1,7 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.TitlesAPI;
+import main.java.api.contentCloud.blocks.TitlesAPI;
 import main.java.entities.contentCloud.blocks.Title;
 import main.java.steps.CommonSteps;
 

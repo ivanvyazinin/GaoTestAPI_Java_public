@@ -103,6 +103,7 @@ public class ScreensTest extends SuperTest {
         contentItemSteps.placeScreenIntoConstructor(screenSteps.testScreen.id);
         screenSteps.deleteScreen(screenSteps.testScreen.id);
         screenSteps.checkStatusCode(400);
+        screenSteps.checkThatJsonContains("96afdf5d-b04f-428e-8144-92e2dea2cdfc",PATH_ERROR);
     }
 
     @Test (dependsOnMethods = "createScreenInDaRoot")
@@ -112,7 +113,6 @@ public class ScreensTest extends SuperTest {
         screenSteps.createScreen(FOLDER_FOR_TESTS);
         screenSteps.moveScreen(folderSteps.testFolder.id);
         screenSteps.checkStatusCode(200);
-        screenSteps.checkThatJsonContains("96afdf5d-b04f-428e-8144-92e2dea2cdfc",PATH_ERROR);
     }
 
     @Test (dependsOnMethods = "createScreenInDaRoot")

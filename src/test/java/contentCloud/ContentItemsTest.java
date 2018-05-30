@@ -1,5 +1,6 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,6 +13,7 @@ import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.utils.Generator.getRandomTextField;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
+@Feature("Content Items")
 public class ContentItemsTest extends SuperTest {
     private ContentItemSteps contentItemSteps;
 
