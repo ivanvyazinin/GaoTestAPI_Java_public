@@ -3,7 +3,6 @@ package test.java.contentCloud;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 import main.java.steps.FolderSteps;
 import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.TitleSteps;
@@ -14,7 +13,7 @@ import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.properties.Constants.ROOT_FOLDER;
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
-public class FoldersTest extends SuperTest {
+public class FoldersTest extends CommonCloudTest {
     FolderSteps folderSteps;
     ScreenSteps screenSteps;
     TitleSteps titleSteps;

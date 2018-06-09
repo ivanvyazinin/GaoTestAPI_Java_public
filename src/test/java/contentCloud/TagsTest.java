@@ -3,14 +3,13 @@ package test.java.contentCloud;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 import main.java.steps.ContentItemSteps;
 import main.java.steps.ScreenSteps;
 import main.java.steps.TagsSteps;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
 
-public class TagsTest extends SuperTest {
+public class TagsTest extends CommonCloudTest {
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;
     private TagsSteps tagsSteps;

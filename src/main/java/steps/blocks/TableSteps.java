@@ -1,16 +1,17 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.blocks.TableAPI;
+import main.java.api.contentCloud.blocks.TheoryBlocksAPI;
 import main.java.entities.contentCloud.blocks.Table;
 import main.java.steps.CommonSteps;
 
 import static main.java.properties.Constants.PATH_ID;
+import static main.java.properties.Endpoints.ENDPOINT_TABLE;
 
 public class TableSteps extends CommonSteps {
     public Table testTable;
 
-    TableAPI tableAPI = new TableAPI();
+    TheoryBlocksAPI tableAPI = new TheoryBlocksAPI(ENDPOINT_TABLE);
 
     @Step("Creating Table with content '{content}' in screen '{screen}'")
     public void createTable(String content, String screen){

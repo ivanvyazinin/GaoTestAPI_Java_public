@@ -5,12 +5,11 @@ import main.java.steps.ContentItemSteps;
 import main.java.steps.ScreenSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 @Feature("Content Items")
-public class ContentItemsConstructorTest extends SuperTest {
+public class ContentItemsConstructorTest extends CommonCloudTest {
     ContentItemSteps contentItemSteps;
     ScreenSteps screenSteps;
 
@@ -28,7 +27,7 @@ public class ContentItemsConstructorTest extends SuperTest {
         contentItemSteps.getContentItemConstructor(contentItemSteps.testContentItem.id);
         contentItemSteps.addConstructorLink(
                 contentItemSteps.cc.items.get(0).id,
-                contentItemSteps.cc.items.get(2).id
+                contentItemSteps.cc.items.get(1).id
         );
         contentItemSteps.getContentItemConstructor(contentItemSteps.testContentItem.id);
         contentItemSteps.checkThatJsonContains(contentItemSteps.cc.items.get(0).id,

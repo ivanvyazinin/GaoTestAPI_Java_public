@@ -4,7 +4,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 import main.java.steps.ContentItemSteps;
 
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
@@ -14,7 +13,7 @@ import static main.java.utils.Generator.getRandomTextField;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
 @Feature("Content Items")
-public class ContentItemsTest extends SuperTest {
+public class ContentItemsTest extends CommonCloudTest {
     private ContentItemSteps contentItemSteps;
 
     @BeforeClass

@@ -7,7 +7,7 @@ import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.BulletListSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
+import test.java.contentCloud.CommonCloudTest;
 
 import static main.java.properties.Constants.ERROR_IS_BLANK;
 import static main.java.properties.Constants.ERROR_TOO_LONG;
@@ -16,7 +16,7 @@ import static main.java.properties.Context.*;
 import static main.java.utils.Generator.getRandomText;
 
 @Feature("Theory Blocks")
-public class BulletListTest extends SuperTest {
+public class BulletListTest extends CommonCloudTest {
     private ScreenSteps screenSteps;
     private BulletListSteps bulletListSteps;
 

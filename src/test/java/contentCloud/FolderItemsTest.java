@@ -4,7 +4,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 import main.java.steps.ContentItemSteps;
 import main.java.steps.FolderSteps;
 import main.java.steps.ScreenSteps;
@@ -13,7 +12,7 @@ import static main.java.properties.Constants.ROOT_FOLDER;
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 @Feature("Folder items")
-public class FolderItemsTest extends SuperTest {
+public class FolderItemsTest extends CommonCloudTest {
     private FolderSteps folderSteps;
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;

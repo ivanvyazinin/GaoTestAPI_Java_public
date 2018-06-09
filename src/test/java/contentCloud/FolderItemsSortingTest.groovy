@@ -13,14 +13,13 @@ import static main.java.utils.Generator.getRandomTextField
 import static main.java.properties.Context.FOLDER_FOR_TESTS
 
 @Feature("Folder items")
-class FolderItemsSortingTest extends SuperTest {
+class FolderItemsSortingTest extends CommonCloudTest {
     private FolderSteps folderSteps
     private ScreenSteps screenSteps
     private ContentItemSteps contentItemSteps
 
     private String testFolderId
     private String nameOfFirstFolder
-
 
     @BeforeClass
     @Description("Preparing test data")
@@ -31,8 +30,10 @@ class FolderItemsSortingTest extends SuperTest {
 
         folderSteps.createFolder(FOLDER_FOR_TESTS)
 
-        nameOfFirstFolder = getRandomTextField("! first folder")
         testFolderId = folderSteps.testFolder.id
+
+        nameOfFirstFolder = getRandomTextField("! first folder")
+        folderSteps.createFolder(nameOfFirstFolder, testFolderId)
 
         folderSteps.createFolder(FOLDER_FOR_TESTS)
         for (int i; i<5; i++){
@@ -74,6 +75,36 @@ class FolderItemsSortingTest extends SuperTest {
         folderSteps.checkThatJsonContains(18, "data.count")
         folderSteps.checkItemsNumberInResponse(2)
     }
+
+    @Test
+    void checkDefaultSorting() {
+
+        folderSteps.api.resetRequestParameters()
+
+        folderSteps.getFolderItems(testFolderId)
+        folderSteps.checkStatusCode(200)
+        folderSteps.checkThatJsonContains(1, "data.items[0].type")
+        folderSteps.checkThatJsonContains(3, "data.items[15].type")
+
+    }
+
+    @Test
+    void checkSortingByCreatedAt() {
+        folderSteps.api.setRequestParameters(
+                [
+                        page   : "1",
+                        sorting: "createdAt",
+                        order  : "acs"
+                ]
+        )
+
+        folderSteps.getFolderItems(testFolderId)
+        folderSteps.checkStatusCode(200)
+        folderSteps.checkThatJsonContains(1, "data.items[0].type")
+        folderSteps.checkThatJsonContains(3, "data.items[15].type")
+
+    }
+
 
     @Test
     void checkSortingByType() {

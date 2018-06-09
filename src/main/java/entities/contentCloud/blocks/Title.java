@@ -2,6 +2,7 @@ package main.java.entities.contentCloud.blocks;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class Title {

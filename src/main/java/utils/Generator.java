@@ -16,16 +16,17 @@ public class Generator {
         return rand.nextInt(100);
     }
 
+    public static String getRandomIscoCode(){
+        Random rand = new Random();
+        return 0 + String.format("%03d", rand.nextInt(1000));
+    }
+
     public static String getRandomText(int numberSymbols){
         Faker faker = new Faker();
         return faker.lorem().characters(numberSymbols);
     }
 
     public static String getTable(String cell){
-        return "<table><tr><th>" +
-                "Yo" +
-                "</th><th>" +
-                cell +
-                "</th></tr></table>";
+        return "<table><tr><td>" + cell + "</td></tr></table>";
     }
 }

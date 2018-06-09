@@ -3,14 +3,14 @@ package test.java.contentCloud.blocks;
 import io.qameta.allure.Feature;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
 import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.TitleSteps;
+import test.java.contentCloud.CommonCloudTest;
 
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 @Feature("Theory Blocks")
-public class TitlesTest extends SuperTest {
+public class TitlesTest extends CommonCloudTest {
     private ScreenSteps screenSteps;
     private TitleSteps titleSteps;
 

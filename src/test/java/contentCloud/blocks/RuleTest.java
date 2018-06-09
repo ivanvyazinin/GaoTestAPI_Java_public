@@ -7,14 +7,14 @@ import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.RuleSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import test.java.SuperTest;
+import test.java.contentCloud.CommonCloudTest;
 
 import static main.java.properties.Constants.*;
 import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.utils.Generator.getRandomText;
 
 @Feature("Theory Blocks")
-public class RuleTest extends SuperTest {
+public class RuleTest extends CommonCloudTest {
     private ScreenSteps screenSteps;
     private RuleSteps ruleSteps;
 

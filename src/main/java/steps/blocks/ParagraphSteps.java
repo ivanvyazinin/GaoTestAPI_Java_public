@@ -1,16 +1,17 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.blocks.ParagraphAPI;
+import main.java.api.contentCloud.blocks.TheoryBlocksAPI;
 import main.java.entities.contentCloud.blocks.Paragraph;
 import main.java.steps.CommonSteps;
 
 import static main.java.properties.Constants.PATH_ID;
+import static main.java.properties.Endpoints.ENDPOINT_PARAGRAPH;
 
 public class ParagraphSteps extends CommonSteps {
     public Paragraph testParagraph;
 
-    ParagraphAPI paragraphAPI = new ParagraphAPI();
+    TheoryBlocksAPI paragraphAPI = new TheoryBlocksAPI(ENDPOINT_PARAGRAPH);
 
     @Step("Creating Paragraph with content '{content}' in screen '{screen}'")
     public void createParagraph(String content, String screen){

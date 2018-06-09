@@ -15,7 +15,7 @@ public class TagsSteps extends CommonSteps {
 
     @Step("Adding tag to '{resource}' with id '{resourceId}'")
     public void addTag(String resource, String resourceId){
-        testTag = new Tag(getRandomTextField("Tag name"));
+        testTag = new Tag(getRandomTextField("TagName"));
         response = tagsAPI.addTag(resource, resourceId, testTag);
         testTagId = response.jsonPath().getString(PATH_ID);
     }

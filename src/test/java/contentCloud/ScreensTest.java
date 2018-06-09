@@ -5,7 +5,6 @@ import main.java.steps.ContentItemSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import test.java.SuperTest;
 import main.java.steps.FolderSteps;
 import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.TitleSteps;
@@ -18,7 +17,7 @@ import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
-public class ScreensTest extends SuperTest {
+public class ScreensTest extends CommonCloudTest {
     private FolderSteps folderSteps;
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;
@@ -150,7 +149,7 @@ public class ScreensTest extends SuperTest {
 
     @Test (dependsOnMethods = "createScreenInDaRoot")
     @Story("Sort blocks of the screen")
-    public void sortBlocksOfTheScreen(){
+    public void sortBlocksOfTheScreen() throws Exception{
         HashMap<String, String> params = new HashMap<>();
         params.put("sorting", "position");
         params.put("order", "desc");
@@ -158,6 +157,7 @@ public class ScreensTest extends SuperTest {
         screenSteps.createScreen(FOLDER_FOR_TESTS);
         titleSteps.createTitle(screenSteps.testScreen.id);
         titleSteps.createTitle(screenSteps.testScreen.id, 1);
+        Thread.sleep(100);
         titleSteps.createTitle(screenSteps.testScreen.id, 2);
 
         screenSteps.ScreensApi.setRequestParameters(params);
@@ -170,4 +170,5 @@ public class ScreensTest extends SuperTest {
         screenSteps.getScreenBlocks();
         screenSteps.checkThatJsonContains(0,"data.items[0].position");
     }
+
 }

@@ -1,17 +1,18 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.blocks.TitlesAPI;
+import main.java.api.contentCloud.blocks.TheoryBlocksAPI;
 import main.java.entities.contentCloud.blocks.Title;
 import main.java.steps.CommonSteps;
 
 import static main.java.properties.Constants.PATH_ID;
+import static main.java.properties.Endpoints.ENDPOINT_TITLE;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class TitleSteps extends CommonSteps {
     public Title testTitle;
 
-    TitlesAPI titlesAPI = new TitlesAPI();
+    TheoryBlocksAPI titlesAPI = new TheoryBlocksAPI(ENDPOINT_TITLE);
 
     @Step("Creating Title with random name in screen '{screen}'")
     public void createTitle(String screen){

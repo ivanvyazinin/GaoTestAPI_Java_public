@@ -17,7 +17,7 @@ public class Screen{
 
 
     public Screen(String parent){
-        this.name = getRandomTextField("CI name");
+        this.name = getRandomTextField("Screen name");
         this.description = getRandomTextField("CI description");
         this.parentFolder = parent;
     }

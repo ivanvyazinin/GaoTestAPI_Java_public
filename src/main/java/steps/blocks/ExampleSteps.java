@@ -1,16 +1,17 @@
 package main.java.steps.blocks;
 
 import io.qameta.allure.Step;
-import main.java.api.contentCloud.blocks.ExampleAPI;
+import main.java.api.contentCloud.blocks.TheoryBlocksAPI;
 import main.java.entities.contentCloud.blocks.Example;
 import main.java.steps.CommonSteps;
 
 import static main.java.properties.Constants.PATH_ID;
+import static main.java.properties.Endpoints.ENDPOINT_EXAMPLE;
 
 public class ExampleSteps extends CommonSteps {
     public Example testExample;
 
-    ExampleAPI exampleAPI = new ExampleAPI();
+    TheoryBlocksAPI exampleAPI = new TheoryBlocksAPI(ENDPOINT_EXAMPLE);
 
     @Step("Creating Example with content '{content}' in screen '{screen}'")
     public void createExample(String content, String screen){
