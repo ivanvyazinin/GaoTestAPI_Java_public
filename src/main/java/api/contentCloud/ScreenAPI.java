@@ -14,7 +14,7 @@ public class ScreenAPI extends CommonAPI {
 
     public ScreenAPI(){
         setURL(API_PREFIX, ENDPOINT_SCREENS);
-        parameters = "?embed[]=" + EMBED_FOLDER + "&embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
+        parameters = "?embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_BLOCS;
     }
 
     public Response copy(String folderId, String screenId) {
@@ -33,6 +33,16 @@ public class ScreenAPI extends CommonAPI {
                 headers(HEADERS).
                 when().
                 get(getURL() + "/" + id + "/blocks" + getRequestParameters());
+    }
+
+    public <T> Response updateBlocks(String id, T bodyData) {
+        return given().
+                filter(new AllureRestAssured()).
+                contentType(CONTENT_TYPE).
+                headers(HEADERS).
+                body(bodyData).
+                when().
+                put(getURL() + "/" + id + "/blocks/update");
     }
 
 }

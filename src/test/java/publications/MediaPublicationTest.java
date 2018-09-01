@@ -1,8 +1,8 @@
 package test.java.publications;
 
+import main.java.entities.publications.MediaPublication;
 import main.java.steps.publications.MediaPublicationSteps;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static main.java.utils.Generator.getRandomTextField;
 
@@ -12,6 +12,11 @@ public class MediaPublicationTest extends SuperPublicationTest {
     @BeforeClass
     public void prepare(){
         mediaPublicationSteps = new MediaPublicationSteps();
+    }
+
+    @BeforeMethod
+    public void preparePublication(){
+        mediaPublicationSteps.testMediaPublication = new MediaPublication();
     }
 
     @Test

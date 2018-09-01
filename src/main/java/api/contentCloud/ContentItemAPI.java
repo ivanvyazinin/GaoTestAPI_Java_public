@@ -14,7 +14,16 @@ public class ContentItemAPI extends CommonAPI {
 
     public ContentItemAPI(){
         setURL(API_PREFIX, ENDPOINT_CONTENT_ITEMS);
-        parameters = "?embed[]=" + EMBED_FOLDER + "&embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
+        parameters = "?embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
+    }
+
+    public Response copy(String folderId, String contentItemId) {
+        return given().
+                filter(new AllureRestAssured()).
+                contentType(CONTENT_TYPE).
+                headers(HEADERS).
+                when().
+                put(getURL() + "/" + contentItemId + "/folders/" + folderId + "/copy");
     }
 
     public Response getConstructor(String id) {
@@ -25,6 +34,14 @@ public class ContentItemAPI extends CommonAPI {
                 get(getURL() + "/" + id + "/constructor" + getRequestParameters());
     }
 
+    public Response validateConstructor(String id) {
+        return given().
+                filter(new AllureRestAssured()).
+                headers(HEADERS).
+                when().
+                get(getURL() + "/" + id + "/constructor/validate");
+    }
+
     public <T> Response updateConstructor(String id, T bodyData){
         return given().
                 filter(new AllureRestAssured()).
@@ -32,6 +49,6 @@ public class ContentItemAPI extends CommonAPI {
                 body(bodyData).
                 headers(HEADERS).
                 when().
-                put(getURL() + "/" + id + "/constructor");
+                put(getURL() + "/" + id + "/constructor?force=1");
     }
 }

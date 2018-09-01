@@ -33,4 +33,9 @@ public class CommonSteps {
     public void checkItemsNumberInResponse(Object expectedValue){
         assertEquals(response.jsonPath().getList("data.items").size(), expectedValue);
     }
+
+    @Step("Check, that response contains certain number of items: '{expectedValue}'")
+    public void checkSizeOfList(Object expectedValue, String jsonPath){
+        assertEquals(response.jsonPath().get(jsonPath), expectedValue);
+    }
 }

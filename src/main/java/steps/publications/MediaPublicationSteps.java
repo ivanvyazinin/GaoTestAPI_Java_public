@@ -2,26 +2,14 @@ package main.java.steps.publications;
 
 import io.qameta.allure.Step;
 import main.java.api.publications.MediaPublicationsAPI;
-import main.java.api.publications.PublicationsAPI;
-import main.java.entities.contentCloud.publications.ContentPublication;
-import main.java.entities.contentCloud.publications.MediaPublication;
-import main.java.entities.directories.AbstractDirectory;
-import main.java.entities.directories.AbstractDirectoryResponse;
+import main.java.entities.publications.MediaPublication;
 import main.java.steps.CommonSteps;
-import main.java.steps.directories.CommonDirectorySteps;
-
-import java.util.ArrayList;
 
 import static main.java.properties.Constants.PATH_ID;
-import static main.java.properties.Endpoints.*;
 
 public class MediaPublicationSteps extends CommonSteps {
     public MediaPublication testMediaPublication;
     MediaPublicationsAPI mediaPublicationsAPI = new MediaPublicationsAPI();
-
-    public MediaPublicationSteps(){
-        testMediaPublication = new MediaPublication();
-    }
 
     @Step("Create publication")
     public void createPublication(){

@@ -25,4 +25,12 @@ public class DirectoryCommonAPI extends CommonAPI {
                 get(getURL() + entity);
     }
 
+    public Response search(String entity, String search_request) {
+        return given().
+                filter(new AllureRestAssured()).
+                contentType(CONTENT_TYPE).
+                headers(HEADERS).
+                when().
+                get(getURL() + entity + "?search=" + search_request);
+    }
 }

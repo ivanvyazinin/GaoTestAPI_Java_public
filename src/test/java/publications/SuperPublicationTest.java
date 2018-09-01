@@ -9,17 +9,16 @@ import test.java.SuperTest;
 import java.util.ArrayList;
 
 import static main.java.properties.Endpoints.*;
-import static main.java.properties.Endpoints.ENDPOINT_DIRECTORY_LANGUAGE;
 
 public class SuperPublicationTest extends SuperTest {
-    ArrayList<AbstractDirectory> level;
-    ArrayList<AbstractDirectory> functionalZone;
-    ArrayList<AbstractDirectory> fieldsOfStudy;
-    ArrayList<AbstractDirectory> eqf;
-    ArrayList<AbstractDirectory> isco;
-    ArrayList<AbstractDirectory> license;
-    ArrayList<AbstractDirectory> skill;
-    ArrayList<AbstractDirectory> language;
+    static ArrayList<AbstractDirectory> level;
+    static ArrayList<AbstractDirectory> functionalZone;
+    static ArrayList<AbstractDirectory> fieldsOfStudy;
+    static ArrayList<AbstractDirectory> eqf;
+    static ArrayList<AbstractDirectory> isco;
+    static ArrayList<AbstractDirectory> license;
+    static ArrayList<AbstractDirectory> skill;
+    static ArrayList<AbstractDirectory> language;
 
     @BeforeSuite
     public void initializeDirectories(){
@@ -31,7 +30,7 @@ public class SuperPublicationTest extends SuperTest {
         directorySteps.getDirectory(ENDPOINT_DIRECTORY_ZONES);
         functionalZone = directorySteps.response.as(AbstractDirectoryResponse.class).data.items;
 
-        directorySteps.getDirectory(ENDPOINT_DIRECTORY_STUDY);
+        directorySteps.getDirectoryLevelTwo(ENDPOINT_DIRECTORY_STUDY);
         fieldsOfStudy = directorySteps.response.as(AbstractDirectoryResponse.class).data.items;
 
         directorySteps.getDirectory(ENDPOINT_DIRECTORY_EQF);
@@ -49,4 +48,5 @@ public class SuperPublicationTest extends SuperTest {
         directorySteps.getDirectory(ENDPOINT_DIRECTORY_LANGUAGE);
         language  = directorySteps.response.as(AbstractDirectoryResponse.class).data.items;
     }
+
 }

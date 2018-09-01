@@ -6,7 +6,7 @@
 
     <groupId>com.digitaledtech</groupId>
     <artifactId>ta-api</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <properties>
         <groups>!Slow</groups>
         <aspectj.version>1.8.10</aspectj.version>
@@ -129,5 +129,13 @@
                 <artifactId>owner-java8</artifactId>
                 <version>1.0.10</version>
             </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.15</version>
+        </dependency>
+
     </dependencies>
 </project>

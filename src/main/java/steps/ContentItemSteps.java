@@ -4,85 +4,96 @@ import io.qameta.allure.Step;
 import main.java.api.contentCloud.ConstructorScreensAPI;
 import main.java.api.contentCloud.ContentItemAPI;
 import main.java.entities.contentCloud.constructor.ConstructorScreens;
-import main.java.entities.contentCloud.ContentItem;
+import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.constructor.ContentItemConstructor;
+import main.java.entities.contentCloud.constructor.Item;
 import main.java.entities.contentCloud.constructor.Link;
+import main.java.entities.contentCloud.folderItems.Screen;
 
 import static main.java.properties.Constants.PATH_ID;
 
 public class ContentItemSteps extends CommonSteps {
-    public ContentItem testContentItem;
-    public ContentItemConstructor.Data cc;
+    public ContentItemConstructor cc;
 
     ContentItemAPI contentItemsApi = new ContentItemAPI();
     ConstructorScreensAPI constructorScreensAPI = new ConstructorScreensAPI();
 
     @Step("Creating ContentItem with random name in folder '{parentFolder}'")
-    public void createContentItem(String parentFolder){
-        testContentItem = new ContentItem(parentFolder);
-        response = contentItemsApi.post(testContentItem);
-        testContentItem.id = response.jsonPath().getString(PATH_ID);
+    public ContentItem createContentItem(ContentItem contentItem){
+        response = contentItemsApi.post(contentItem);
+        contentItem.id = response.jsonPath().getString(PATH_ID);
+        return contentItem;
     }
 
-    @Step("Creating ContentItem with random name '{name}' and description '{description]' in folder '{parentFolder}'")
-    public void createContentItem(String name, String description, String parentFolder){
-        testContentItem = new ContentItem(name, description, parentFolder);
-        response = contentItemsApi.post(testContentItem);
-        testContentItem.id = response.jsonPath().getString(PATH_ID);
+    @Step("Creating ContentItem with screen into it")
+    public ContentItem createContentItemWithScreen(ContentItem contentItem, Screen screen){
+        contentItem.id = contentItemsApi.post(contentItem).jsonPath().getString(PATH_ID);
+
+        ConstructorScreens constructorScreen = new ConstructorScreens(screen.id, contentItem.id);
+        constructorScreensAPI.post(constructorScreen);
+        return contentItem;
     }
 
-    @Step("Editing ContentItem")
-    public void editContentItem(){
-        response = contentItemsApi.put(testContentItem.id, testContentItem);
-        testContentItem.id = response.jsonPath().getString(PATH_ID);
-    }
-
-    @Step("Moving ContentItem to folder '{parent}'")
-    public void moveContentItem(String parent){
-        testContentItem.parentFolder = parent;
-        response = contentItemsApi.put(testContentItem.id, testContentItem);
-        testContentItem.id = response.jsonPath().getString(PATH_ID);
-    }
-
-    //TODO
-    public void copyContentItem(String parent){
-        testContentItem.parentFolder = parent;
-        response = contentItemsApi.put(testContentItem.id, testContentItem);
-        testContentItem.id = response.jsonPath().getString(PATH_ID);
-    }
-
-    @Step("Deleting ContentItem")
-    public void deleteContentItem(String itemId) {
-        response = contentItemsApi.delete(itemId);
+    public ContentItem copyContentItem(ContentItem contentItem, String parent){
+        response = contentItemsApi.copy(parent, contentItem.id);
+        return response.jsonPath().getObject("data",ContentItem.class);
     }
 
     @Step("Retrieving ContentItem")
-    public void getContentItem(){
-        response = contentItemsApi.getById(testContentItem.id);
-    }
-
-    @Step("Retrieving all ContentItems")
-    public void getAllContentItems(){
-        response = contentItemsApi.get();
+    public void getContentItem(ContentItem contentItem){
+        response = contentItemsApi.getById(contentItem.id);
     }
 
     @Step("Place screen '{screenId}' into constructor")
-    public void placeScreenIntoConstructor(String screenId){
-        ConstructorScreens constructorScreen = new ConstructorScreens(screenId, testContentItem.id);
+    public void placeScreenIntoConstructor(ContentItem contentItem, String screenId){
+        ConstructorScreens constructorScreen = new ConstructorScreens(screenId, contentItem.id);
         response = constructorScreensAPI.post(constructorScreen);
     }
 
     @Step("Get Content Item Constructor")
-    public void getContentItemConstructor(String contentItemId){
-        response = contentItemsApi.getConstructor(contentItemId);
-        cc = response.as(ContentItemConstructor.class).data;
+    public ContentItemConstructor getContentItemConstructor(ContentItem contentItem){
+        response = contentItemsApi.getConstructor(contentItem.id);
+        cc = response.jsonPath().getObject("data", ContentItemConstructor.class);
+        return cc;
     }
 
     @Step("Add link to constructor from '{from}' to '{to}'")
-    public void addConstructorLink(String from, String to){
+    public void addConstructorLink(ContentItem contentItem, String from, String to){
         Link link = new Link(from, to);
         cc.links.add(link);
-        response = contentItemsApi.updateConstructor(testContentItem.id,cc);
+        response = contentItemsApi.updateConstructor(contentItem.id,cc);
     }
+
+    @Step("Create CI with valid constructor with screen '{screenId}'")
+    public ContentItem getCIWithValidConstructor(ContentItem contentItem, String screenId){
+        createContentItem(contentItem);
+        String from="";
+        String to="";
+
+        placeScreenIntoConstructor(contentItem, screenId);
+
+        cc = contentItemsApi.getConstructor(contentItem.id).jsonPath().getObject("data", ContentItemConstructor.class);
+
+        getContentItemConstructor(contentItem);
+        for (Item item : cc.items){
+            switch (item.type){
+                case "head": from = item.id; break;
+                case "screen": to = item.id; break;
+            }
+        }
+        cc.links.add(new Link(from, to));
+
+        for (Item item : cc.items){
+            switch (item.type){
+                case "screen": from = item.id; break;
+                case "tail": to  = item.id; break;
+            }
+        }
+        cc.links.add(new Link(from, to));
+        response = contentItemsApi.updateConstructor(contentItem.id,cc);
+        return contentItem;
+    }
+
+
 
 }

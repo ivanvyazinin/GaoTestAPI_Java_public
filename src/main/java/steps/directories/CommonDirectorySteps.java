@@ -13,4 +13,13 @@ public class CommonDirectorySteps extends CommonSteps {
         response = directoryCommonAPI.get(directory);
     }
 
+    @Step("Search 'search_request' into directory '{directory}'")
+    public void searchIntoDirectory(String directory, String search_request){
+        response = directoryCommonAPI.search(directory, search_request);
+    }
+
+    @Step("Retrieving Directory '{directory}'")
+    public void getDirectoryLevelTwo(String directory){
+        response = directoryCommonAPI.get(directory + "?level=2");
+    }
 }

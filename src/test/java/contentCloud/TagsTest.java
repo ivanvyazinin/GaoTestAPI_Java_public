@@ -1,6 +1,8 @@
 package test.java.contentCloud;
 
 import io.qameta.allure.Story;
+import main.java.entities.contentCloud.folderItems.ContentItem;
+import main.java.entities.contentCloud.folderItems.Screen;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import main.java.steps.ContentItemSteps;
@@ -8,6 +10,7 @@ import main.java.steps.ScreenSteps;
 import main.java.steps.TagsSteps;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
+import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 public class TagsTest extends CommonCloudTest {
     private ScreenSteps screenSteps;
@@ -24,42 +27,42 @@ public class TagsTest extends CommonCloudTest {
     @Test()
     @Story("Add tag to Screen")
     public void AddTagToScreen() {
-        screenSteps.createScreen(ROOT_FOLDER);
-        tagsSteps.addTag("screen", screenSteps.testScreen.id);
+        Screen screen = screenSteps.createScreen(new Screen(FOLDER_FOR_TESTS));
+        tagsSteps.addTag("screen", screen.id);
         tagsSteps.checkStatusCode(201);
-        screenSteps.getScreen();
+        screenSteps.getScreen(screen);
         screenSteps.checkThatBodyHasValue(tagsSteps.testTagId);
     }
 
     @Test()
     @Story("Delete tag from Screen")
     public void DeleteTagFromScreen() {
-        screenSteps.createScreen(ROOT_FOLDER);
-        tagsSteps.addTag("screen", screenSteps.testScreen.id);
-        tagsSteps.deleteTag("screen",screenSteps.testScreen.id);
+        Screen screen = screenSteps.createScreen(new Screen(FOLDER_FOR_TESTS));
+        tagsSteps.addTag("screen", screen.id);
+        tagsSteps.deleteTag("screen",screen.id);
         tagsSteps.checkStatusCode(204);
-        screenSteps.getScreen();
+        screenSteps.getScreen(screen);
         screenSteps.checkThatBodyHasNotValue(tagsSteps.testTag.name);
     }
 
     @Test()
     @Story("Add tag to ContentItem")
     public void AddTagToContentItem() {
-        contentItemSteps.createContentItem(ROOT_FOLDER);
-        tagsSteps.addTag("content_item", contentItemSteps.testContentItem.id);
+        ContentItem contentItem = contentItemSteps.createContentItem(new ContentItem(FOLDER_FOR_TESTS));
+        tagsSteps.addTag("content_item", contentItem.id);
         tagsSteps.checkStatusCode(201);
-        contentItemSteps.getContentItem();
+        contentItemSteps.getContentItem(contentItem);
         contentItemSteps.checkThatBodyHasValue(tagsSteps.testTagId);
     }
 
     @Test()
     @Story("Delete tag from Screen")
     public void DeleteTagFromContentItem() {
-        contentItemSteps.createContentItem(ROOT_FOLDER);
-        tagsSteps.addTag("content_item", contentItemSteps.testContentItem.id);
-        tagsSteps.deleteTag("content_item",contentItemSteps.testContentItem.id);
+        ContentItem contentItem = contentItemSteps.createContentItem(new ContentItem(FOLDER_FOR_TESTS));
+        tagsSteps.addTag("content_item", contentItem.id);
+        tagsSteps.deleteTag("content_item",contentItem.id);
         tagsSteps.checkStatusCode(204);
-        contentItemSteps.getContentItem();
+        contentItemSteps.getContentItem(contentItem);
         contentItemSteps.checkThatBodyHasNotValue(tagsSteps.testTag.name);
     }
 }

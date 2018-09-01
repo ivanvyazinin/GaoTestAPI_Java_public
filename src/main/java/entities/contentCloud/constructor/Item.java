@@ -1,6 +1,6 @@
 package main.java.entities.contentCloud.constructor;
 
-import main.java.entities.contentCloud.Screen;
+import main.java.entities.contentCloud.folderItems.Screen;
 
 public class Item {
     public int positionX;

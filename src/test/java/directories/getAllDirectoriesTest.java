@@ -8,7 +8,7 @@ import test.java.SuperTest;
 import static main.java.properties.Constants.PATH_COUNT;
 import static main.java.properties.Endpoints.*;
 
-public class getAllDirectoriesTest extends SuperTest {
+public class GetAllDirectoriesTest extends SuperTest {
     CommonDirectorySteps directorySteps;
 
     @BeforeClass

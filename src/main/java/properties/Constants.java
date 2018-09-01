@@ -13,6 +13,7 @@ public class Constants {
     public static final String EMBED_TAG = "tag";
     public static final String EMBED_FOLDER = "folder";
     public static final String EMBED_CONSTRUCTOR = "constructor";
+    public static final String EMBED_BLOCS = "blocks";
 
     //Error codes
     public static final String ERROR_RESOURCE_ALREADY_EXISTS = "23bd9dbf-6b9b-41cd-a99e-4844bcf3077f";

@@ -12,6 +12,10 @@ public class RequestParameters {
         if (!hashmap.isEmpty()){
             for (String key : hashmap.keySet()){
                 switch (key){
+                    case "search":
+                        params.append("&search=").append(hashmap.get(key));break;
+                    case "itemType":
+                        params.append("&itemType=").append(hashmap.get(key));break;
                     case "embed":
                         params.append("&embed[]=").append(hashmap.get(key));break;
                     case "pagination":

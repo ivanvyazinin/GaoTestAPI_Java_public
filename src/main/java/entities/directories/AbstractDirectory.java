@@ -2,9 +2,10 @@ package main.java.entities.directories;
 
 public class AbstractDirectory {
     public String id;
-    public String parent;
+    public Object parent;
     public String path;
     public String name;
+    public String directoryEntity;
     public int structure;
     public int type;
     public int level;
