@@ -3,6 +3,7 @@ package main.java.steps;
 import io.qameta.allure.Step;
 import main.java.api.contentCloud.ConstructorScreensAPI;
 import main.java.api.contentCloud.ContentItemAPI;
+import main.java.entities.contentCloud.blocks.AbstractBlock;
 import main.java.entities.contentCloud.constructor.ConstructorScreens;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.constructor.ContentItemConstructor;
@@ -18,13 +19,6 @@ public class ContentItemSteps extends CommonSteps {
     ContentItemAPI contentItemsApi = new ContentItemAPI();
     ConstructorScreensAPI constructorScreensAPI = new ConstructorScreensAPI();
 
-    @Step("Creating ContentItem with random name in folder '{parentFolder}'")
-    public ContentItem createContentItem(ContentItem contentItem){
-        response = contentItemsApi.post(contentItem);
-        contentItem.id = response.jsonPath().getString(PATH_ID);
-        return contentItem;
-    }
-
     @Step("Creating ContentItem with screen into it")
     public ContentItem createContentItemWithScreen(ContentItem contentItem, Screen screen){
         contentItem.id = contentItemsApi.post(contentItem).jsonPath().getString(PATH_ID);
@@ -34,19 +28,10 @@ public class ContentItemSteps extends CommonSteps {
         return contentItem;
     }
 
-    public ContentItem copyContentItem(ContentItem contentItem, String parent){
-        response = contentItemsApi.copy(parent, contentItem.id);
-        return response.jsonPath().getObject("data",ContentItem.class);
-    }
-
-    @Step("Retrieving ContentItem")
-    public void getContentItem(ContentItem contentItem){
-        response = contentItemsApi.getById(contentItem.id);
-    }
-
     @Step("Place screen '{screenId}' into constructor")
-    public void placeScreenIntoConstructor(ContentItem contentItem, String screenId){
-        ConstructorScreens constructorScreen = new ConstructorScreens(screenId, contentItem.id);
+    public void placeScreenIntoConstructor(ContentItem contentItem, Screen screen){
+        ConstructorScreens constructorScreen = new ConstructorScreens(screen.id, contentItem.id);
+        contentItem.screens.add(screen);
         response = constructorScreensAPI.post(constructorScreen);
     }
 
@@ -64,13 +49,21 @@ public class ContentItemSteps extends CommonSteps {
         response = contentItemsApi.updateConstructor(contentItem.id,cc);
     }
 
+    public void validateConstructor(ContentItem contentItem){
+        response = contentItemsApi.validateConstructor(contentItem.id);
+    }
+
     @Step("Create CI with valid constructor with screen '{screenId}'")
-    public ContentItem getCIWithValidConstructor(ContentItem contentItem, String screenId){
-        createContentItem(contentItem);
+    public <T extends AbstractBlock> ContentItem getCIWithValidConstructor (ContentItem contentItem, Screen testScreen, T testBlock){
+        ScreenSteps screenSteps = new ScreenSteps();
+
+        contentItem = createEntity(contentItem);
+        testScreen = screenSteps.getScreenWithBlock(testScreen, testBlock);
+
         String from="";
         String to="";
 
-        placeScreenIntoConstructor(contentItem, screenId);
+        placeScreenIntoConstructor(contentItem, testScreen);
 
         cc = contentItemsApi.getConstructor(contentItem.id).jsonPath().getObject("data", ContentItemConstructor.class);
 
@@ -93,7 +86,4 @@ public class ContentItemSteps extends CommonSteps {
         response = contentItemsApi.updateConstructor(contentItem.id,cc);
         return contentItem;
     }
-
-
-
 }

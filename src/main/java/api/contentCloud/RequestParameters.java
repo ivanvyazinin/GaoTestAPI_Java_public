@@ -10,24 +10,59 @@ public class RequestParameters {
         requestParameters = "";
 
         if (!hashmap.isEmpty()){
-            for (String key : hashmap.keySet()){
-                switch (key){
+            hashmap.forEach( (key,value) -> {
+                        switch (key){
+                            case "search":
+                                params.append("&search=").append(value);break;
+                            case "itemType":
+                                params.append("&itemType=").append(value);break;
+                            case "parentFolder":
+                                params.append("&parentFolder=").append(value);break;
+                            case "embed":
+                                params.append("&embed[]=").append(value);break;
+                            case "pagination":
+                                params.append("&pagination=").append(value);break;
+                            case "per_page":
+                                params.append("&per_page=").append(value); break;
+                            case "page":
+                                params.append("&page=").append(value); break;
+                            case "sorting":
+                                params.append("&order[").append(value).append("]="); break;
+                            case "order":
+                                params.append(value); break;
+                        }
+                    }
+            );
+            requestParameters =  params.replace(0,1,"?").toString();
+        }
+    }
+
+    public void setRequestParameters(String[][] parameters){
+        StringBuilder params = new StringBuilder();
+        requestParameters = "";
+
+        if (parameters.length!=0){
+            for (String[] parametersSet :parameters){
+                switch (parametersSet[0]){
                     case "search":
-                        params.append("&search=").append(hashmap.get(key));break;
+                        params.append("&search=").append(parametersSet[1]);break;
                     case "itemType":
-                        params.append("&itemType=").append(hashmap.get(key));break;
+                        params.append("&itemType=").append(parametersSet[1]);break;
+                    case "parentFolder":
+                        params.append("&parentFolder=").append(parametersSet[1]);break;
                     case "embed":
-                        params.append("&embed[]=").append(hashmap.get(key));break;
+                        params.append("&embed[]=").append(parametersSet[1]);break;
                     case "pagination":
-                        params.append("&pagination=").append(hashmap.get(key));break;
+                        params.append("&pagination=").append(parametersSet[1]);break;
                     case "per_page":
-                        params.append("&per_page=").append(hashmap.get(key)); break;
+                        params.append("&per_page=").append(parametersSet[1]); break;
                     case "page":
-                        params.append("&page=").append(hashmap.get(key)); break;
+                        params.append("&page=").append(parametersSet[1]); break;
                     case "sorting":
-                        params.append("&order[").append(hashmap.get(key)).append("]="); break;
+                        params.append("&order[").append(parametersSet[1]).append("]="); break;
                     case "order":
-                        params.append(hashmap.get(key)); break;
+                        params.append(parametersSet[1]); break;
+
                 }
             }
             requestParameters =  params.replace(0,1,"?").toString();

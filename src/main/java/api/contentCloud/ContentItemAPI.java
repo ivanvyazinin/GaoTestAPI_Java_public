@@ -17,6 +17,7 @@ public class ContentItemAPI extends CommonAPI {
         parameters = "?embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_CONSTRUCTOR;
     }
 
+    @Override
     public Response copy(String folderId, String contentItemId) {
         return given().
                 filter(new AllureRestAssured()).

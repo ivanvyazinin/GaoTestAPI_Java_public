@@ -16,7 +16,13 @@ public class Generator {
 
         Faker faker = new Faker();
         //System.out.println(faker.lorem().words(1));
-        System.out.println(faker.lorem().characters(1024));
+        System.out.println(faker.lorem().characters(48));
+
+        String a = new String("123");
+        String b = new String("123");
+
+        System.out.println(a.equals(b));
+
     }
 
     public static String getRandomTextField(String field){

@@ -1,12 +1,11 @@
 package main.java.utils;
 
+import io.restassured.RestAssured;
 import main.java.api.AuthAPI;
-import main.java.api.contentCloud.ContentItemAPI;
-import main.java.api.contentCloud.FoldersAPI;
-import main.java.api.contentCloud.ScreenAPI;
-import main.java.steps.FolderSteps;
+import main.java.entities.contentCloud.folderItems.Folder;
+import main.java.entities.contentCloud.folderItems.FolderItem;
+import main.java.steps.CommonSteps;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
@@ -18,39 +17,25 @@ public class Janitor {
     }
 
     public static void clean() {
-        //RestAssured.proxy("10.10.0.110", 8888);
-        FolderSteps folderSteps = new FolderSteps();
-        FoldersAPI foldersAPI = new FoldersAPI();
-        ScreenAPI screenAPI = new ScreenAPI();
-        ContentItemAPI contentItemAPI = new ContentItemAPI();
-        HashMap<String, String> params = new HashMap<>();
-        params.put("pagination", "false");
+        RestAssured.proxy("10.10.0.113", 8888);
+        CommonSteps steps = new CommonSteps();
 
-        if(HEADERS.isEmpty()){
-            AuthAPI auth = new AuthAPI();
-            HEADERS.put("authorization", auth.getToken());
+        String [][] parameters = {
+                {"pagination","false"},
+        };
+        steps.api.setRequestParameters(parameters);
+
+        AuthAPI auth = new AuthAPI();
+        HEADERS.put("authorization", "Bearer " + auth.getToken());
+
+        List<Folder> folders = steps.getEntites(Folder.class,Folder.url);
+        for (Folder folder:folders){
+            if (folder.name.contains("Auto") && folder.parentFolder.equals(ROOT_FOLDER)) { steps.deleteEntity(folder); }
         }
 
-        folderSteps.api.setRequestParameters(params);
-        folderSteps.getAllFolder();
-        List<HashMap> folders = folderSteps.response.jsonPath().getList("data.items");
-        for (HashMap folder:folders) {
-            if (folder.get("name").toString().contains("Auto") && folder.get("parentFolder").equals("00000000-0000-0000-0000-000000000001")) {
-                foldersAPI.delete(folder.get("id").toString());
-            }
-        }
-
-        folderSteps.getFolderItems(ROOT_FOLDER);
-        List<HashMap> items = folderSteps.response.jsonPath().getList("data.items");
-        for (HashMap item: items){
-            if (item.get("name").toString().contains("Auto")){
-                Integer type =  (Integer) item.get("type");
-                switch (type) {
-                    case 1: foldersAPI.delete(item.get("id").toString()); break;
-                    case 2: screenAPI.delete(item.get("id").toString()); break;
-                    case 3: contentItemAPI.delete(item.get("id").toString()); break;
-                }
-            }
+        List<FolderItem> folderItems = steps.getEntites(FolderItem.class, FolderItem.url);
+        for (FolderItem item:folderItems){
+            if (item.name.contains("Auto")) { steps.deleteEntity(item); }
         }
     }
 }

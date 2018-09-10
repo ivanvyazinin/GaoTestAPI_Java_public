@@ -15,6 +15,7 @@ public class SuperTest {
 
     @BeforeSuite(alwaysRun=true)
     public void setUp() {
+        RestAssured.proxy("10.10.0.113", 8888);
 
         AuthAPI auth = new AuthAPI();
         HEADERS.put("authorization", "Bearer " + auth.getToken());
@@ -41,8 +42,8 @@ public class SuperTest {
     }
 
     @Step("Check, that newResponse contains certain number of items: '{expectedValue}'")
-    public void checkItemsNumberInResponse(Object expectedValue){
-        assertEquals(newResponse.jsonPath().getList("data.items").size(), expectedValue);
+    public void checkItemsNumberInResponse(String jsonPath,Object expectedValue){
+        assertEquals(newResponse.jsonPath().getList(jsonPath).size(), expectedValue);
     }
 
 }

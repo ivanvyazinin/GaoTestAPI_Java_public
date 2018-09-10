@@ -1,14 +1,14 @@
 package test.java.contentCloud.folderitems;
 
 import io.qameta.allure.Description;
-import main.java.api.contentCloud.TagsAPI;
-import main.java.entities.contentCloud.Tag;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
-import main.java.steps.ContentItemSteps;
+import main.java.entities.contentCloud.folderItems.Screen;
+import main.java.steps.CommonSteps;
 import main.java.steps.FolderSteps;
 import main.java.steps.ScreenSteps;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.contentCloud.CommonCloudTest;
 
@@ -19,115 +19,105 @@ import static main.java.utils.Generator.getRandomTextField;
 
 public class FolderItemsSearchTest extends CommonCloudTest {
     private FolderSteps folderSteps;
-    private ScreenSteps screenSteps;
-    private ContentItemSteps contentItemSteps;
-    private TagsAPI tagsAPI;
-
     private String nameOfFirstFolder;
-    private String testFolderId;
     private HashMap<String, String> params;
     private String tagName;
+    private Folder testFolder;
 
     @BeforeClass
     @Description("Preparing test data")
     void prepareSteps(){
+        CommonSteps steps = new CommonSteps();
         folderSteps = new FolderSteps();
-        screenSteps = new ScreenSteps();
-        contentItemSteps = new ContentItemSteps();
-        tagsAPI = new TagsAPI();
+        ScreenSteps screenSteps = new ScreenSteps();
         params = new HashMap<>();
-
-        folderSteps.createFolder(FOLDER_FOR_TESTS);
-
-        testFolderId = folderSteps.testFolder.id;
-
         nameOfFirstFolder = getRandomTextField("! first folder");
-        folderSteps.createFolder(new Folder(nameOfFirstFolder, testFolderId));
 
-        folderSteps.createFolder(FOLDER_FOR_TESTS);
+        testFolder = steps.createEntity(new Folder(FOLDER_FOR_TESTS));
+        steps.createEntity(new Folder(nameOfFirstFolder, testFolder.id));
         for (int i=0; i<5; i++){
-            folderSteps.createFolder(testFolderId);
+            steps.createEntity(new Folder(testFolder.id));
         }
         for (int i=0; i<6; i++){
-            contentItemSteps.createContentItem(new ContentItem(testFolderId));
+            steps.createEntity(new ContentItem(testFolder.id));
         }
         for (int i=0; i<6; i++){
-            screenSteps.createScreen(testFolderId);
+            steps.createEntity(new Screen(testFolder.id));
         }
 
-        tagName = getRandomTextField("TagName");
-        tagsAPI.addTag("screen", screenSteps.testScreen.id, new Tag(tagName));
+        tagName = getRandomTextField("AutoTagForSearchTest");
+        screenSteps.createScreenWithTag(new Screen(testFolder.id),tagName);
+    }
+
+    @BeforeMethod
+    public void prepareParams(){
+        params.clear();
+        params.put("parentFolder",testFolder.id);
     }
 
     @Test
     public void simpleSearch(){
-        params.clear();
-        params.put("search", "folderAuto");
+        params.put("search", nameOfFirstFolder);
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkThatJsonContains(1, "data.items[0].itemType");
     }
 
     @Test
     public void simpleFilterByFolder(){
-        params.clear();
         params.put("itemType", "1");
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkThatJsonContains(1, "data.items[0].itemType");
     }
 
     @Test
     public void simpleFilterByScreen(){
-        params.clear();
         params.put("itemType", "2");
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkThatJsonContains(2, "data.items[0].itemType");
     }
 
     @Test
     public void simpleFilterByContentItem(){
-        params.clear();
         params.put("itemType", "3");
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkThatJsonContains(3, "data.items[0].itemType");
     }
 
     @Test
     public void searchWithFilter(){
-        params.clear();
         params.put("search", "auto");
         params.put("itemType", "3");
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkThatJsonContains(3, "data.items[0].itemType");
     }
 
     @Test
     public void searchByTag(){
-        params.clear();
         params.put("search", tagName);
 
         folderSteps.folderItemsAPI.setRequestParameters(params);
 
-        folderSteps.searchFolderItems();
+        folderSteps.getFolderItems(null);
         folderSteps.checkStatusCode(200);
         folderSteps.checkItemsNumberInResponse(1);
     }

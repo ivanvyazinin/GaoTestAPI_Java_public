@@ -1,24 +1,21 @@
 package test.java.contentCloud.blocks.theory;
 
 import io.qameta.allure.Feature;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.theory.Title;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.contentCloud.CommonCloudTest;
 
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_THEORY;
-import static main.java.properties.Endpoints.ENDPOINT_TITLE;
-
 @Feature("Theory Blocks")
 public class TitlesTest extends CommonCloudTest {
-    private CommonBlocsAPI titleAPI;
+    private CommonSteps steps;
     private Title title;
 
     @BeforeClass
     public void prepareSteps(){
-        titleAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_THEORY, ENDPOINT_TITLE);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -29,8 +26,8 @@ public class TitlesTest extends CommonCloudTest {
 
     @Test
     public void createTitle() {
-        newResponse = titleAPI.post(title);
-        checkStatusCode(201);
+        steps.createEntity(title);
+        steps.checkStatusCode(201);
     }
 
 }

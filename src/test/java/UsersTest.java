@@ -2,62 +2,52 @@ package test.java;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.UserRolesApi;
-import main.java.api.UsersApi;
 import main.java.entities.Role;
 import main.java.entities.User;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static main.java.properties.Constants.PATH_ID;
-
 public class UsersTest extends SuperTest{
-    private UsersApi usersApi;
-    private User user;
-    private UserRolesApi userRolesApi;
+    private CommonSteps steps;
     private List<Role> roles;
 
     @BeforeClass
     public void prepareSteps(){
-        userRolesApi = new UserRolesApi();
-        usersApi = new UsersApi();
-        roles = userRolesApi.get().jsonPath().getList("data.items",Role.class);
+        steps = new CommonSteps();
+        roles = steps.getEntites(Role.class, Role.url);
     }
 
     @Test
     @Story("Create User")
     @Description("Just create User")
     public void createUser() {
-        user  = new User(roles.get(1).id);
+        steps.createEntity(new User(roles.get(1).id));
 
-        newResponse = usersApi.post(user);
-        checkStatusCode(201);
-        checkThatJsonContains(1,"data.status");
+        steps.checkStatusCode(201);
+        steps.checkThatJsonContains(1,"data.status");
     }
 
     @Test
     @Story("Delete User")
     @Description("Just delete User")
     public void deleteUser() {
-        user  = new User(roles.get(1).id);
-        newResponse = usersApi.post(user);
-        user.id = newResponse.jsonPath().getString(PATH_ID);
+        User testUser = steps.createEntity(new User(roles.get(1).id));
 
-        newResponse = usersApi.delete(user.id);
-        checkStatusCode(204);
-        newResponse = usersApi.getById(user.id);
-        checkStatusCode(200);
-        checkThatJsonContains(0,"data.status");
+        steps.deleteEntity(testUser);
+        steps.checkStatusCode(204);
+        steps.getEntity(testUser);
+        steps.checkStatusCode(200);
+        steps.checkThatJsonContains(true,"data.deleted");
     }
 
     @Test
     @Story("Get Users")
-    @Description("Just get all User")
+    @Description("Just get all Users")
     public void getUsers() {
-        newResponse = usersApi.get();
-        checkStatusCode(200);
+        steps.getEntites(User.class, User.url);
+        steps.checkStatusCode(200);
     }
-
 }

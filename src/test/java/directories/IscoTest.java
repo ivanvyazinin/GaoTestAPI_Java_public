@@ -1,7 +1,9 @@
 package test.java.directories;
 
-import main.java.steps.directories.IscoSteps;
+import main.java.entities.directories.Isco;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
@@ -11,80 +13,93 @@ import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class IscoTest extends SuperTest {
-    IscoSteps iscosSteps;
+    private CommonSteps steps;
+    private Isco testIsco;
 
     @BeforeClass
     void prepare(){
-        iscosSteps = new IscoSteps();
+        steps = new CommonSteps();
     }
+
+    @BeforeMethod
+    public void prepareEntity(){
+        testIsco = new Isco();
+        testIsco.name = getRandomTextField("Isco");
+        testIsco.code = getRandomIscoCode(); }
 
     @Test
     public void createIsco(){
-        iscosSteps.createIsco();
-        iscosSteps.checkStatusCode(201);
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(201);
     }
 
     @Test
     public void createIscoWithBlankName(){
-        iscosSteps.createIsco("",getRandomIscoCode());
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
+        testIsco.name = "";
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
     }
 
     @Test
     public void createIscoTooLongName(){
-        iscosSteps.createIsco(getRandomText(161),getRandomIscoCode());
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
+        testIsco.name = getRandomText(161);
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
     }
 
     @Test
     public void createIsco3SymbolCode(){
-        iscosSteps.createIsco(getRandomTextField("Auto isco"),"333");
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_ISCO_NOT_VALID, PATH_ERROR);
+        testIsco.code = "333";
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_ISCO_NOT_VALID, PATH_ERROR);
     }
 
     @Test
     public void createIsco5SymbolCode(){
-        iscosSteps.createIsco(getRandomTextField("Auto isco") , "33333");
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
+        testIsco.code = "33333";
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
     }
 
     @Test
     public void createIscoWithSameName(){
-        iscosSteps.createIsco();
-        iscosSteps.createIsco(iscosSteps.testIsco.name, getRandomIscoCode());
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS, PATH_ERROR);
+        steps.createEntity(testIsco);
+        testIsco.name = getRandomTextField("Isco");
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS, PATH_ERROR);
     }
 
     @Test
     public void createIscoWithSameCode(){
-        iscosSteps.createIsco();
-        iscosSteps.createIsco(getRandomTextField("isco"), iscosSteps.testIsco.code);
-        iscosSteps.checkStatusCode(400);
-        iscosSteps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS, PATH_ERROR);
+        steps.createEntity(testIsco);
+        testIsco.code = getRandomIscoCode();
+        steps.createEntity(testIsco);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS, PATH_ERROR);
     }
 
     @Test
     public void editIsco(){
-        iscosSteps.createIsco();
-        iscosSteps.testIsco.name = getRandomTextField("Changed IscoAuto");
-        iscosSteps.testIsco.code = getRandomIscoCode();
-        iscosSteps.editIsco(iscosSteps.testIsco.id);
-        iscosSteps.checkStatusCode(200);
-        iscosSteps.checkThatBodyHasValue("Changed IscoAuto");
+        testIsco = steps.createEntity(testIsco);
+        testIsco.name = getRandomTextField("Changed IscoAuto");
+        testIsco.code = getRandomIscoCode();
+        steps.editEntity(testIsco);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("Changed IscoAuto");
     }
 
     @Test
     public void deleteIsco(){
-        iscosSteps.createIsco();
-        iscosSteps.deleteIsco(iscosSteps.testIsco.id);
-        iscosSteps.checkStatusCode(204);
-        iscosSteps.getIsco(iscosSteps.testIsco.id);
-        iscosSteps.checkStatusCode(404);
+        testIsco = steps.createEntity(testIsco);
+        steps.deleteEntity(testIsco);
+        steps.checkStatusCode(204);
+        steps.getEntity(testIsco);
+        steps.checkStatusCode(404);
     }
 
 }

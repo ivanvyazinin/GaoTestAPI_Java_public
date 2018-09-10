@@ -14,11 +14,11 @@ public class FillTheGapsFromList extends CommonPracticeBlock {
     public FillTheGapsFromList(){
         this.task = getRandomTextRandomLength(512);
         this.text = getRandomTextRandomLength(1600);
+        this.gaps = new ArrayList<>();
         this.showCorrectAnswer = true;
         this.mixAnswers = true;
         this.position = 0;
         this.attempts = 2;
-        this.gaps = new ArrayList<>();
         this.scoring = new Scoring();
     }
 

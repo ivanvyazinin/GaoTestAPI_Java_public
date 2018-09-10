@@ -7,7 +7,7 @@ import main.java.core.ServerConfig;
 
 import static io.restassured.RestAssured.given;
 import static main.java.core.Configuration.getServerConfig;
-import static main.java.properties.Constants.CONTENT_TYPE;
+import static main.java.properties.Constants.*;
 import static main.java.properties.Context.HEADERS;
 
 public class CommonAPI extends RequestParameters {
@@ -15,7 +15,7 @@ public class CommonAPI extends RequestParameters {
     protected String parameters= "";
     private ServerConfig config;
 
-    protected void setURL(String prefix, String endpointName) {
+    public void setURL(String prefix, String endpointName) {
         URL = "http://" + config.getHost() + prefix + endpointName;
     }
 
@@ -64,7 +64,7 @@ public class CommonAPI extends RequestParameters {
                 contentType(CONTENT_TYPE).
                 headers(HEADERS).
                 when().
-                get(getURL() + "/" + id + parameters);
+                get(getURL() + "/" + id + getRequestParameters());
     }
 
     public Response delete(String id) {
@@ -76,4 +76,12 @@ public class CommonAPI extends RequestParameters {
                 delete(getURL() + "/" + id);
     }
 
+    public Response copy(String folderId, String entityId) {
+        return given().
+                filter(new AllureRestAssured()).
+                contentType(CONTENT_TYPE).
+                headers(HEADERS).
+                when().
+                put(getURL() + "/" + entityId + "/folders/" + folderId + "/copy");
+    }
 }

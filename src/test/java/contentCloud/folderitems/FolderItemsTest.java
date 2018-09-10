@@ -5,11 +5,10 @@ import io.qameta.allure.Story;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
 import main.java.entities.contentCloud.folderItems.Screen;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import main.java.steps.ContentItemSteps;
 import main.java.steps.FolderSteps;
-import main.java.steps.ScreenSteps;
 import test.java.contentCloud.CommonCloudTest;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
@@ -17,15 +16,13 @@ import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 @Feature("Folder items")
 public class FolderItemsTest extends CommonCloudTest {
+    private CommonSteps steps;
     private FolderSteps folderSteps;
-    private ScreenSteps screenSteps;
-    private ContentItemSteps contentItemSteps;
 
     @BeforeClass
     public void prepareSteps(){
+        steps = new CommonSteps();
         folderSteps = new FolderSteps();
-        screenSteps = new ScreenSteps();
-        contentItemSteps = new ContentItemSteps();
     }
 
     @Test
@@ -38,11 +35,12 @@ public class FolderItemsTest extends CommonCloudTest {
     @Test
     @Story("Folder contains folder, CI and Screen. Get items")
     public void getItemsOfFolder() {
-        Folder testFolder = folderSteps.createFolder(new Folder(FOLDER_FOR_TESTS));
+        Folder testFolder = steps.createEntity(
+                new Folder(FOLDER_FOR_TESTS));
 
-        folderSteps.createFolder(new Folder(testFolder.id));
-        screenSteps.createScreen(new Screen(testFolder.id));
-        contentItemSteps.createContentItem(new ContentItem(testFolder.id));
+        steps.createEntity(new Folder(testFolder.id));
+        steps.createEntity(new Screen(testFolder.id));
+        steps.createEntity(new ContentItem(testFolder.id));
 
         folderSteps.getFolderItems(testFolder.id);
         folderSteps.checkThatJsonContains(3,"data.count");

@@ -11,8 +11,7 @@ public class CommonBlocsAPI extends CommonAPI {
     }
 
     public CommonBlocsAPI(String entity){
-
-        setURL(API_PREFIX, ENDPOINT_BLOCKS + entity);
+        setURL(API_PREFIX, entity);
     }
 
 }

@@ -3,40 +3,39 @@ package test.java.contentCloud.blocks.theory;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.contentCloud.CommonCloudTest;
 
 import static main.java.properties.Constants.*;
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_THEORY;
-import static main.java.properties.Endpoints.ENDPOINT_PARAGRAPH;
 import static main.java.utils.Generator.getRandomText;
+import static main.java.utils.Generator.getRandomTextRandomLength;
 
 @Feature("Theory Blocks")
 public class ParagraphTest extends CommonCloudTest {
-    private CommonBlocsAPI paragraphAPI;
-    private Paragraph paragraph;
+    private CommonSteps steps;
+    private Paragraph testParagraph;
 
     @BeforeClass
     public void prepareSteps(){
-        paragraphAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_THEORY, ENDPOINT_PARAGRAPH);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
     public void prepareEntity(){
-        paragraph  = new Paragraph();
+        testParagraph = new Paragraph();
+        testParagraph.paragraph = getRandomTextRandomLength(16000);
     }
 
     @Test
     @Story("Create Paragraph")
     @Description("Just create paragraph")
     public void createParagraph() {
-        paragraph.paragraph = getRandomText(16000);
-        newResponse = paragraphAPI.post(paragraph);
-        checkStatusCode(201);
+        steps.createEntity(testParagraph);
+        steps.checkStatusCode(201);
     }
 
     @Test
@@ -45,48 +44,48 @@ public class ParagraphTest extends CommonCloudTest {
     public void createParagraphWithHTML() {
         String testText = getRandomText(10);
 
-        paragraph.paragraph = "<b>" + testText + "</b>";
-        newResponse = paragraphAPI.post(paragraph);
-        checkStatusCode(201);
-        newResponse = paragraphAPI.getById(newResponse.jsonPath().getString(PATH_ID));
-        checkThatBodyHasNotValue("<b>");
-        checkThatBodyHasValue(testText);
+        testParagraph.paragraph = "<b>" + testText + "</b>";
+        testParagraph = steps.createEntity(testParagraph);
+        steps.checkStatusCode(201);
+        steps.getEntity(testParagraph);
+        steps.checkThatBodyHasNotValue("<b>");
+        steps.checkThatBodyHasValue(testText);
     }
 
     @Test
     @Story("Create Paragraph")
     @Description("Check, that you cannot create empty paragraph")
     public void createEmptyParagraph() {
-        paragraph.paragraph = "";
-        newResponse = paragraphAPI.post(paragraph);
-        checkStatusCode(400);
-        checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
+        testParagraph.paragraph = "";
+        steps.createEntity(testParagraph);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
     }
 
     @Test
     @Story("Create Paragraph")
     @Description("Check, that you cannot create paragraph with more then 16000 symbols")
     public void createParagraphWith16001Symbols() {
-        paragraph.paragraph = getRandomText(16001);
-        newResponse = paragraphAPI.post(paragraph);
-        checkStatusCode(400);
+        testParagraph.paragraph = getRandomText(16001);
+        steps.createEntity(testParagraph);
+        steps.checkStatusCode(400);
     }
 
     @Test
     public void editParagraph() {
-        newResponse = paragraphAPI.post(paragraph);
-        paragraph.paragraph = "Changed" + paragraph.paragraph;
-        newResponse = paragraphAPI.put(newResponse.jsonPath().getString(PATH_ID), paragraph);
-        checkStatusCode(200);
-        checkThatBodyHasValue("Changed");
+        testParagraph = steps.createEntity(testParagraph);
+        testParagraph.paragraph = "Changed" + testParagraph.paragraph;
+        steps.editEntity(testParagraph);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("Changed");
     }
 
     @Test
     public void deleteParagraph() {
-        paragraph.id  = paragraphAPI.post(paragraph).jsonPath().getString(PATH_ID);
-        newResponse = paragraphAPI.delete(paragraph.id);
-        checkStatusCode(204);
-        newResponse = paragraphAPI.getById(paragraph.id);
-        checkStatusCode(404);
+        testParagraph = steps.createEntity(testParagraph);
+        steps.deleteEntity(testParagraph);
+        steps.checkStatusCode(204);
+        steps.getEntity(testParagraph);
+        steps.checkStatusCode(404);
     }
 }

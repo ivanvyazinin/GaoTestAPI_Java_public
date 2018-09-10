@@ -1,15 +1,17 @@
 package main.java.entities.contentCloud.blocks.theory;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import main.java.entities.contentCloud.blocks.AbstractBlock;
 
+import static main.java.properties.Endpoints.*;
+
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
 public class Table extends AbstractBlock {
     public String content;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_THEORY + ENDPOINT_BLOCK_TABLE;
 
-    public Table(String content){
-        this.content=content;
-    }
-
-    public Table(){
-
+    @Override
+    public String getUrl() {
+        return this.url;
     }
 }

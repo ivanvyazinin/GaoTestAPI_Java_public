@@ -2,13 +2,12 @@ package test.java.contentCloud;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.FoldersAPI;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
 import main.java.entities.contentCloud.folderItems.Screen;
+import main.java.steps.CommonSteps;
 import main.java.steps.ContentItemSteps;
-import main.java.steps.FolderSteps;
 import main.java.steps.ScreenSteps;
 import main.java.steps.blocks.BlockSteps;
 import org.testng.annotations.BeforeClass;
@@ -20,22 +19,19 @@ import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.utils.Lists.getRandomItem;
 
 public class FoldersTest extends CommonCloudTest {
-    FolderSteps folderSteps;
-    ScreenSteps screenSteps;
-    ContentItemSteps contentItemSteps;
-    BlockSteps blockSteps;
-
-    FoldersAPI foldersAPI;
-    Folder testFolder;
+    private CommonSteps steps;
+    private ScreenSteps screenSteps;
+    private ContentItemSteps contentItemSteps;
+    private BlockSteps blockSteps;
+    private Folder testFolder;
 
     @BeforeClass
     public void prepareSteps(){
-        folderSteps = new FolderSteps();
         screenSteps = new ScreenSteps();
         contentItemSteps = new ContentItemSteps();
         blockSteps = new BlockSteps();
 
-        foldersAPI = new FoldersAPI();
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -45,74 +41,77 @@ public class FoldersTest extends CommonCloudTest {
 
     @Test
     public void createFolderInDaRoot(){
-        newResponse = foldersAPI.post(new Folder(ROOT_FOLDER));
-        checkStatusCode(201);
+        steps.createEntity(
+                new Folder(ROOT_FOLDER));
+        steps.checkStatusCode(201);
     }
 
     @Test
     public void createFolderInDaFolder(){
-        newResponse = foldersAPI.post(testFolder);
-        checkStatusCode(201);
+        steps.createEntity(testFolder);
+        steps.checkStatusCode(201);
     }
 
     @Test
     public void createFolderWithSameName() {
-        foldersAPI.post(testFolder);
-        newResponse = foldersAPI.post(testFolder);
-        checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS,PATH_ERROR);
+        steps.createEntity(testFolder);
+        steps.createEntity(testFolder);
+        steps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS,PATH_ERROR);
     }
 
     @Test
     public void editFolderName(){
-        folderSteps.createFolder(testFolder);
+        testFolder = steps.createEntity(testFolder);
 
         testFolder.name = "Changed " + testFolder.name;
-        newResponse = foldersAPI.put(testFolder.id,testFolder);
-        checkThatBodyHasValue(testFolder.name);
+        steps.editEntity(testFolder);
+        steps.checkThatBodyHasValue(testFolder.name);
     }
 
     @Test
     public void moveFolder() {
-        folderSteps.createFolder(testFolder);
-        Folder destination = folderSteps.createFolder(new Folder(FOLDER_FOR_TESTS));
+        testFolder = steps.createEntity(testFolder);
+        Folder destination = steps.createEntity(
+                new Folder(FOLDER_FOR_TESTS));
 
         testFolder.parentFolder = destination.id;
-        newResponse = foldersAPI.put(testFolder.id, testFolder);
-        checkStatusCode(200);
-        checkThatBodyHasValue(destination.id);
+        steps.editEntity(testFolder);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue(destination.id);
     }
 
     @Test
     public void getFolders() {
-        newResponse = foldersAPI.get();
-        checkStatusCode(200);
+        steps.getEntites(Folder.class, Folder.url);
+        steps.checkStatusCode(200);
     }
 
-    @Test(groups = "Slow")
+    //@Test(groups = "Slow")
     @Story("Create folder")
     @Description("Cannot create a hierarchy with 51 folder")
     public void createFiftyFoldersv2() {
-        folderSteps.createFolder(testFolder);
+        steps.createEntity(testFolder);
                 for(int i=0; i<47; i++){
             testFolder.parentFolder=testFolder.id;
-            folderSteps.createFolder(testFolder);
+            steps.createEntity(testFolder);
         }
 
-        newResponse = foldersAPI.post(new Folder(testFolder.id));
-        checkStatusCode(400);
-        checkThatJsonContains("5f4f2d2f-b6d0-46e8-a1f3-26fc1d0cb5c6",PATH_ERROR);
+        steps.createEntity(
+                new Folder(testFolder.id));
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains("5f4f2d2f-b6d0-46e8-a1f3-26fc1d0cb5c6",PATH_ERROR);
     }
 
     @Test
     @Story("Delete folder")
     @Description("Delete empty folder")
     public void deleteEmptyFolder() {
-        folderSteps.createFolder(testFolder);
+        testFolder = steps.createEntity(testFolder);
 
-        newResponse = foldersAPI.delete(testFolder.id);
-        checkStatusCode(204);
-        newResponse = foldersAPI.getById(testFolder.id);
-        checkStatusCode(404);
+        steps.deleteEntity(testFolder);
+        steps.checkStatusCode(204);
+        steps.getEntity(testFolder);
+        steps.checkStatusCode(404);
     }
 
 
@@ -120,37 +119,42 @@ public class FoldersTest extends CommonCloudTest {
     @Story("Delete folder")
     @Description("Delete folder with CI, screen and block")
     public void deleteFolderWithScreenBlockCI(){
-        folderSteps.createFolder(testFolder);
-        screenSteps.createScreen(new Screen(testFolder.id));
-        contentItemSteps.createContentItem(new ContentItem(testFolder.id));
-        blockSteps.getReusableBlock(new Paragraph(testFolder.id, getRandomItem(level).id));
+        testFolder = steps.createEntity(testFolder);
+        steps.createEntity(
+                new Screen(testFolder.id));
+        steps.createEntity(
+                new ContentItem(testFolder.id));
+        blockSteps.getReusableBlock(
+                new Paragraph(testFolder.id, getRandomItem(level).id));
 
-        newResponse = foldersAPI.delete(testFolder.id);
-        checkStatusCode(204);
+        steps.deleteEntity(testFolder);
+        steps.checkStatusCode(204);
     }
 
     @Test
     @Story("Delete folder")
     @Description("Delete folder with screen and block into it")
     public void deleteFolderWithScreenAndBlock(){
-        folderSteps.createFolder(testFolder);
-        screenSteps.getScreenWithBlock(new Screen(testFolder.id), new Paragraph(testFolder.id, getRandomItem(level).id));
+        testFolder = steps.createEntity(testFolder);
+        screenSteps.getScreenWithBlock(
+                new Screen(testFolder.id),
+                new Paragraph(testFolder.id, getRandomItem(level).id));
 
-        newResponse = foldersAPI.delete(testFolder.id);
-        checkStatusCode(400);
-        checkThatJsonContains("fcbd2e23-deae-4e43-9634-adeadf5d4cbb",PATH_ERROR);
+        steps.deleteEntity(testFolder);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains("fcbd2e23-deae-4e43-9634-adeadf5d4cbb",PATH_ERROR);
     }
 
     @Test
     @Story("Delete folder")
     @Description("Delete folder with CI and screen into it")
     public void deleteFolderWithCIwithScreen(){
-        folderSteps.createFolder(testFolder);
-        Screen testScreen = screenSteps.createScreen(new Screen(testFolder.id));
+        testFolder = steps.createEntity(testFolder);
+        Screen testScreen = steps.createEntity(new Screen(testFolder.id));
         contentItemSteps.createContentItemWithScreen(new ContentItem(testFolder.id),testScreen);
 
-        newResponse = foldersAPI.delete(testFolder.id);
-        checkStatusCode(400);
-        checkThatJsonContains("1f8f36c5-c5c1-4a8d-982d-5b467ea36bfd",PATH_ERROR);
+        steps.deleteEntity(testFolder);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains("1f8f36c5-c5c1-4a8d-982d-5b467ea36bfd",PATH_ERROR);
     }
 }

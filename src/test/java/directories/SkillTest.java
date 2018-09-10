@@ -1,7 +1,9 @@
 package test.java.directories;
 
-import main.java.steps.directories.SkillSteps;
+import main.java.entities.directories.Skill;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
@@ -10,57 +12,63 @@ import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class SkillTest extends SuperTest {
-    SkillSteps skillsSteps;
+    private CommonSteps steps;
+    private Skill testSkill;
 
     @BeforeClass
-    void prepare(){
-        skillsSteps = new SkillSteps();
+    public void prepare(){
+        steps = new CommonSteps();
+    }
+
+    @BeforeMethod
+    public void prepareEntity(){
+        testSkill = new Skill();
+        testSkill.name = getRandomTextField("Skill");
     }
 
     @Test
     public void createSkill(){
-        skillsSteps.createSkill();
-        skillsSteps.checkStatusCode(201);
+        steps.createEntity(testSkill);
+        steps.checkStatusCode(201);
     }
 
     @Test
     public void createSkillWithBlankName(){
-        skillsSteps.createSkill("");
-        skillsSteps.checkStatusCode(400);
-        skillsSteps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
+        testSkill.name = "";
+        steps.createEntity(testSkill);
+        steps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
     }
 
     @Test
     public void createSkillTooLongName(){
-        skillsSteps.createSkill(getRandomText(161));
-        skillsSteps.checkStatusCode(400);
-        skillsSteps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
+        testSkill.name = getRandomText(161);
+        steps.createEntity(testSkill);
+        steps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
     }
 
     @Test
     public void createSkillWithSameName(){
-        skillsSteps.createSkill();
-        skillsSteps.createSkill(skillsSteps.testSkill.name);
-        skillsSteps.checkStatusCode(400);
-        //TODO check error
+        steps.createEntity(testSkill);
+        steps.createEntity(testSkill);
+        steps.checkStatusCode(400);
     }
 
     @Test
     public void editSkill(){
-        skillsSteps.createSkill();
-        skillsSteps.testSkill.name = getRandomTextField("Changed SkillAuto");
-        skillsSteps.editSkill(skillsSteps.testSkill.id);
-        skillsSteps.checkStatusCode(200);
-        skillsSteps.checkThatBodyHasValue("Changed SkillAuto");
+        testSkill = steps.createEntity(testSkill);
+        testSkill.name = getRandomTextField("Changed SkillAuto");
+        steps.editEntity(testSkill);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("Changed SkillAuto");
     }
 
     @Test
     public void deleteSkill(){
-        skillsSteps.createSkill();
-        skillsSteps.deleteSkill(skillsSteps.testSkill.id);
-        skillsSteps.checkStatusCode(204);
-        skillsSteps.getSkill(skillsSteps.testSkill.id);
-        skillsSteps.checkStatusCode(404);
+        testSkill = steps.createEntity(testSkill);
+        steps.deleteEntity(testSkill);
+        steps.checkStatusCode(204);
+        steps.getEntity(testSkill);
+        steps.checkStatusCode(404);
     }
 
 }

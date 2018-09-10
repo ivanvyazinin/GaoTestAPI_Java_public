@@ -17,7 +17,6 @@ public class FilesAPI extends CommonAPI{
     }
 
     public Response uploadFile(File file){
-        //File file = new File("D:\\Projects\\TA\\ta-api\\src\\main\\resources\\files\\image.jpg");
 
         return given()
                 .filter(new AllureRestAssured())

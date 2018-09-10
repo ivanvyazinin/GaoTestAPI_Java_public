@@ -12,6 +12,8 @@ public class Constants {
     //Embeds
     public static final String EMBED_TAG = "tag";
     public static final String EMBED_FOLDER = "folder";
+    public static final String EMBED_FILE = "file";
+    public static final String EMBED_DIRECTORY = "directory";
     public static final String EMBED_CONSTRUCTOR = "constructor";
     public static final String EMBED_BLOCS = "blocks";
 

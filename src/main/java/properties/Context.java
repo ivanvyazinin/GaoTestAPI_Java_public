@@ -15,4 +15,9 @@ public class Context {
     public static Map<String, String> HEADERS = new HashMap<>();
 
     public static String FOLDER_FOR_TESTS = "";
+
+    public static String FILE_PATH_IMAGE = "src\\main\\resources\\files\\image.jpg";
+    public static String FILE_PATH_AUDIO = "src\\main\\resources\\files\\audio.mp3";
+    public static String FILE_PATH_VIDEO = "src\\main\\resources\\files\\video.mp4";
+    public static String FILE_PATH_FILE_PDF = "src\\main\\resources\\files\\file.pdf";
 }

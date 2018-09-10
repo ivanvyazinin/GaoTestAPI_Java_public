@@ -1,17 +1,15 @@
 package main.java.entities.contentCloud.blocks.theory;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import main.java.entities.contentCloud.blocks.AbstractBlock;
 
+import static main.java.properties.Endpoints.*;
 import static main.java.utils.Generator.getRandomTextField;
 
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
 public class Title extends AbstractBlock {
     public String title;
-
-    public Title(String title, String screen, int position){
-        this.title=title;
-        this.position=position;
-        this.type=1;
-    }
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_THEORY + ENDPOINT_BLOCK_TITLE;
 
     public Title(){
         this.title=getRandomTextField("Title");
@@ -19,5 +17,8 @@ public class Title extends AbstractBlock {
         this.type=1;
     }
 
-
+    @Override
+    public String getUrl() {
+        return this.url;
+    }
 }

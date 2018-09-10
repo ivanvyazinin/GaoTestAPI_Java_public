@@ -1,89 +1,93 @@
 package test.java.publications;
 
 import main.java.entities.publications.MediaPublication;
-import main.java.steps.publications.MediaPublicationSteps;
+import main.java.steps.CommonSteps;
+import main.java.steps.FilesSteps;
 import org.testng.annotations.*;
 
+import static main.java.properties.Constants.EMBED_DIRECTORY;
+import static main.java.properties.Constants.EMBED_FILE;
+import static main.java.properties.Constants.EMBED_TAG;
+import static main.java.properties.Context.FILE_PATH_IMAGE;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class MediaPublicationTest extends SuperPublicationTest {
-    MediaPublicationSteps mediaPublicationSteps;
+    private CommonSteps steps;
+    private MediaPublication testMediaPublication;
+    private FilesSteps filesSteps;
 
     @BeforeClass
     public void prepare(){
-        mediaPublicationSteps = new MediaPublicationSteps();
+        steps = new CommonSteps();
+        filesSteps = new FilesSteps();
+
+        String [][] parameters = {
+                {"embed",EMBED_TAG},
+                {"embed",EMBED_DIRECTORY},
+                {"embed",EMBED_FILE}
+        };
+        steps.api.setRequestParameters(parameters);
     }
 
     @BeforeMethod
-    public void preparePublication(){
-        mediaPublicationSteps.testMediaPublication = new MediaPublication();
+    public void prepareEntity(){
+        testMediaPublication = new MediaPublication();
+        testMediaPublication.name = getRandomTextField("publication name");
+        testMediaPublication.description = getRandomTextField("publication description");
+        testMediaPublication.language = language.get(0).id;
+        testMediaPublication.license = license.get(0).id;
+        testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
     }
 
     @Test
-    public void createPublication(){
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("publication name");
-        mediaPublicationSteps.testMediaPublication.description = getRandomTextField("publication description");
-        mediaPublicationSteps.testMediaPublication.language = language.get(0).id;
-        mediaPublicationSteps.testMediaPublication.license = license.get(0).id;
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
+    public void createPublicationWithoutFile(){
+        steps.createEntity(testMediaPublication);
+        steps.checkStatusCode(201);
+    }
 
-        mediaPublicationSteps.createPublication();
-        mediaPublicationSteps.checkStatusCode(201);
+    @Test
+    public void createPublicationWithFile(){
+        testMediaPublication.files.add(filesSteps.uploadFile(FILE_PATH_IMAGE));
+
+        testMediaPublication = steps.createEntity(testMediaPublication);
+        steps.getEntity(testMediaPublication);
+        steps.checkThatBodyHasValue("\"status\":5");
     }
 
     @Test
     public void createPublicationWithoutDescription(){
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("publication name");
-        mediaPublicationSteps.testMediaPublication.language = language.get(0).id;
-        mediaPublicationSteps.testMediaPublication.license = license.get(0).id;
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
+        testMediaPublication.description = null;
 
-        mediaPublicationSteps.createPublication();
-        mediaPublicationSteps.checkStatusCode(201);
+        steps.createEntity(testMediaPublication);
+        steps.checkStatusCode(201);
     }
 
     @Test
-    public void createPublicationWithFewFieldOfStudy(){
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("publication name");
-        mediaPublicationSteps.testMediaPublication.language = language.get(0).id;
-        mediaPublicationSteps.testMediaPublication.license = license.get(0).id;
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(2).id);
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(3).id);
+    public void createPublicationWithoutFieldOfStudy(){
+        testMediaPublication.studies.clear();
 
-        mediaPublicationSteps.createPublication();
-        mediaPublicationSteps.checkStatusCode(201);
+        steps.createEntity(testMediaPublication);
+        steps.checkStatusCode(400);
+        steps.checkThatBodyHasValue("bef8e338-6ae5-4caf-b8e2-50e7b0579e69");
     }
 
     @Test
     public void deletePublication(){
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("publication name");
-        mediaPublicationSteps.testMediaPublication.description = getRandomTextField("publication description");
-        mediaPublicationSteps.testMediaPublication.language = language.get(0).id;
-        mediaPublicationSteps.testMediaPublication.license = license.get(0).id;
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
+        testMediaPublication = steps.createEntity(testMediaPublication);
 
-        mediaPublicationSteps.createPublication();
-        mediaPublicationSteps.deletePublication(mediaPublicationSteps.testMediaPublication.id);
-        mediaPublicationSteps.checkStatusCode(204);
-        mediaPublicationSteps.getPublication(mediaPublicationSteps.testMediaPublication.id);
-        mediaPublicationSteps.checkStatusCode(404);
+        steps.deleteEntity(testMediaPublication);
+        steps.checkStatusCode(204);
+        steps.getEntity(testMediaPublication);
+        steps.checkStatusCode(404);
     }
 
     @Test
     public void editPublication(){
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("publication name");
-        mediaPublicationSteps.testMediaPublication.description = getRandomTextField("publication description");
-        mediaPublicationSteps.testMediaPublication.language = language.get(0).id;
-        mediaPublicationSteps.testMediaPublication.license = license.get(0).id;
-        mediaPublicationSteps.testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
-        mediaPublicationSteps.createPublication();
+        testMediaPublication = steps.createEntity(testMediaPublication);
 
-        mediaPublicationSteps.testMediaPublication.name = getRandomTextField("changed publication name");
-        mediaPublicationSteps.editPublication(mediaPublicationSteps.testMediaPublication.id);
-        mediaPublicationSteps.checkStatusCode(200);
-        mediaPublicationSteps.checkThatBodyHasValue("changed publication name");
+        testMediaPublication.name = getRandomTextField("changed publication name");
+        steps.editEntity(testMediaPublication);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("changed publication name");
     }
-
-
 }

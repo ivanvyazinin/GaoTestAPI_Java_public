@@ -1,16 +1,14 @@
 package main.java.entities.directories;
 
-import static main.java.utils.Generator.getRandomTextField;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class Skill {
-    public String name;
-    public String id;
+import static main.java.properties.Endpoints.*;
 
-    public Skill(String name){
-        this.name = name;
-    }
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
+public class Skill extends AbstractDirectory {
+    public static String url = ENDPOINT_DIRECTORY + ENDPOINT_DIRECTORY_SKILL;
 
-    public Skill(){
-        this.name = getRandomTextField("Skill");
+    public String getUrl(){
+        return this.url;
     }
 }

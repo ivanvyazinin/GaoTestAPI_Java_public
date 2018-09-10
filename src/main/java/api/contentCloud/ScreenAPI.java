@@ -14,7 +14,6 @@ public class ScreenAPI extends CommonAPI {
 
     public ScreenAPI(){
         setURL(API_PREFIX, ENDPOINT_SCREENS);
-        parameters = "?embed[]=" + EMBED_TAG + "&embed[]=" + EMBED_BLOCS;
     }
 
     public Response copy(String folderId, String screenId) {

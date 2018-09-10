@@ -1,7 +1,9 @@
 package test.java.directories;
 
-import main.java.steps.directories.ZonesSteps;
+import main.java.entities.directories.Zone;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
@@ -12,57 +14,65 @@ import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
 public class FunctionalZonesTest extends SuperTest {
-    ZonesSteps zonesSteps;
+    private CommonSteps steps;
+    private Zone testZone;
+
 
     @BeforeClass
     void prepare(){
-        zonesSteps = new ZonesSteps();
+        steps = new CommonSteps();
+    }
+
+    @BeforeMethod
+    public void prepareEntity(){
+        testZone = new Zone();
+        testZone.name = getRandomTextField("Skill");
     }
 
     @Test
     public void createZone(){
-        zonesSteps.createZone();
-        zonesSteps.checkStatusCode(201);
+        steps.createEntity(testZone);
+        steps.checkStatusCode(201);
     }
 
     @Test
     public void createZoneWithBlankName(){
-        zonesSteps.createZone("");
-        zonesSteps.checkStatusCode(400);
-        zonesSteps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
+        testZone.name = "";
+        steps.createEntity(testZone);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_IS_BLANK, PATH_ERROR);
     }
 
     @Test
     public void createZoneTooLongName(){
-        zonesSteps.createZone(getRandomText(161));
-        zonesSteps.checkStatusCode(400);
-        zonesSteps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
+        testZone.name = getRandomText(161);
+        steps.createEntity(testZone);
+        steps.checkStatusCode(400);
+        steps.checkThatJsonContains(ERROR_TOO_LONG, PATH_ERROR);
     }
 
     @Test
     public void createZoneWithSameName(){
-        zonesSteps.createZone();
-        zonesSteps.createZone(zonesSteps.testZone.name);
-        zonesSteps.checkStatusCode(400);
-        //TODO check error
+        steps.createEntity(testZone);
+        steps.createEntity(testZone);
+        steps.checkStatusCode(400);
     }
 
     @Test
     public void editZone(){
-        zonesSteps.createZone();
-        zonesSteps.testZone.name = getRandomTextField("Changed ZoneAuto");
-        zonesSteps.editZone(zonesSteps.testZone.id);
-        zonesSteps.checkStatusCode(200);
-        zonesSteps.checkThatBodyHasValue("Changed ZoneAuto");
+        testZone = steps.createEntity(testZone);
+        testZone.name = getRandomTextField("Changed ZoneAuto");
+        steps.editEntity(testZone);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("Changed ZoneAuto");
     }
 
     @Test
     public void deleteZone(){
-        zonesSteps.createZone();
-        zonesSteps.deleteZone(zonesSteps.testZone.id);
-        zonesSteps.checkStatusCode(204);
-        zonesSteps.getZone(zonesSteps.testZone.id);
-        zonesSteps.checkStatusCode(404);
+        testZone = steps.createEntity(testZone);
+        steps.deleteEntity(testZone);
+        steps.checkStatusCode(204);
+        steps.getEntity(testZone);
+        steps.checkStatusCode(404);
     }
-
 }

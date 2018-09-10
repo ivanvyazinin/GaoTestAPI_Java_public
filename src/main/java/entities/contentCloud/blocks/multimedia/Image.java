@@ -1,18 +1,25 @@
 package main.java.entities.contentCloud.blocks.multimedia;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import main.java.entities.contentCloud.blocks.ReusableBlock;
 
 import java.util.ArrayList;
 
+import static main.java.properties.Endpoints.*;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
-public class Image extends ReusableBlock {
-    String captionText;
-    ArrayList<String> files;
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
+public class Image extends MultimediaBlock {
+    public String captionText;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_MULTIMEDIA + ENDPOINT_BLOCK_IMAGE;
 
     public Image(){
         captionText = getRandomTextRandomLength(512);
         files = new ArrayList<>();
-        url = "multimedia/image";
+    }
+
+    @Override
+    public String getUrl() {
+        return this.url;
     }
 }

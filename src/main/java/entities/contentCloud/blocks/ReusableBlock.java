@@ -18,9 +18,6 @@ public class ReusableBlock extends AbstractBlock{
     @JsonInclude(Include.NON_NULL)
     private String parentFolder;
 
-    @JsonIgnore
-    public String url;
-
     public  ReusableBlock(String parentFolder, String level){
         this.reusable = true;
         this.name = getRandomText(100);
@@ -34,11 +31,18 @@ public class ReusableBlock extends AbstractBlock{
 
     @JsonSetter("parentFolder")
     public void setParentFolder(Folder folder){
-        this.parentFolder = folder.id;
+        if (folder == null) this.parentFolder = null;
+        else this.parentFolder = folder.id;
     }
 
     @JsonGetter("parentFolder")
     public String getParentFolder(){
         return parentFolder;
+    }
+
+    //TODO make method and class abstract
+    @Override
+    public String getUrl() {
+        return this.url;
     }
 }
