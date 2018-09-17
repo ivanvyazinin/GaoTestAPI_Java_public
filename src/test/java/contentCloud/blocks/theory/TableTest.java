@@ -8,14 +8,14 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.*;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getTable;
 
 @Feature("Theory Blocks")
-public class TableTest extends CommonCloudTest {
+public class TableTest extends SuperTest {
     private CommonSteps steps;
     private Table table;
 

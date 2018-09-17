@@ -6,26 +6,28 @@ import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Screen;
 import main.java.steps.CommonSteps;
 import main.java.steps.ContentItemSteps;
+import main.java.steps.blocks.BlockSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
-import static main.java.utils.Lists.getRandomItem;
 
-
-public class GroupOfBlocksTest extends CommonCloudTest {
+public class GroupOfBlocksTest extends SuperTest {
     private CommonSteps steps;
     private ContentItemSteps contentItemSteps;
     private GroupOfBlocks testGroupOfBlocks;
+    private ContentItem testContentItem;
+    private BlockSteps blockSteps;
 
     @BeforeClass
     public void prepareSteps(){
         steps = new CommonSteps();
+        blockSteps = new BlockSteps();
         contentItemSteps = new ContentItemSteps();
+        testContentItem = steps.createEntity(new ContentItem(context.getTestFolder()));
     }
 
     @BeforeMethod
@@ -34,35 +36,39 @@ public class GroupOfBlocksTest extends CommonCloudTest {
         testGroupOfBlocks.color = 1;
         testGroupOfBlocks.name = getRandomTextField("GroupOfBlocks");
         testGroupOfBlocks.description = getRandomTextField("GroupOfBlocks description");
+        testGroupOfBlocks.contentItem = testContentItem.id;
     }
 
     @Test
     public void createEmptyGroupOfBlocks(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
-
-        steps.createEntity(testGroupOfBlocks);
+        testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
+
+        blockSteps.getScreensOfGroupBlocks(testGroupOfBlocks.id);
+        blockSteps.checkStatusCode(200);
+        blockSteps.checkThatJsonContains(0, "data.count");
     }
 
     @Test
     public void createGroupOfBlocksWithBlocks(){
         ContentItem testContentItem = contentItemSteps.getCIWithValidConstructor(
-                new ContentItem(FOLDER_FOR_TESTS),
-                new Screen(FOLDER_FOR_TESTS),
-                new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id));
+                new ContentItem(context.getTestFolder()),
+                new Screen(context.getTestFolder()),
+                new Paragraph());
 
         testGroupOfBlocks.contentItem = testContentItem.id;
         testGroupOfBlocks.blocks.add(testContentItem.screens.get(0).blocks.get(0).id);
 
-        steps.createEntity(testGroupOfBlocks);
+        testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
+
+        blockSteps.getScreensOfGroupBlocks(testGroupOfBlocks.id);
+        blockSteps.checkStatusCode(200);
+        blockSteps.checkThatJsonContains(1, "data.count");
     }
 
     @Test
     public void createGroupOfBlocksWithoutDescription(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
         testGroupOfBlocks.description = null;
 
         steps.createEntity(testGroupOfBlocks);
@@ -71,18 +77,13 @@ public class GroupOfBlocksTest extends CommonCloudTest {
 
     @Test
     public void createGroupOfBlocksWithSameName(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
-
         steps.createEntity(testGroupOfBlocks);
         steps.createEntity(testGroupOfBlocks);
-        steps.checkStatusCode(201);
+        steps.checkStatusCode(400);
     }
 
     @Test
     public void createGroupOfBlocksTooLongName(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
         testGroupOfBlocks.name = getRandomText(161);
 
         steps.createEntity(testGroupOfBlocks);
@@ -91,8 +92,6 @@ public class GroupOfBlocksTest extends CommonCloudTest {
 
     @Test
     public void createGroupOfBlocksTooLongDescription(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
         testGroupOfBlocks.description = getRandomText(1025);
 
         steps.createEntity(testGroupOfBlocks);
@@ -101,20 +100,14 @@ public class GroupOfBlocksTest extends CommonCloudTest {
 
     @Test
     public void createGroupOfBlocksWithBlockNotFromCI(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
-
         testGroupOfBlocks.blocks.add(steps.createEntity(
-                new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id)).id);
+                new Paragraph()).id);
         steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(400);
     }
 
     @Test
     public void editGroupOfBlocks(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
-
         testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
 
@@ -125,9 +118,6 @@ public class GroupOfBlocksTest extends CommonCloudTest {
 
     @Test
     public void deleteGroupOfBlocks(){
-        ContentItem testContentItem = steps.createEntity(new ContentItem(FOLDER_FOR_TESTS));
-        testGroupOfBlocks.contentItem = testContentItem.id;
-
         testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
 

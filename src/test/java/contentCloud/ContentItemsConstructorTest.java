@@ -11,13 +11,12 @@ import main.java.steps.ScreenSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.java.SuperTest;
 
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
-import static main.java.utils.Lists.getRandomItem;
 import static org.testng.Assert.assertEquals;
 
 @Feature("Content Items")
-public class ContentItemsConstructorTest extends CommonCloudTest {
+public class ContentItemsConstructorTest extends SuperTest {
     private CommonSteps steps;
     private ContentItemSteps contentItemSteps;
     private Screen testScreen;
@@ -29,21 +28,21 @@ public class ContentItemsConstructorTest extends CommonCloudTest {
         contentItemSteps = new ContentItemSteps();
         ScreenSteps screenSteps = new ScreenSteps();
 
-        testScreen = new Screen(FOLDER_FOR_TESTS);
-        screenSteps.getScreenWithBlock(testScreen, new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id));
+        testScreen = new Screen(context.getTestFolder());
+        screenSteps.getScreenWithBlock(testScreen, new Paragraph(context.getTestFolder(), context.getLevel()));
     }
 
     @BeforeMethod
     public void prepareEntity(){
-        testContentItem = new ContentItem(FOLDER_FOR_TESTS);
+        testContentItem = new ContentItem(context.getTestFolder());
     }
 
     @Test
     public void createValidConstructor(){
         contentItemSteps.getCIWithValidConstructor(
-                new ContentItem(FOLDER_FOR_TESTS),
-                new Screen(FOLDER_FOR_TESTS),
-                new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id));
+                new ContentItem(context.getTestFolder()),
+                new Screen(context.getTestFolder()),
+                new Paragraph(context.getTestFolder(), context.getLevel()));
 
         contentItemSteps.checkThatBodyHasNotValue("errors");
     }

@@ -6,7 +6,7 @@ import io.restassured.response.Response;
 import java.io.File;
 
 import static io.restassured.RestAssured.given;
-import static main.java.properties.Context.*;
+import static main.java.core.Context.*;
 import static main.java.properties.Endpoints.API_PREFIX;
 import static main.java.properties.Endpoints.ENDPOINT_FILES;
 

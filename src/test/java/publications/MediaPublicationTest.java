@@ -4,14 +4,15 @@ import main.java.entities.publications.MediaPublication;
 import main.java.steps.CommonSteps;
 import main.java.steps.FilesSteps;
 import org.testng.annotations.*;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.EMBED_DIRECTORY;
 import static main.java.properties.Constants.EMBED_FILE;
 import static main.java.properties.Constants.EMBED_TAG;
-import static main.java.properties.Context.FILE_PATH_IMAGE;
+import static main.java.properties.Constants.FILE_PATH_IMAGE;
 import static main.java.utils.Generator.getRandomTextField;
 
-public class MediaPublicationTest extends SuperPublicationTest {
+public class MediaPublicationTest extends SuperTest {
     private CommonSteps steps;
     private MediaPublication testMediaPublication;
     private FilesSteps filesSteps;
@@ -21,12 +22,11 @@ public class MediaPublicationTest extends SuperPublicationTest {
         steps = new CommonSteps();
         filesSteps = new FilesSteps();
 
-        String [][] parameters = {
+        steps.api.setRequestParameters(new String[][] {
                 {"embed",EMBED_TAG},
                 {"embed",EMBED_DIRECTORY},
                 {"embed",EMBED_FILE}
-        };
-        steps.api.setRequestParameters(parameters);
+        });
     }
 
     @BeforeMethod
@@ -34,9 +34,9 @@ public class MediaPublicationTest extends SuperPublicationTest {
         testMediaPublication = new MediaPublication();
         testMediaPublication.name = getRandomTextField("publication name");
         testMediaPublication.description = getRandomTextField("publication description");
-        testMediaPublication.language = language.get(0).id;
-        testMediaPublication.license = license.get(0).id;
-        testMediaPublication.studies.add(fieldsOfStudy.get(1).id);
+        testMediaPublication.language = context.getLanguage();
+        testMediaPublication.license = context.getLicence();
+        testMediaPublication.studies.add(context.getStudy());
     }
 
     @Test

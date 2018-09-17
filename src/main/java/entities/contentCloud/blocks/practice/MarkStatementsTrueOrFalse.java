@@ -1,13 +1,18 @@
 package main.java.entities.contentCloud.blocks.practice;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.java.properties.Endpoints.*;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
 public class MarkStatementsTrueOrFalse extends CommonPracticeBlock {
     public String task;
     public List<Statement> statements;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_PRACTICE + ENDPOINT_BLOCK_MARK_STATEMENTS;
 
     public MarkStatementsTrueOrFalse(){
         this.task = getRandomTextRandomLength(512);
@@ -33,4 +38,8 @@ public class MarkStatementsTrueOrFalse extends CommonPracticeBlock {
         }
     }
 
+    @Override
+    public String getUrl() {
+        return this.url;
+    }
 }

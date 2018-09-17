@@ -2,24 +2,22 @@ package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.practice.*;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Endpoints.ENDPOINT_ANSWER;
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_PRACTICE;
 import static main.java.utils.Generator.getRandomText;
 
-public class TypeTheAnswerTest extends CommonCloudTest {
-    private CommonBlocsAPI practiceBlocksAPI;
+public class TypeTheAnswerTest extends SuperTest {
+    private CommonSteps steps;
     private TypeTheAnswer typeTheAnswer;
 
     @BeforeClass
     public void prepareSteps(){
-        practiceBlocksAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_PRACTICE, ENDPOINT_ANSWER);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -32,8 +30,8 @@ public class TypeTheAnswerTest extends CommonCloudTest {
     @Description("Just create TypeTheAnswer Block")
     public void createTypeTheAnswer() {
         typeTheAnswer.answers.add(getRandomText(160));
-        newResponse = practiceBlocksAPI.post(typeTheAnswer);
-        checkStatusCode(201);
+        steps.createEntity(typeTheAnswer);
+        steps.checkStatusCode(201);
     }
 
     @Test
@@ -42,16 +40,16 @@ public class TypeTheAnswerTest extends CommonCloudTest {
     public void createTypeTheAnswerWithQuestionTooLong() {
         typeTheAnswer.answers.add(getRandomText(11));
         typeTheAnswer.question=getRandomText(1025);
-        newResponse = practiceBlocksAPI.post(typeTheAnswer);
-        checkStatusCode(400);
+        steps.createEntity(typeTheAnswer);
+        steps.checkStatusCode(400);
     }
     @Test
     @Story("Create TypeTheAnswer Block")
     @Description("Cannot create TypeTheAnswer Block with 11 answers")
     public void createTypeTheAnswerWithElevenAnswers() {
         for (int i=0;i<11;i++){typeTheAnswer.answers.add(getRandomText(160));}
-        newResponse = practiceBlocksAPI.post(typeTheAnswer);
-        checkStatusCode(400);
+        steps.createEntity(typeTheAnswer);
+        steps.checkStatusCode(400);
     }
 
 }

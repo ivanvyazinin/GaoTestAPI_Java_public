@@ -25,4 +25,17 @@ public class Constants {
     public static final String ERROR_TABLE_TOO_LONG = "560847da-fc00-42f2-a8f3-9d3689802254";
     public static final String ERROR_TABLE_STRUCTURE_INVALID = "8929940b-4c61-409c-b53e-145da3c49a45";
 
+    //Auth
+    public static String STAGE_USER="admin@site.local";
+    public static String STAGE_PASSWORD="123qwe";
+    public static String STAGE_CLIENT_ID="00000000-0000-0000-0000-000000000000_00000000";
+    public static String STAGE_CLIENT_SECRET="00000000-0000-0000-0000-000000000000";
+    public static String GRANT_TYPE="password";
+
+    //Files
+    public static String FILE_PATH_IMAGE = "src\\main\\resources\\files\\image.jpg";
+    public static String FILE_PATH_AUDIO = "src\\main\\resources\\files\\audio.mp3";
+    public static String FILE_PATH_VIDEO = "src\\main\\resources\\files\\video.mp4";
+    public static String FILE_PATH_FILE_PDF = "src\\main\\resources\\files\\file.pdf";
+
 }

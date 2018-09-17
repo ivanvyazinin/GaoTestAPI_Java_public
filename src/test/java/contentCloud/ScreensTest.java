@@ -12,13 +12,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import main.java.steps.ScreenSteps;
+import test.java.SuperTest;
 
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
-import static main.java.utils.Lists.getRandomItem;
 
-public class ScreensTest extends CommonCloudTest {
+public class ScreensTest extends SuperTest {
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;
     private CommonSteps steps;
@@ -34,7 +33,7 @@ public class ScreensTest extends CommonCloudTest {
 
     @BeforeMethod
     public void prepareEntity(){
-        testScreen = new Screen(FOLDER_FOR_TESTS);
+        testScreen = new Screen(context.getTestFolder());
     }
 
     @Test
@@ -42,7 +41,7 @@ public class ScreensTest extends CommonCloudTest {
     public void createScreenInDaFolder() {
         steps.createEntity(testScreen);
         steps.checkStatusCode(201);
-        steps.checkThatBodyHasValue(FOLDER_FOR_TESTS);
+        steps.checkThatBodyHasValue(context.getTestFolder());
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
@@ -92,8 +91,8 @@ public class ScreensTest extends CommonCloudTest {
     @Story("Delete screen with block")
     public void deleteScreenWithBlock() {
         testScreen = screenSteps.getScreenWithBlock(
-                new Screen(FOLDER_FOR_TESTS),
-                new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id));
+                new Screen(context.getTestFolder()),
+                new Paragraph());
 
         steps.deleteEntity(testScreen);
         steps.checkStatusCode(204);
@@ -103,9 +102,9 @@ public class ScreensTest extends CommonCloudTest {
     @Story("Delete screen")
     public void deleteScreenUsedInCI() {
         testScreen = steps.createEntity(
-                new Screen(FOLDER_FOR_TESTS));
+                new Screen(context.getTestFolder()));
         contentItemSteps.createContentItemWithScreen(
-                new ContentItem(FOLDER_FOR_TESTS),testScreen);
+                new ContentItem(context.getTestFolder()),testScreen);
 
         steps.deleteEntity(testScreen);
         steps.checkStatusCode(400);
@@ -116,7 +115,7 @@ public class ScreensTest extends CommonCloudTest {
     @Story("Move screen")
     public void moveScreen(){
         Folder destination = steps.createEntity(
-                new Folder(FOLDER_FOR_TESTS));
+                new Folder(context.getTestFolder()));
         testScreen = steps.createEntity(testScreen);
 
         testScreen.parentFolder = destination.id;
@@ -130,7 +129,7 @@ public class ScreensTest extends CommonCloudTest {
     @Story("Copy screen")
     public void copyEmptyScreenTwice(){
         Folder destination = steps.createEntity(
-                new Folder(FOLDER_FOR_TESTS));
+                new Folder(context.getTestFolder()));
         testScreen = steps.createEntity(testScreen);
 
         steps.copyEntity(testScreen,destination.id);
@@ -146,11 +145,11 @@ public class ScreensTest extends CommonCloudTest {
     @Test ()
     @Story("Copy screen")
     public void copyScreenWithBlock(){
-        Paragraph testBlock = new Paragraph(FOLDER_FOR_TESTS, getRandomItem(level).id);
+        Paragraph testBlock = new Paragraph();
         Folder destination = steps.createEntity(
-                new Folder(FOLDER_FOR_TESTS));
+                new Folder(context.getTestFolder()));
         testScreen = screenSteps.getScreenWithBlock(
-                new Screen(FOLDER_FOR_TESTS), testBlock);
+                new Screen(context.getTestFolder()), testBlock);
         testBlock.id = screenSteps.getScreenBlocks(testScreen).items.get(0).id;
 
         Screen screenCopy = steps.copyEntity(testScreen,destination.id);

@@ -8,11 +8,10 @@ import main.java.core.ServerConfig;
 import static io.restassured.RestAssured.given;
 import static main.java.core.Configuration.getServerConfig;
 import static main.java.properties.Constants.*;
-import static main.java.properties.Context.HEADERS;
+import static main.java.core.Context.HEADERS;
 
 public class CommonAPI extends RequestParameters {
     private String URL;
-    protected String parameters= "";
     private ServerConfig config;
 
     public void setURL(String prefix, String endpointName) {

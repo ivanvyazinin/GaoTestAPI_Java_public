@@ -2,24 +2,22 @@ package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.practice.CategorizeWords;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_PRACTICE;
-import static main.java.properties.Endpoints.ENDPOINT_CATEGORIZE_WORDS;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
-public class CategorizeWordsTest extends CommonCloudTest {
-    private CommonBlocsAPI practiceBlocksAPI;
+public class CategorizeWordsTest extends SuperTest {
     private CategorizeWords categorizeWords;
+    private CommonSteps steps;
 
     @BeforeClass
     public void prepareSteps(){
-        practiceBlocksAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_PRACTICE, ENDPOINT_CATEGORIZE_WORDS);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -33,8 +31,8 @@ public class CategorizeWordsTest extends CommonCloudTest {
     public void createCategorizeWords() {
         categorizeWords.category.add(new CategorizeWords.Category());
         categorizeWords.category.add(new CategorizeWords.Category());
-        newResponse =  practiceBlocksAPI.post(categorizeWords);
-        checkStatusCode(201);
+        steps.createEntity(categorizeWords);
+        steps.checkStatusCode(201);
     }
 
     @Test
@@ -42,8 +40,8 @@ public class CategorizeWordsTest extends CommonCloudTest {
     @Description("Cannot create categorizeWords Block with 1 category")
     public void createCategorizeWordsWithOneCategory() {
         categorizeWords.category.add(new CategorizeWords.Category());
-        newResponse = practiceBlocksAPI.post(categorizeWords);
-        checkStatusCode(400);
+        steps.createEntity(categorizeWords);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -57,8 +55,8 @@ public class CategorizeWordsTest extends CommonCloudTest {
         categorizeWords.category.add(new CategorizeWords.Category());
         categorizeWords.category.add(new CategorizeWords.Category());
         categorizeWords.category.add(new CategorizeWords.Category());
-        newResponse = practiceBlocksAPI.post(categorizeWords);
-        checkStatusCode(400);
+        steps.createEntity(categorizeWords);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -67,8 +65,8 @@ public class CategorizeWordsTest extends CommonCloudTest {
     public void createCategorizeWordsWithElevenItems() {
         categorizeWords.category.add(new CategorizeWords.Category());
         for (int i=0;i<11;i++){categorizeWords.category.get(0).items.add(getRandomTextRandomLength(1024));}
-        newResponse = practiceBlocksAPI.post(categorizeWords);
-        checkStatusCode(400);
+        steps.createEntity(categorizeWords);
+        steps.checkStatusCode(400);
     }
 
 }

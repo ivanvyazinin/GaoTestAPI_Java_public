@@ -2,23 +2,20 @@ package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.practice.SelectCorrectOption;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_PRACTICE;
-import static main.java.properties.Endpoints.ENDPOINT_SELECT_CORRECT_OPTION;
-
-public class SelectCorrectOptionTest extends CommonCloudTest {
-    private CommonBlocsAPI practiceBlocksAPI;
+public class SelectCorrectOptionTest extends SuperTest {
+    private CommonSteps steps;
     private SelectCorrectOption selectCorrectOption;
 
     @BeforeClass
     public void prepareSteps(){
-        practiceBlocksAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_PRACTICE, ENDPOINT_SELECT_CORRECT_OPTION);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -32,8 +29,8 @@ public class SelectCorrectOptionTest extends CommonCloudTest {
     public void createSelectCorrectOption() {
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
-        newResponse = practiceBlocksAPI.post(selectCorrectOption);
-        checkStatusCode(201);
+        steps.createEntity(selectCorrectOption);
+        steps.checkStatusCode(201);
     }
 
     @Test
@@ -41,8 +38,8 @@ public class SelectCorrectOptionTest extends CommonCloudTest {
     @Description("Can't create SelectCorrectOption with 1 answer")
     public void createSelectCorrectOptionWithOneAnswer() {
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
-        newResponse = practiceBlocksAPI.post(selectCorrectOption);
-        checkStatusCode(400);
+        steps.createEntity(selectCorrectOption);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -56,8 +53,8 @@ public class SelectCorrectOptionTest extends CommonCloudTest {
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
-        newResponse = practiceBlocksAPI.post(selectCorrectOption);
-        checkStatusCode(400);
+        steps.createEntity(selectCorrectOption);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -67,8 +64,8 @@ public class SelectCorrectOptionTest extends CommonCloudTest {
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer());
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer("answer",true));
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer("answer",true));
-        newResponse = practiceBlocksAPI.post(selectCorrectOption);
-        checkStatusCode(400);
+        steps.createEntity(selectCorrectOption);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -77,8 +74,7 @@ public class SelectCorrectOptionTest extends CommonCloudTest {
     public void createSelectCorrectOptionWithAllFalseAnswers() {
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer("answer1",false));
         selectCorrectOption.answers.add(new SelectCorrectOption.Answer("answer2",false));
-        newResponse = practiceBlocksAPI.post(selectCorrectOption);
-        checkStatusCode(400);
+        steps.createEntity(selectCorrectOption);
+        steps.checkStatusCode(400);
     }
-
 }

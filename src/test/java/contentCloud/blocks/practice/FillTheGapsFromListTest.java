@@ -2,25 +2,23 @@ package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Story;
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
 import main.java.entities.contentCloud.blocks.practice.FillTheGapsFromList;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Endpoints.ENDPOINT_BLOCKS_PRACTICE;
-import static main.java.properties.Endpoints.ENDPOINT_FILL_GAPS;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
-public class FillTheGapsFromListTest extends CommonCloudTest {
-    private CommonBlocsAPI practiceBlocksAPI;
+public class FillTheGapsFromListTest extends SuperTest {
+    private CommonSteps steps;
     private FillTheGapsFromList fillTheGapsFromList;
 
     @BeforeClass
     public void prepareSteps(){
-        practiceBlocksAPI = new CommonBlocsAPI(ENDPOINT_BLOCKS_PRACTICE, ENDPOINT_FILL_GAPS);
+        steps = new CommonSteps();
     }
 
     @BeforeMethod
@@ -33,8 +31,8 @@ public class FillTheGapsFromListTest extends CommonCloudTest {
     @Description("Just create FillTheGapsFromListTest Block")
     public void createfillTheGapsFromList() {
         fillTheGapsFromList.gaps.add(new FillTheGapsFromList.Gap());
-        newResponse = practiceBlocksAPI.post(fillTheGapsFromList);
-        checkStatusCode(201);
+        steps.createEntity(fillTheGapsFromList);
+        steps.checkStatusCode(201);
     }
 
     @Test
@@ -43,8 +41,8 @@ public class FillTheGapsFromListTest extends CommonCloudTest {
     public void createfillTheGapsFromListWithoutOptions() {
         fillTheGapsFromList.gaps.add(new FillTheGapsFromList.Gap());
         fillTheGapsFromList.gaps.get(0).options.clear();
-        newResponse = practiceBlocksAPI.post(fillTheGapsFromList);
-        checkStatusCode(400);
+        steps.createEntity(fillTheGapsFromList);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -57,8 +55,8 @@ public class FillTheGapsFromListTest extends CommonCloudTest {
         fillTheGapsFromList.gaps.get(0).options.add(getRandomTextRandomLength(160));
         fillTheGapsFromList.gaps.get(0).options.add(getRandomTextRandomLength(160));
         fillTheGapsFromList.gaps.get(0).options.add(getRandomTextRandomLength(160));
-        newResponse = practiceBlocksAPI.post(fillTheGapsFromList);
-        checkStatusCode(400);
+        steps.createEntity(fillTheGapsFromList);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -67,8 +65,8 @@ public class FillTheGapsFromListTest extends CommonCloudTest {
     public void createfillTheGapsFromListWithTooLongOptions() {
         fillTheGapsFromList.gaps.add(new FillTheGapsFromList.Gap());
         fillTheGapsFromList.gaps.get(0).options.add(getRandomText(161));
-        newResponse = practiceBlocksAPI.post(fillTheGapsFromList);
-        checkStatusCode(400);
+        steps.createEntity(fillTheGapsFromList);
+        steps.checkStatusCode(400);
     }
 
     @Test
@@ -77,8 +75,8 @@ public class FillTheGapsFromListTest extends CommonCloudTest {
     public void createfillTheGapsFromListWithTooLongAnswer() {
         fillTheGapsFromList.gaps.add(new FillTheGapsFromList.Gap());
         fillTheGapsFromList.gaps.get(0).right_answer = getRandomText(161);
-        newResponse = practiceBlocksAPI.post(fillTheGapsFromList);
-        checkStatusCode(400);
+        steps.createEntity(fillTheGapsFromList);
+        steps.checkStatusCode(400);
     }
 
 }

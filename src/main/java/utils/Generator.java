@@ -6,29 +6,17 @@ import com.github.javafaker.Faker;
 
 public class Generator {
     public static void main(String[] args) {
-/*
-        Integer a = new Integer(5);
-        int b= 5;
-
-        System.out.println(a.equals(b));
-        System.out.println(a==b);
-*/
 
         Faker faker = new Faker();
         //System.out.println(faker.lorem().words(1));
-        System.out.println(faker.lorem().characters(48));
-
-        String a = new String("123");
-        String b = new String("123");
-
-        System.out.println(a.equals(b));
-
+        //System.out.println(faker.lorem().characters(48));
+        System.out.println(getRandomTextField("aa"));
     }
 
     public static String getRandomTextField(String field){
-        long unixTime = System.currentTimeMillis();
-
-        return field + "Auto" +unixTime;
+        Faker faker = new Faker();
+        Long timeStamp = System.nanoTime();
+        return "TA"  + field + timeStamp.toString().substring(7);
     }
 
     public static String getRandomEmail(){
@@ -49,13 +37,20 @@ public class Generator {
 
     public static String getRandomText(int numberSymbols){
         Faker faker = new Faker();
-        return faker.lorem().characters(numberSymbols);
+        String a  = faker.stock().nyseSymbol();
+        if(a.length() < numberSymbols){
+            return "TA " + a + " " + faker.lorem().characters(numberSymbols-a.length());
+        }
+        else return "TA " + a;
     }
 
     public static String getRandomTextRandomLength(int maxNumberSymbols){
         Faker faker = new Faker();
-        Random rand = new Random();
-        return faker.lorem().characters(1 + rand.nextInt(maxNumberSymbols));
+        String a  = faker.stock().nyseSymbol();
+        if(a.length() < maxNumberSymbols){
+            return "TA " + a + " " + faker.lorem().characters(1, maxNumberSymbols-a.length());
+        }
+        else return "TA " + a;
     }
 
     public static String getTable(String cell){

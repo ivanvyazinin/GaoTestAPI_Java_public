@@ -7,14 +7,14 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
 @Feature("Content Items")
-public class ContentItemsTest extends CommonCloudTest {
+public class ContentItemsTest extends SuperTest {
     private CommonSteps steps;
 
     private ContentItem testContentItem;
@@ -26,7 +26,7 @@ public class ContentItemsTest extends CommonCloudTest {
 
     @BeforeMethod
     public void prepareEntity(){
-        testContentItem = new ContentItem(FOLDER_FOR_TESTS);
+        testContentItem = new ContentItem(context.getTestFolder());
     }
 
 
@@ -70,11 +70,11 @@ public class ContentItemsTest extends CommonCloudTest {
     public void moveContentItem() {
         testContentItem = steps.createEntity(
                 new ContentItem(ROOT_FOLDER));
-        testContentItem.parentFolder = FOLDER_FOR_TESTS;
+        testContentItem.parentFolder = context.getTestFolder();
 
         steps.editEntity(testContentItem);
         steps.checkStatusCode(200);
-        steps.checkThatBodyHasValue(FOLDER_FOR_TESTS);
+        steps.checkThatBodyHasValue(context.getTestFolder());
     }
 
     @Test(dependsOnMethods = "createContentItem")
@@ -83,10 +83,10 @@ public class ContentItemsTest extends CommonCloudTest {
         testContentItem = steps.createEntity(
                 new ContentItem(ROOT_FOLDER));
 
-        testContentItem.parentFolder = FOLDER_FOR_TESTS;
+        testContentItem.parentFolder = context.getTestFolder();
         steps.createEntity(testContentItem);
 
-        testContentItem.parentFolder = FOLDER_FOR_TESTS;
+        testContentItem.parentFolder = context.getTestFolder();
         steps.editEntity(testContentItem);
         steps.checkStatusCode(400);
         steps.checkThatJsonContains(ERROR_RESOURCE_ALREADY_EXISTS,PATH_ERROR);

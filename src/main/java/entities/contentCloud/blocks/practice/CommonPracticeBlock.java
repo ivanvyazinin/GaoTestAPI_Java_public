@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import main.java.entities.contentCloud.blocks.ReusableBlock;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CommonPracticeBlock extends ReusableBlock {
+public abstract class CommonPracticeBlock extends ReusableBlock {
     public Boolean showCorrectAnswer;
     public int attempts;
     public Scoring scoring;

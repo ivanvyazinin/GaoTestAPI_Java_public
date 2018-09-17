@@ -1,36 +1,36 @@
 package main.java.steps.blocks;
 
-import main.java.api.contentCloud.blocks.CommonBlocsAPI;
-import main.java.entities.contentCloud.blocks.ReusableBlock;
+import main.java.api.contentCloud.GroupOfBlocksAPI;
 import main.java.entities.contentCloud.blocks.practice.JoinSentencePicture;
-import main.java.entities.contentCloud.folderItems.Folder;
 import main.java.steps.CommonSteps;
 import main.java.steps.FilesSteps;
 
-import static main.java.properties.Context.FILE_PATH_IMAGE;
+import java.util.List;
+
+import static main.java.properties.Constants.FILE_PATH_IMAGE;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
 public class BlockSteps extends CommonSteps {
-    public CommonBlocsAPI blockBlocsAPI;
+    public CommonSteps steps;
 
-    public <T extends ReusableBlock> T getReusableBlock(T block) {
-        blockBlocsAPI = new CommonBlocsAPI(block.getUrl());
-        block.reusable = true;
-        block.name = getRandomText(11);
-
-        block.id = blockBlocsAPI.post(block).jsonPath().getObject("data", block.getClass()).id;
-        return block;
-    }
-
-    public JoinSentencePicture getJoinSentencePictureBlock(Folder folder, String level){
+    public JoinSentencePicture getJoinSentencePictureBlock(String folderId, String level){
         FilesSteps filesSteps = new FilesSteps();
+        steps = new CommonSteps();
         JoinSentencePicture testBlock = new JoinSentencePicture(getRandomTextRandomLength(512));
         testBlock.addItem(filesSteps.uploadFile(FILE_PATH_IMAGE));
         testBlock.addItem(filesSteps.uploadFile(FILE_PATH_IMAGE));
-        testBlock.setParentFolder(folder);
+        testBlock.setFolder(folderId);
         testBlock.level = level;
-        getReusableBlock(testBlock);
+        testBlock.reusable = true;
+        testBlock.name = getRandomText(11);
+        testBlock = steps.createEntity(testBlock);
         return testBlock;
+    }
+
+    public List<String> getScreensOfGroupBlocks(String groupOfBlocksId){
+        GroupOfBlocksAPI groupOfBlocksAPI = new GroupOfBlocksAPI();
+        response = groupOfBlocksAPI.getScreens(groupOfBlocksId);
+        return response.jsonPath().getList("data.items", String.class);
     }
 }

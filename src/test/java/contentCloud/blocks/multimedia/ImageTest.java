@@ -6,11 +6,11 @@ import main.java.steps.FilesSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
-import static main.java.properties.Context.FILE_PATH_IMAGE;
+import static main.java.properties.Constants.FILE_PATH_IMAGE;
 
-public class ImageTest extends CommonCloudTest {
+public class ImageTest extends SuperTest {
     private CommonSteps steps;
     private FilesSteps filesSteps;
     private Image testImage;
@@ -35,5 +35,22 @@ public class ImageTest extends CommonCloudTest {
 
         steps.getEntity(testImage);
         steps.checkThatBodyHasValue(",\"status\":5");
+    }
+
+    @Test
+    public void createImageBlockWithoutCaption(){
+        testImage.files.add(filesSteps.uploadFile(FILE_PATH_IMAGE));
+        testImage.captionText = null;
+        testImage = steps.createEntity(testImage);
+        steps.checkStatusCode(201);
+
+        steps.getEntity(testImage);
+        steps.checkThatBodyHasValue(",\"status\":5");
+    }
+
+    @Test
+    public void createImageBlockWithoutFile(){
+        testImage = steps.createEntity(testImage);
+        steps.checkStatusCode(400);
     }
 }

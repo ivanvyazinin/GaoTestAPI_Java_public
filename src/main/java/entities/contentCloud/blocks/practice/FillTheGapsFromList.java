@@ -1,15 +1,20 @@
 package main.java.entities.contentCloud.blocks.practice;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.java.properties.Endpoints.*;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
 public class FillTheGapsFromList extends CommonPracticeBlock {
     public String task;
     public String text;
     public Boolean mixAnswers;
     public List<Gap> gaps;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_PRACTICE + ENDPOINT_BLOCK_FILL_GAPS;
 
     public FillTheGapsFromList(){
         this.task = getRandomTextRandomLength(512);
@@ -38,4 +43,8 @@ public class FillTheGapsFromList extends CommonPracticeBlock {
         }
     }
 
+    @Override
+    public String getUrl() {
+        return this.url;
+    }
 }

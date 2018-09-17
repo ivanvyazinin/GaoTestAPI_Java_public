@@ -7,8 +7,9 @@ import main.java.entities.contentCloud.blocks.ReusableBlock;
 
 import java.util.ArrayList;
 
-public class MultimediaBlock extends ReusableBlock {
+public abstract class MultimediaBlock extends ReusableBlock {
     public ArrayList<String> files;
+    public String captionText;
 
     @JsonSetter("files")
     public void setFiles(ArrayList<File> files){

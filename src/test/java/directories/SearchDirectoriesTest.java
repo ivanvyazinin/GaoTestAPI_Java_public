@@ -1,104 +1,152 @@
 package test.java.directories;
 
-import main.java.steps.directories.CommonDirectorySteps;
+import main.java.entities.directories.*;
+import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
-import static main.java.properties.Endpoints.*;
-
 public class SearchDirectoriesTest extends SuperTest {
-    CommonDirectorySteps directorySteps;
+    private CommonSteps steps;
 
     @BeforeClass
     public void prepare(){
-        directorySteps = new CommonDirectorySteps();
+        steps = new CommonSteps();
     }
 
     @Test
     public void searchEQF(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_EQF, "EQF1");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","EQF1"},
+        });
+
+        steps.getEntites(Eqf.class, Eqf.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void partialSearchEQF(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_EQF, "EQF");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkThatBodyHasValue("EQF1");
+        steps.api.setRequestParameters(new String[][] {
+                {"search","EQF"},
+        });
+
+        steps.getEntites(Eqf.class, Eqf.url);
+        steps.checkStatusCode(200);
+        steps.checkThatBodyHasValue("EQF1");
     }
 
     @Test
     public void searchLevel(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_LEVEL, "A");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","A"},
+        });
+
+        steps.getEntites(Level.class, Level.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void NothingFoundSearchLevel(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_LEVEL, "ASD");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(0);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","ASD"},
+        });
+
+        steps.getEntites(Level.class, Level.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(0);
     }
 
     @Test
     public void searchLicence(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_LICENCE, "Public Domain");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Public Domain"},
+        });
+
+        steps.getEntites(Licence.class, Licence.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void searchLicenceByDescription(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_LICENCE, "Public Domain Items");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(0);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Public Domain Items"},
+        });
+
+        steps.getEntites(Licence.class, Licence.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(0);
     }
 
     @Test
     public void searchLanguage(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_LANGUAGE, "Russian");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Russian"},
+        });
+
+        steps.getEntites(Language.class, Language.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void searchSkill(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_SKILL, "Leadership");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Leadership"},
+        });
+
+        steps.getEntites(Skill.class, Skill.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void searchFunctionalZones(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_ZONES, "Managing");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Managing"},
+        });
+
+        steps.getEntites(Zone.class, Zone.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
     }
 
     @Test
     public void searchIscoName(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_ISCO, "Government social benefits official");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
-        directorySteps.checkThatJsonContains("3443","data.items[0].code");
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Government social benefits official"},
+        });
+
+        steps.getEntites(Isco.class, Isco.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
+        steps.checkThatJsonContains("3443","data.items[0].code");
     }
 
     @Test
     public void searchIscoCode(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_ISCO, "3443");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkItemsNumberInResponse(1);
-        directorySteps.checkThatJsonContains("Government social benefits official","data.items[0].name");
+        steps.api.setRequestParameters(new String[][] {
+                {"search","3443"},
+        });
+
+        steps.getEntites(Isco.class, Isco.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
+        steps.checkThatJsonContains("Government social benefits official","data.items[0].name");
     }
 
     @Test
     public void searchStudy(){
-        directorySteps.searchIntoDirectory(ENDPOINT_DIRECTORY_STUDY, "history");
-        directorySteps.checkStatusCode(200);
-        directorySteps.checkThatBodyHasValue("\"level\":2");
-        directorySteps.checkThatBodyHasValue("\"level\":1");
+        steps.api.setRequestParameters(new String[][] {
+                {"search","Economic history"},
+        });
+
+        steps.getEntites(Study.class, Study.url);
+        steps.checkStatusCode(200);
+        steps.checkItemsNumberInResponse(1);
+        steps.checkThatBodyHasValue("\"level\":2");
+        steps.checkThatBodyHasValue("\"level\":1");
     }
 }

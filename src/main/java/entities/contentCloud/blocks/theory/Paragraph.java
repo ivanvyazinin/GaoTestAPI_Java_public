@@ -18,6 +18,7 @@ public class Paragraph extends ReusableBlock {
     }
 
     public Paragraph(){
+        this.paragraph=getRandomTextField("Paragraph");
         this.type=3;
     }
     @Override

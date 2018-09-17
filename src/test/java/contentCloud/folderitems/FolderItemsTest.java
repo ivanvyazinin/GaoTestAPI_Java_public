@@ -9,13 +9,12 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import main.java.steps.FolderSteps;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
 
 @Feature("Folder items")
-public class FolderItemsTest extends CommonCloudTest {
+public class FolderItemsTest extends SuperTest {
     private CommonSteps steps;
     private FolderSteps folderSteps;
 
@@ -36,7 +35,7 @@ public class FolderItemsTest extends CommonCloudTest {
     @Story("Folder contains folder, CI and Screen. Get items")
     public void getItemsOfFolder() {
         Folder testFolder = steps.createEntity(
-                new Folder(FOLDER_FOR_TESTS));
+                new Folder(context.getTestFolder()));
 
         steps.createEntity(new Folder(testFolder.id));
         steps.createEntity(new Screen(testFolder.id));

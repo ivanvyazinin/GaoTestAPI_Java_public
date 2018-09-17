@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import main.java.entities.AbstractEntity;
-import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.directories.AbstractDirectory;
 
 import java.util.ArrayList;

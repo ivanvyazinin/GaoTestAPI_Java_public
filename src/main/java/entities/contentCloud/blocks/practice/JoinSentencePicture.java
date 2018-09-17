@@ -18,7 +18,7 @@ public class JoinSentencePicture extends CommonPracticeBlock {
     public ArrayList<Sentence> sentences;
 
     @JsonIgnore
-    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_PRACTICE + ENDPOINT_JOIN_SENTENCE_PICTURE;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_PRACTICE + ENDPOINT_BLOCK_JOIN_SENTENCE_PICTURE;
 
     public JoinSentencePicture(){
     }

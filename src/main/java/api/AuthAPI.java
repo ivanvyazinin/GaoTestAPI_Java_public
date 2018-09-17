@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 
 import static io.restassured.RestAssured.given;
-import static main.java.properties.Context.*;
+import static main.java.properties.Constants.*;
 import static main.java.properties.Endpoints.API_AUTH_PREFIX;
 import static main.java.properties.Endpoints.API_PREFIX;
 

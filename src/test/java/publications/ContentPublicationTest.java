@@ -9,13 +9,13 @@ import main.java.steps.ContentItemSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
-import static main.java.utils.Lists.getRandomItem;
 
-public class ContentPublicationTest extends SuperPublicationTest {
+public class ContentPublicationTest extends SuperTest {
     private CommonSteps steps;
     private ContentItem testContentItem;
     private ContentPublication testContentPublication;
@@ -27,7 +27,7 @@ public class ContentPublicationTest extends SuperPublicationTest {
         testContentItem = contentItemSteps.getCIWithValidConstructor(
                 new ContentItem(ROOT_FOLDER),
                 new Screen(ROOT_FOLDER),
-                new Paragraph(ROOT_FOLDER, getRandomItem(level).id));
+                new Paragraph(ROOT_FOLDER, context.getLevel()));
     }
 
     @BeforeMethod
@@ -35,14 +35,14 @@ public class ContentPublicationTest extends SuperPublicationTest {
         testContentPublication = new ContentPublication();
         testContentPublication.name = getRandomTextField("publication name");
         testContentPublication.description = getRandomTextField("publication description");
-        testContentPublication.eqf = getRandomItem(eqf).id;
-        testContentPublication.level = getRandomItem(level).id;
-        testContentPublication.language = getRandomItem(language).id;
-        testContentPublication.zone = getRandomItem(functionalZone).id;
-        testContentPublication.license = getRandomItem(license).id;
-        testContentPublication.isco.add(getRandomItem(isco).id);
-        testContentPublication.skills.add(getRandomItem(skill).id);
-        testContentPublication.studies.add(getRandomItem(fieldsOfStudy).id);
+        testContentPublication.eqf = context.getEqf();
+        testContentPublication.level = context.getLevel();
+        testContentPublication.language = context.getLanguage();
+        testContentPublication.zone = context.getZone();
+        testContentPublication.license = context.getLicence();
+        testContentPublication.isco.add(context.getIsco());
+        testContentPublication.skills.add(context.getSkill());
+        testContentPublication.studies.add(context.getStudy());
         testContentPublication.contentItems.add(testContentItem.id);
     }
 

@@ -9,34 +9,30 @@ import main.java.entities.contentCloud.folderItems.Screen;
 import main.java.steps.CommonSteps;
 import main.java.steps.ContentItemSteps;
 import main.java.steps.ScreenSteps;
-import main.java.steps.blocks.BlockSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.*;
-import static main.java.properties.Context.FOLDER_FOR_TESTS;
-import static main.java.utils.Lists.getRandomItem;
 
-public class FoldersTest extends CommonCloudTest {
+public class FoldersTest extends SuperTest {
     private CommonSteps steps;
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;
-    private BlockSteps blockSteps;
     private Folder testFolder;
 
     @BeforeClass
     public void prepareSteps(){
         screenSteps = new ScreenSteps();
         contentItemSteps = new ContentItemSteps();
-        blockSteps = new BlockSteps();
 
         steps = new CommonSteps();
     }
 
     @BeforeMethod
     public void prepareEntity(){
-        testFolder = new Folder(FOLDER_FOR_TESTS);
+        testFolder = new Folder(context.getTestFolder());
     }
 
     @Test
@@ -72,7 +68,7 @@ public class FoldersTest extends CommonCloudTest {
     public void moveFolder() {
         testFolder = steps.createEntity(testFolder);
         Folder destination = steps.createEntity(
-                new Folder(FOLDER_FOR_TESTS));
+                new Folder(context.getTestFolder()));
 
         testFolder.parentFolder = destination.id;
         steps.editEntity(testFolder);
@@ -86,7 +82,8 @@ public class FoldersTest extends CommonCloudTest {
         steps.checkStatusCode(200);
     }
 
-    //@Test(groups = "Slow")
+    //TODO fix createFiftyFoldersv2
+   // @Test(groups = "Slow")
     @Story("Create folder")
     @Description("Cannot create a hierarchy with 51 folder")
     public void createFiftyFoldersv2() {
@@ -124,8 +121,7 @@ public class FoldersTest extends CommonCloudTest {
                 new Screen(testFolder.id));
         steps.createEntity(
                 new ContentItem(testFolder.id));
-        blockSteps.getReusableBlock(
-                new Paragraph(testFolder.id, getRandomItem(level).id));
+        steps.createEntity(new Paragraph(testFolder.id, context.getLevel()));
 
         steps.deleteEntity(testFolder);
         steps.checkStatusCode(204);
@@ -138,7 +134,7 @@ public class FoldersTest extends CommonCloudTest {
         testFolder = steps.createEntity(testFolder);
         screenSteps.getScreenWithBlock(
                 new Screen(testFolder.id),
-                new Paragraph(testFolder.id, getRandomItem(level).id));
+                new Paragraph(testFolder.id, context.getLevel()));
 
         steps.deleteEntity(testFolder);
         steps.checkStatusCode(400);

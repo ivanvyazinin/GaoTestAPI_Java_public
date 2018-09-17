@@ -7,12 +7,12 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
-public class ObjectiveTest extends CommonCloudTest {
+public class ObjectiveTest extends SuperTest {
     private CommonSteps steps;
     private CourseObjectives courseObjectives;
 

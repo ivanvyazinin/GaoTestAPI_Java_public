@@ -6,7 +6,7 @@ import main.java.entities.contentCloud.folderItems.Folder;
 
 import static main.java.utils.Generator.getRandomText;
 
-public class ReusableBlock extends AbstractBlock{
+public abstract class ReusableBlock extends AbstractBlock{
     @JsonInclude(Include.NON_NULL)
     public String name;
     @JsonInclude(Include.NON_NULL)
@@ -35,14 +35,15 @@ public class ReusableBlock extends AbstractBlock{
         else this.parentFolder = folder.id;
     }
 
+    public void setFolder(String folderId){
+        this.parentFolder = folderId;
+    }
+
     @JsonGetter("parentFolder")
     public String getParentFolder(){
         return parentFolder;
     }
 
-    //TODO make method and class abstract
     @Override
-    public String getUrl() {
-        return this.url;
-    }
+    public abstract String getUrl();
 }

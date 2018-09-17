@@ -26,15 +26,15 @@ public class Endpoints {
     public static String ENDPOINT_BLOCK_TABLE ="table";
 
     public static String ENDPOINT_BLOCKS_PRACTICE="/practice/";
-    public static String ENDPOINT_SELECT_CORRECT_OPTION ="select_correct_option";
-    public static String ENDPOINT_SELECT_CORRECT_OPTION_AFTER_READING ="select_correct_option_after_reading";
-    public static String ENDPOINT_FILL_GAPS ="fill_gaps_from_list";
-    public static String ENDPOINT_CATEGORIZE_WORDS ="categorize_word";
-    public static String ENDPOINT_STATEMENT ="rank_statement";
-    public static String ENDPOINT_ANSWER ="answer";
-    public static String ENDPOINT_QUESTIONNARIE ="questionnaire";
-    public static String ENDPOINT_MARK_STATEMENTS ="block_mark_statements_true_or_falses";
-    public static String ENDPOINT_JOIN_SENTENCE_PICTURE ="join_sentence_picture";
+    public static String ENDPOINT_BLOCK_SELECT_CORRECT_OPTION ="select_correct_option";
+    public static String ENDPOINT_BLOCK_SELECT_CORRECT_OPTION_AFTER_READING ="select_correct_option_after_reading";
+    public static String ENDPOINT_BLOCK_FILL_GAPS ="fill_gaps_from_list";
+    public static String ENDPOINT_BLOCK_CATEGORIZE_WORDS ="categorize_word";
+    public static String ENDPOINT_BLOCK_STATEMENT ="rank_statement";
+    public static String ENDPOINT_BLOCK_ANSWER ="answer";
+    public static String ENDPOINT_BLOCK_QUESTIONNARIE ="questionnaire";
+    public static String ENDPOINT_BLOCK_MARK_STATEMENTS ="block_mark_statements_true_or_falses";
+    public static String ENDPOINT_BLOCK_JOIN_SENTENCE_PICTURE ="join_sentence_picture";
 
     public static String ENDPOINT_BLOCKS_STRUCTURE="/structure/";
     public static String ENDPOINT_BLOCK_COURSE_OBJETIVES ="objective";

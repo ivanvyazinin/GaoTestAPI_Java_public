@@ -6,10 +6,10 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
 @Feature("Theory Blocks")
-public class TitlesTest extends CommonCloudTest {
+public class TitlesTest extends SuperTest {
     private CommonSteps steps;
     private Title title;
 

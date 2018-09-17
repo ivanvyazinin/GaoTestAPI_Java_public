@@ -8,14 +8,14 @@ import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.java.contentCloud.CommonCloudTest;
+import test.java.SuperTest;
 
 import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
 @Feature("Theory Blocks")
-public class BulletListTest extends CommonCloudTest {
+public class BulletListTest extends SuperTest {
     private CommonSteps steps;
     private BulletList bulletList;
 

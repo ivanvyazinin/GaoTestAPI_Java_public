@@ -1,13 +1,18 @@
 package main.java.entities.contentCloud.blocks.practice;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.java.properties.Endpoints.*;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
+@JsonIgnoreProperties(ignoreUnknown = true, value={ "url"}, allowSetters= true)
 public class SelectCorrectOptionAfterReadingText extends SelectCorrectOption {
     public String text;
     public List<QuestionsWithAnswer> questionsWithAnswers;
+    public static String url = ENDPOINT_BLOCKS + ENDPOINT_BLOCKS_PRACTICE + ENDPOINT_BLOCK_SELECT_CORRECT_OPTION_AFTER_READING;
 
     public SelectCorrectOptionAfterReadingText(){
         this.task = getRandomTextRandomLength(512);
@@ -32,5 +37,9 @@ public class SelectCorrectOptionAfterReadingText extends SelectCorrectOption {
             answers.add(new SelectCorrectOption.Answer());
             answers.add(new SelectCorrectOption.Answer());
         }
+    }
+    @Override
+    public String getUrl() {
+        return this.url;
     }
 }
