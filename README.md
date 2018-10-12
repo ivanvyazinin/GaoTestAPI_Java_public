@@ -1,4 +1,4 @@
-# Automated tests for gaozhiyuan_api 
+# Automated tests for api 
 
 **Run:**<br>
 Requires Java 8 and maven 3.5<br><br>
