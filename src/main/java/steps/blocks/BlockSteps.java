@@ -1,6 +1,7 @@
 package main.java.steps.blocks;
 
 import main.java.api.contentCloud.GroupOfBlocksAPI;
+import main.java.core.Context;
 import main.java.entities.contentCloud.blocks.practice.JoinSentencePicture;
 import main.java.steps.CommonSteps;
 import main.java.steps.FilesSteps;
@@ -14,14 +15,14 @@ import static main.java.utils.Generator.getRandomTextRandomLength;
 public class BlockSteps extends CommonSteps {
     public CommonSteps steps;
 
-    public JoinSentencePicture getJoinSentencePictureBlock(String folderId, String level){
+    public JoinSentencePicture getJoinSentencePictureBlock(String folderId, Context context){
         FilesSteps filesSteps = new FilesSteps();
         steps = new CommonSteps();
         JoinSentencePicture testBlock = new JoinSentencePicture(getRandomTextRandomLength(512));
-        testBlock.addItem(filesSteps.uploadFile(FILE_PATH_IMAGE));
-        testBlock.addItem(filesSteps.uploadFile(FILE_PATH_IMAGE));
+        testBlock.addItem(filesSteps.uploadFileWithLicense(FILE_PATH_IMAGE, context));
+        testBlock.addItem(filesSteps.uploadFileWithLicense(FILE_PATH_IMAGE, context));
         testBlock.setFolder(folderId);
-        testBlock.level = level;
+        testBlock.level = context.getLevel();
         testBlock.reusable = true;
         testBlock.name = getRandomText(11);
         testBlock = steps.createEntity(testBlock);

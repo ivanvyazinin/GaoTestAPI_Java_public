@@ -1,5 +1,8 @@
 package test.java.contentCloud.blocks;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.GroupOfBlocks;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
 import main.java.entities.contentCloud.folderItems.ContentItem;
@@ -15,6 +18,8 @@ import test.java.SuperTest;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
+@Epic("Content Cloud")
+@Feature("Editor creates and works with Group of blocks")
 public class GroupOfBlocksTest extends SuperTest {
     private CommonSteps steps;
     private ContentItemSteps contentItemSteps;
@@ -40,6 +45,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createEmptyGroupOfBlocks(){
         testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
@@ -50,6 +56,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksWithBlocks(){
         ContentItem testContentItem = contentItemSteps.getCIWithValidConstructor(
                 new ContentItem(context.getTestFolder()),
@@ -68,6 +75,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksWithoutDescription(){
         testGroupOfBlocks.description = null;
 
@@ -76,6 +84,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksWithSameName(){
         steps.createEntity(testGroupOfBlocks);
         steps.createEntity(testGroupOfBlocks);
@@ -83,6 +92,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksTooLongName(){
         testGroupOfBlocks.name = getRandomText(161);
 
@@ -91,6 +101,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksTooLongDescription(){
         testGroupOfBlocks.description = getRandomText(1025);
 
@@ -99,6 +110,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     public void createGroupOfBlocksWithBlockNotFromCI(){
         testGroupOfBlocks.blocks.add(steps.createEntity(
                 new Paragraph()).id);
@@ -107,6 +119,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor edits a Group of blocks")
     public void editGroupOfBlocks(){
         testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);
@@ -117,6 +130,7 @@ public class GroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor deletes a Group of blocks")
     public void deleteGroupOfBlocks(){
         testGroupOfBlocks = steps.createEntity(testGroupOfBlocks);
         steps.checkStatusCode(201);

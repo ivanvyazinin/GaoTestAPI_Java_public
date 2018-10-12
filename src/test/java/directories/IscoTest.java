@@ -1,5 +1,8 @@
 package test.java.directories;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.directories.Isco;
 import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
@@ -12,6 +15,9 @@ import static main.java.utils.Generator.getRandomIscoCode;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
+@Epic("Editor works with directories")
+@Feature("CRUD for Directories")
+@Story("CRUD for Isco Directory")
 public class IscoTest extends SuperTest {
     private CommonSteps steps;
     private Isco testIsco;

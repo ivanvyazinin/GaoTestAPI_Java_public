@@ -1,5 +1,8 @@
 package test.java.directories;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.directories.*;
 import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
@@ -8,6 +11,9 @@ import test.java.SuperTest;
 
 import static main.java.properties.Constants.PATH_COUNT;
 
+@Epic("Editor works with directories")
+@Feature("CRUD for Directories")
+@Story("Check availability of all directories and content of system Directories")
 public class GetAllDirectoriesTest extends SuperTest {
     private CommonSteps steps;
 
@@ -20,7 +26,12 @@ public class GetAllDirectoriesTest extends SuperTest {
     public void getLevels(){
         steps.getEntites(Level.class,Level.url);
         steps.checkStatusCode(200);
-        steps.checkThatJsonContains(8, PATH_COUNT);
+        steps.checkThatBodyHasValue("\"name\":\"None\"");
+        steps.checkThatBodyHasValue("\"name\":\"A\"");
+        steps.checkThatBodyHasValue("\"name\":\"B\"");
+        steps.checkThatBodyHasValue("\"name\":\"C\"");
+        steps.checkThatBodyHasValue("\"name\":\"D\"");
+        steps.checkThatBodyHasValue("\"name\":\"E\"");
         }
 
     @Test

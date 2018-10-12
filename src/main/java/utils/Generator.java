@@ -15,14 +15,15 @@ public class Generator {
 
     public static String getRandomTextField(String field){
         Faker faker = new Faker();
+        String a  = faker.stock().nyseSymbol().replace(" ", "");
         Long timeStamp = System.nanoTime();
-        return "TA"  + field + timeStamp.toString().substring(7);
+        return field + a + timeStamp.toString().substring(7) + "TA";
     }
 
-    public static String getRandomEmail(){
+    public static String getRandomEmail(String mark){
         long unixTime = System.currentTimeMillis();
 
-        return unixTime + "@autotest.com";
+        return mark + unixTime + "@autotest.com";
     }
 
     public static int getRandomCoordinate(){
@@ -37,20 +38,20 @@ public class Generator {
 
     public static String getRandomText(int numberSymbols){
         Faker faker = new Faker();
-        String a  = faker.stock().nyseSymbol();
+        String a  = faker.stock().nyseSymbol().replace(" ", "");
         if(a.length() < numberSymbols){
-            return "TA " + a + " " + faker.lorem().characters(numberSymbols-a.length());
+            return a + " " + faker.lorem().characters(numberSymbols-a.length()-3) + "TA";
         }
-        else return "TA " + a;
+        else return a + "TA ";
     }
 
     public static String getRandomTextRandomLength(int maxNumberSymbols){
         Faker faker = new Faker();
-        String a  = faker.stock().nyseSymbol();
+        String a  = faker.stock().nyseSymbol().replace(" ", "");
         if(a.length() < maxNumberSymbols){
-            return "TA " + a + " " + faker.lorem().characters(1, maxNumberSymbols-a.length());
+            return a + " " + faker.lorem().characters(1, maxNumberSymbols-a.length()-3) + "TA";
         }
-        else return "TA " + a;
+        else return a + "TA";
     }
 
     public static String getTable(String cell){

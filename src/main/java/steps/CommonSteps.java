@@ -3,14 +3,16 @@ package main.java.steps;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import main.java.api.CommonAPI;
+import main.java.api.contentCloud.TagsAPI;
 import main.java.entities.AbstractEntity;
+import main.java.entities.contentCloud.Tag;
+
 import java.util.List;
 
 import static main.java.properties.Endpoints.API_PREFIX;
 import static main.java.properties.Endpoints.ENDPOINT_BLOCKS;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-
 
 public class CommonSteps {
     public Response response;
@@ -72,6 +74,20 @@ public class CommonSteps {
         return (T) response.jsonPath().getObject("data", entity.getClass());
     }
 
+    @Step("Adding the tag to {'entity'}")
+    public <T extends AbstractEntity> Tag addTag(T entity, String resource, Tag tag){
+        TagsAPI tagsAPI = new TagsAPI();
+        response = tagsAPI.addTag(resource, entity.id, tag);
+        return response.jsonPath().getObject("data", Tag.class);
+    }
+
+    @Step("Delete the tag from {'entity'}")
+    public <T extends AbstractEntity> void deleteTag(T entity, String resource, Tag tag){
+        TagsAPI tagsAPI = new TagsAPI();
+        response = tagsAPI.deleteTag(resource, entity.id, tag.id);
+    }
+
+
     @Step("Comparing status code. Expected: '{statusCodeExpected}'")
     public void checkStatusCode(int statusCodeExpected) {
         assertEquals(response.statusCode(), statusCodeExpected);
@@ -79,7 +95,13 @@ public class CommonSteps {
 
     @Step("Check, that response body contains value: '{expectedValue}'")
     public void checkThatBodyHasValue(String expectedValue) {
-        assertTrue(response.asString().contains(expectedValue));
+        try {
+            assertTrue(response.asString().contains(expectedValue));
+        } catch (AssertionError e) {
+            System.out.println("Expected to found: " + expectedValue);
+            System.out.println("Response: " + response.asString());
+            throw e;
+        }
     }
 
     @Step("Check, that response body doesn't contains value: '{expectedValue}'")
@@ -95,10 +117,5 @@ public class CommonSteps {
     @Step("Check, that response contains certain number of items: '{expectedValue}'")
     public void checkItemsNumberInResponse(Object expectedValue){
         assertEquals(response.jsonPath().getList("data.items").size(), expectedValue);
-    }
-
-    @Step("Check, that response contains certain number of items: '{expectedValue}'")
-    public void checkSizeOfList(Object expectedValue, String jsonPath){
-        assertEquals(response.jsonPath().get(jsonPath), expectedValue);
     }
 }

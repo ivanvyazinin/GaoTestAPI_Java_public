@@ -23,7 +23,9 @@ public class TypeTheAnswer extends CommonPracticeBlock {
         this.attempts = 2;
         this.answers = new ArrayList<>();
         this.scoring = new Scoring();
+        this.type=9;
     }
+
     @Override
     public String getUrl() {
         return this.url;

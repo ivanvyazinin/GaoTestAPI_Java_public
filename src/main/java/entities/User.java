@@ -23,7 +23,7 @@ public class User extends AbstractEntity{
 
     public User(String role){
         roles = new ArrayList<>();
-        email=getRandomEmail();
+        email=getRandomEmail("");
         password=getRandomText(48);
         lastName=getRandomTextRandomLength(160);
         firstName=getRandomTextRandomLength(160);
@@ -37,8 +37,6 @@ public class User extends AbstractEntity{
     public User(){
 
     }
-
-
 }
 
 

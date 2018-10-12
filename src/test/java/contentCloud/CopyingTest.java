@@ -1,5 +1,8 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.practice.JoinSentencePicture;
 import main.java.entities.contentCloud.constructor.Item;
 import main.java.entities.contentCloud.folderItems.ContentItem;
@@ -13,6 +16,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
+@Epic("Content Cloud")
+@Feature("Editor copies stuff")
 public class CopyingTest extends SuperTest {
     private BlockSteps blockSteps;
     private ScreenSteps screenSteps;
@@ -33,6 +38,7 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies block in a folder")
     public void copyReusableBlock() {
         Paragraph paragraph = steps.createEntity(
                 new Paragraph(context.getTestFolder(), context.getLevel()));
@@ -43,8 +49,9 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies block in a folder")
     public void copyJoinPictureAndSentenceBlock() {
-        JoinSentencePicture testBlock = blockSteps.getJoinSentencePictureBlock(context.getTestFolder(), context.getLevel());
+        JoinSentencePicture testBlock = blockSteps.getJoinSentencePictureBlock(context.getTestFolder(), context);
         JoinSentencePicture testBlockCopy = steps.copyEntity(testBlock, destinationFolder.id);
         steps.checkStatusCode(200);
         steps.checkThatBodyHasNotValue(testBlock.id);
@@ -53,6 +60,7 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies screen")
     public void copyScreen(){
         Screen originalScreen = steps.createEntity(
                 new Screen(context.getTestFolder()));
@@ -63,6 +71,7 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies screen")
     public void copyScreenWithSimpleBlock(){
         Screen originalScreen = screenSteps.getScreenWithBlock(
                 new Screen(context.getTestFolder()), new Title());
@@ -74,11 +83,12 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies screen")
     public void copyScreenWithReusableBlock(){
         Paragraph paragraph = new Paragraph(context.getTestFolder(), context.getLevel());
         Screen originalScreen = screenSteps.getScreenWithBlock(
                 new Screen(context.getTestFolder()), paragraph);
-        paragraph.id = screenSteps.getScreenBlocks(originalScreen).items.get(0).id;
+        paragraph.id = screenSteps.getScreenBlocks(originalScreen).getItem(0).id;
 
         Screen screenCopy = steps.copyEntity(originalScreen, destinationFolder.id);
         screenSteps.getScreenBlocks(screenCopy);
@@ -88,6 +98,7 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies content item")
     public void copyContentItem(){
         ContentItem originalContentItem = steps.createEntity(new ContentItem(context.getTestFolder()));
         steps.copyEntity(originalContentItem,destinationFolder.id);
@@ -97,11 +108,12 @@ public class CopyingTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor copies content item")
     public void copyContentItemWithScreenAndBlock(){
         Paragraph paragraph = new Paragraph(context.getTestFolder(), context.getLevel());
         Screen originalScreen = screenSteps.getScreenWithBlock(
                 new Screen(context.getTestFolder()), paragraph);
-        paragraph.id = screenSteps.getScreenBlocks(originalScreen).items.get(0).id;
+        paragraph.id = screenSteps.getScreenBlocks(originalScreen).getItem(0).id;
 
         ContentItem originalContentItem = steps.createEntity(
                 new ContentItem(context.getTestFolder()));

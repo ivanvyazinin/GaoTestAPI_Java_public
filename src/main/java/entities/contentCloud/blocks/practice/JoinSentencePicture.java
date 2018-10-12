@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import main.java.entities.contentCloud.File;
+import main.java.entities.contentCloud.Files;
 
 import java.util.ArrayList;
 
@@ -43,9 +43,9 @@ public class JoinSentencePicture extends CommonPracticeBlock {
     }
 
     @JsonSetter("files")
-    public void setFiles(ArrayList<File> block_files){
-        files = new ArrayList<String>();
-        for (File file:block_files){
+    public void setFiles(ArrayList<Files> block_files){
+        files = new ArrayList<>();
+        for (Files file:block_files){
             this.files.add(file.id);
         }
     }

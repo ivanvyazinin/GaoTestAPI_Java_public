@@ -1,6 +1,7 @@
 package test.java.contentCloud.blocks.theory;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.theory.BulletList;
@@ -14,7 +15,9 @@ import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
-@Feature("Theory Blocks")
+@Epic("Content Cloud")
+@Feature("Editor adds Theory blocks to the screen")
+@Story("Editor adds Bullet List block")
 public class BulletListTest extends SuperTest {
     private CommonSteps steps;
     private BulletList bulletList;
@@ -30,7 +33,6 @@ public class BulletListTest extends SuperTest {
     }
 
     @Test
-    @Story("Create BulletList")
     @Description("Just create bulletList")
     public void createBulletList() {
         bulletList.bulletList.add(getRandomTextRandomLength(12));
@@ -39,7 +41,6 @@ public class BulletListTest extends SuperTest {
     }
 
     @Test
-    @Story("Create BulletList")
     @Description("Check, that you cannot create empty bulletList")
     public void createEmptyBulletList() {
         bulletList.bulletList.add("");
@@ -49,7 +50,6 @@ public class BulletListTest extends SuperTest {
     }
 
     @Test
-    @Story("Create BulletList")
     @Description("Check, that you cannot create bulletList with more then 1024 symbols")
     public void createBulletListWith16001Symbols() {
         bulletList.bulletList.add(getRandomText(16001));
@@ -71,7 +71,7 @@ public class BulletListTest extends SuperTest {
         steps.checkStatusCode(400);
     }
 
-    @Test
+    @Test (enabled = false)
     public void editBulletList() {
         bulletList.bulletList.add(getRandomText(10));
         bulletList = steps.createEntity(bulletList);

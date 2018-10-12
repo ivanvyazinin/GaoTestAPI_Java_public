@@ -1,6 +1,8 @@
 package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.practice.MarkStatementsTrueOrFalse;
 import main.java.steps.CommonSteps;
@@ -11,6 +13,9 @@ import test.java.SuperTest;
 
 import static main.java.utils.Generator.getRandomText;
 
+@Epic("Content Cloud")
+@Feature("Editor adds Practice blocks to the screen")
+@Story("Editor adds MarkStatementsTrueOrFalse block")
 public class MarkStatementsTrueOrFalseTest extends SuperTest {
     private CommonSteps steps;
     private MarkStatementsTrueOrFalse markStatementsTrueOrFalse;
@@ -26,7 +31,6 @@ public class MarkStatementsTrueOrFalseTest extends SuperTest {
     }
 
     @Test
-    @Story("Create MarkStatementsTrueOrFalse Block")
     @Description("Just create MarkStatementsTrueOrFalse Block")
     public void createMarkStatements() {
         markStatementsTrueOrFalse.statements.add(new MarkStatementsTrueOrFalse.Statement());
@@ -36,7 +40,6 @@ public class MarkStatementsTrueOrFalseTest extends SuperTest {
 
 
     @Test
-    @Story("Create MarkStatementsTrueOrFalse Block")
     @Description("Cannot create MarkStatementsTrueOrFalse Block with 513 symbols in Statement")
     public void createMarkStatementsWithStatementTooLong() {
         markStatementsTrueOrFalse.statements.add(new MarkStatementsTrueOrFalse.Statement(getRandomText(1025),true));
@@ -45,7 +48,6 @@ public class MarkStatementsTrueOrFalseTest extends SuperTest {
     }
 
     @Test
-    @Story("Create MarkStatementsTrueOrFalse Block")
     @Description("Cannot create MarkStatementsTrueOrFalse Block with 7 Statements")
     public void createMarkStatementsWithSevenAnswers() {
         for (int i=0;i<7;i++){markStatementsTrueOrFalse.statements.add(new MarkStatementsTrueOrFalse.Statement());}

@@ -25,4 +25,14 @@ public class Paragraph extends ReusableBlock {
     public String getUrl() {
         return this.url;
     }
+
+    public Paragraph setName(String name){
+        this.name = name;
+        return this;
+    }
+
+    public Paragraph setId(String id){
+        this.id = id;
+        return this;
+    }
 }

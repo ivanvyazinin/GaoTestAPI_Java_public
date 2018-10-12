@@ -18,12 +18,6 @@ public class Screen extends FolderItem {
         this.parentFolder = parent;
     }
 
-    public Screen(String name, String description, String parent) {
-        this.name = name;
-        this.description = description;
-        this.parentFolder = parent;
-    }
-
     public Screen(){
         super();
     }

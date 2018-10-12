@@ -3,7 +3,7 @@ package main.java.entities.contentCloud.blocks.structure;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import main.java.entities.contentCloud.File;
+import main.java.entities.contentCloud.Files;
 import main.java.entities.contentCloud.blocks.AbstractBlock;
 
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ public class SectionTitle extends AbstractBlock {
     }
 
     @JsonSetter("files")
-    public void setFiles(ArrayList<File> files){
-        for (File file: files){
+    public void setFiles(ArrayList<Files> files){
+        for (Files file: files){
             this.files.add(file.id);
         }
     }

@@ -9,9 +9,11 @@ import main.java.entities.contentCloud.folderItems.Screen;
 import main.java.entities.contentCloud.folderItems.ScreenStructure;
 import main.java.entities.contentCloud.blocks.AbstractBlock;
 
+import java.util.ArrayList;
+
 import static main.java.properties.Constants.PATH_ID;
 
-public class ScreenSteps extends CommonSteps {
+public class ScreenSteps <T extends AbstractBlock> extends CommonSteps {
         public ScreenAPI ScreensApi = new ScreenAPI();
 
         @Step("Creating screen with random name")
@@ -33,9 +35,19 @@ public class ScreenSteps extends CommonSteps {
             ScreenStructure screenStructure = new ScreenStructure();
             screenStructure.items.add(block);
             screen.id = ScreensApi.post(screen).jsonPath().getString(PATH_ID);
-            block.id = ScreensApi.updateBlocks(screen.id, screenStructure).jsonPath().getString("data.items[0].id");
+            response = ScreensApi.updateBlocks(screen.id, screenStructure);
+            block.id = response.jsonPath().getString("data.items[0].id");
 
             screen.blocks.add(block);
+            return screen;
+        }
+
+        @Step("Update screen structure")
+        public Screen updateScreenStructure (Screen screen, ArrayList<T> blocks){
+            ScreenStructure screenStructure = new ScreenStructure();
+            screenStructure.items.addAll(blocks);
+            response = ScreensApi.updateBlocks(screen.id, screenStructure);
+            screen.blocks.addAll(blocks);
             return screen;
         }
 }

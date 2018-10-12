@@ -37,7 +37,7 @@ public class FillTheGapsFromList extends CommonPracticeBlock {
             this.options.add(getRandomTextRandomLength(160));
         }
 
-        public Gap(String right_answer ,    String option){
+        public Gap(String right_answer, String option){
             this.right_answer = right_answer;
             this.options.add(option);
         }

@@ -1,5 +1,8 @@
 package test.java.directories;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.directories.Zone;
 import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
@@ -13,6 +16,9 @@ import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
+@Epic("Editor works with directories")
+@Feature("CRUD for Directories")
+@Story("CRUD for FunctionalZones Directory")
 public class FunctionalZonesTest extends SuperTest {
     private CommonSteps steps;
     private Zone testZone;
@@ -30,6 +36,7 @@ public class FunctionalZonesTest extends SuperTest {
     }
 
     @Test
+    @Story("Editors adds a record to an one-level directory")
     public void createZone(){
         steps.createEntity(testZone);
         steps.checkStatusCode(201);

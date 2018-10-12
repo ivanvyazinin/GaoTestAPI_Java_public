@@ -1,6 +1,7 @@
 package test.java.contentCloud.blocks.theory;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.theory.Example;
@@ -14,7 +15,9 @@ import static main.java.properties.Constants.*;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
-@Feature("Theory Blocks")
+@Epic("Content Cloud")
+@Feature("Editor adds Theory blocks to the screen")
+@Story("Editor adds Example block")
 public class ExampleTest extends SuperTest {
     private CommonSteps steps;
     private Example example;
@@ -31,7 +34,6 @@ public class ExampleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Example")
     @Description("Just create example")
     public void createExample() {
         steps.createEntity(example);
@@ -39,7 +41,6 @@ public class ExampleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Example")
     @Description("Check that you can create Example with HTML tags, but they are removed")
     public void createExampleWithHTML() {
         String testText = getRandomText(10);
@@ -52,7 +53,6 @@ public class ExampleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Example")
     @Description("Check, that you cannot create empty example")
     public void createEmptyExample() {
         example.example = "";
@@ -62,7 +62,6 @@ public class ExampleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Example")
     @Description("Check, that you cannot create example with more then 1024 symbols")
     public void createExampleWith16001Symbols() {
         example.example = getRandomText(1025);
@@ -71,7 +70,7 @@ public class ExampleTest extends SuperTest {
         steps.checkThatJsonContains(ERROR_TOO_LONG,PATH_ERROR);
     }
 
-    @Test
+    @Test (enabled = false)
     public void editExample() {
         example = steps.createEntity(example);
         example.example = "Changed" + example.example;

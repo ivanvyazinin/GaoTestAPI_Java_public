@@ -1,5 +1,7 @@
 package main.java.properties;
 
+import java.io.File;
+
 public class Constants {
     public static final String CONTENT_TYPE = "application/json";
     public static final String ROOT_FOLDER= "00000000-0000-0000-0000-000000000001";
@@ -33,9 +35,8 @@ public class Constants {
     public static String GRANT_TYPE="password";
 
     //Files
-    public static String FILE_PATH_IMAGE = "src\\main\\resources\\files\\image.jpg";
-    public static String FILE_PATH_AUDIO = "src\\main\\resources\\files\\audio.mp3";
-    public static String FILE_PATH_VIDEO = "src\\main\\resources\\files\\video.mp4";
-    public static String FILE_PATH_FILE_PDF = "src\\main\\resources\\files\\file.pdf";
-
+    public static String FILE_PATH_IMAGE = "src" + File.separator + "main"+ File.separator +"resources"+ File.separator +"files"+ File.separator +"image.jpg";
+    public static String FILE_PATH_AUDIO = "src"+ File.separator +"main"+ File.separator +"resources"+ File.separator +"files"+ File.separator +"audio.mp3";
+    public static String FILE_PATH_VIDEO = "src"+ File.separator +"main"+ File.separator +"resources"+ File.separator +"files"+ File.separator +"video.mp4";
+    public static String FILE_PATH_FILE_PDF = "src"+ File.separator +"main"+ File.separator +"resources"+ File.separator +"files"+ File.separator +"file.pdf";
 }

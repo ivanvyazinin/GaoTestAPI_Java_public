@@ -24,10 +24,28 @@ public class RequestParameters {
                         params.append("&per_page=").append(parametersSet[1]); break;
                     case "page":
                         params.append("&page=").append(parametersSet[1]); break;
-                    case "sorting":
-                        params.append("&order[").append(parametersSet[1]).append("]="); break;
                     case "level":
                         params.append("&level=").append(parametersSet[1]); break;
+                    case "language":
+                        params.append("&language.id[]=").append(parametersSet[1]); break;
+                    case "skill":
+                        params.append("&skill.id[]=").append(parametersSet[1]); break;
+                    case "eqf":
+                        params.append("&eqf.id[]=").append(parametersSet[1]); break;
+                    case "license":
+                        params.append("&license.id[]=").append(parametersSet[1]); break;
+                    case "isco":
+                        params.append("&isco.id[]=").append(parametersSet[1]); break;
+                    case "zone":
+                        params.append("&zone.id[]=").append(parametersSet[1]); break;
+                    case "study":
+                        params.append("&study.id[]=").append(parametersSet[1]); break;
+                    case "status":
+                        params.append("&status[]=").append(parametersSet[1]); break;
+                    case "role":
+                        params.append("&roles.id[]=").append(parametersSet[1]); break;
+                    case "sorting":
+                        params.append("&order[").append(parametersSet[1]).append("]="); break;
                     case "order":
                         params.append(parametersSet[1]); break;
 

@@ -1,6 +1,8 @@
 package test.java.contentCloud.blocks.structure;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.structure.CourseObjectives;
 import main.java.steps.CommonSteps;
@@ -12,6 +14,9 @@ import test.java.SuperTest;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextRandomLength;
 
+@Epic("Content Cloud")
+@Feature("Editor adds Structure blocks to the screen")
+@Story("Editor adds Objective block")
 public class ObjectiveTest extends SuperTest {
     private CommonSteps steps;
     private CourseObjectives courseObjectives;

@@ -1,7 +1,8 @@
 package test.java.contentCloud.folderitems;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
 import main.java.entities.contentCloud.folderItems.Screen;
@@ -13,7 +14,8 @@ import test.java.SuperTest;
 
 import static main.java.properties.Constants.ROOT_FOLDER;
 
-@Feature("Folder items")
+@Epic("Content Cloud")
+@Feature("Редактор в Content Cloud видит каталог айтемов")
 public class FolderItemsTest extends SuperTest {
     private CommonSteps steps;
     private FolderSteps folderSteps;
@@ -25,14 +27,14 @@ public class FolderItemsTest extends SuperTest {
     }
 
     @Test
-    @Story("Get items of root folder")
+    @Description("Get items of root folder")
     public void getItemsOfRootFolder() {
         folderSteps.getFolderItems(ROOT_FOLDER);
         folderSteps.checkStatusCode(200);
     }
 
     @Test
-    @Story("Folder contains folder, CI and Screen. Get items")
+    @Description("Folder contains folder, CI and Screen. Get items")
     public void getItemsOfFolder() {
         Folder testFolder = steps.createEntity(
                 new Folder(context.getTestFolder()));

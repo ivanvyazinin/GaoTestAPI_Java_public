@@ -1,6 +1,7 @@
 package test.java.contentCloud.blocks.theory;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.theory.Rule;
@@ -14,7 +15,9 @@ import static main.java.properties.Constants.*;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getRandomTextField;
 
-@Feature("Theory Blocks")
+@Epic("Content Cloud")
+@Feature("Editor adds Theory blocks to the screen")
+@Story("Editor adds Rule block")
 public class RuleTest extends SuperTest {
     private CommonSteps steps;
     private Rule rule;
@@ -31,7 +34,6 @@ public class RuleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Rule")
     @Description("Just create rule")
     public void createRule() {
         steps.createEntity(rule);
@@ -39,7 +41,6 @@ public class RuleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Rule")
     @Description("Check, that you cannot create empty rule")
     public void createEmptyRule() {
         rule.rule = "";
@@ -49,7 +50,6 @@ public class RuleTest extends SuperTest {
     }
 
     @Test
-    @Story("Create Rule")
     @Description("Check, that you cannot create rule with more then 1024 symbols")
     public void createRuleWith16001Symbols() {
         rule.rule = getRandomText(1025);
@@ -58,7 +58,7 @@ public class RuleTest extends SuperTest {
         steps.checkThatJsonContains(ERROR_TOO_LONG,PATH_ERROR);
     }
 
-    @Test
+    @Test (enabled = false)
     public void editRule() {
         rule = steps.createEntity(rule);
         rule.rule = "Changed" + rule.rule;

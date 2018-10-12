@@ -1,6 +1,8 @@
 package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.practice.*;
 import main.java.steps.CommonSteps;
@@ -11,6 +13,9 @@ import test.java.SuperTest;
 
 import static main.java.utils.Generator.getRandomText;
 
+@Epic("Content Cloud")
+@Feature("Editor adds Practice blocks to the screen")
+@Story("Editor adds TypeTheAnswer block")
 public class TypeTheAnswerTest extends SuperTest {
     private CommonSteps steps;
     private TypeTheAnswer typeTheAnswer;
@@ -26,7 +31,6 @@ public class TypeTheAnswerTest extends SuperTest {
     }
 
     @Test
-    @Story("Create TypeTheAnswer Block")
     @Description("Just create TypeTheAnswer Block")
     public void createTypeTheAnswer() {
         typeTheAnswer.answers.add(getRandomText(160));
@@ -35,7 +39,6 @@ public class TypeTheAnswerTest extends SuperTest {
     }
 
     @Test
-    @Story("Create TypeTheAnswer Block")
     @Description("Cannot create TypeTheAnswer Block with 1025 symbols in question")
     public void createTypeTheAnswerWithQuestionTooLong() {
         typeTheAnswer.answers.add(getRandomText(11));
@@ -44,7 +47,6 @@ public class TypeTheAnswerTest extends SuperTest {
         steps.checkStatusCode(400);
     }
     @Test
-    @Story("Create TypeTheAnswer Block")
     @Description("Cannot create TypeTheAnswer Block with 11 answers")
     public void createTypeTheAnswerWithElevenAnswers() {
         for (int i=0;i<11;i++){typeTheAnswer.answers.add(getRandomText(160));}

@@ -29,7 +29,7 @@ public class Endpoints {
     public static String ENDPOINT_BLOCK_SELECT_CORRECT_OPTION ="select_correct_option";
     public static String ENDPOINT_BLOCK_SELECT_CORRECT_OPTION_AFTER_READING ="select_correct_option_after_reading";
     public static String ENDPOINT_BLOCK_FILL_GAPS ="fill_gaps_from_list";
-    public static String ENDPOINT_BLOCK_CATEGORIZE_WORDS ="categorize_word";
+    public static String ENDPOINT_BLOCK_CATEGORIZE_ITEMS ="categorize_items";
     public static String ENDPOINT_BLOCK_STATEMENT ="rank_statement";
     public static String ENDPOINT_BLOCK_ANSWER ="answer";
     public static String ENDPOINT_BLOCK_QUESTIONNARIE ="questionnaire";
@@ -61,5 +61,10 @@ public class Endpoints {
     public static String ENDPOINT_USERS="users";
     public static String ENDPOINT_USER_ROLES="user_roles";
 
-    public static String ENDPOINT_FILES="files/upload";
+    public static String ENDPOINT_FILES ="files";
+    public static String ENDPOINT_FILES_UPLOAD ="/upload";
+    public static String ENDPOINT_FILES_CROP ="/crop";
+    public static String ENDPOINT_FILES_CROP_REMOVE ="/crop_remove";
+
+    public static String ENDPOINT_FILE_LICENSES ="file_licenses";
 }

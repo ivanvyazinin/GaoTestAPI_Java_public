@@ -1,6 +1,8 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Screen;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
@@ -15,7 +17,9 @@ import test.java.SuperTest;
 
 import static org.testng.Assert.assertEquals;
 
-@Feature("Content Items")
+@Epic("Content Cloud")
+@Feature(" Editor creates and works with content item")
+@Story("Editor edits content item structure in constructor")
 public class ContentItemsConstructorTest extends SuperTest {
     private CommonSteps steps;
     private ContentItemSteps contentItemSteps;

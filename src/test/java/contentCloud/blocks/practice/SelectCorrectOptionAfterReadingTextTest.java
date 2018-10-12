@@ -1,6 +1,8 @@
 package test.java.contentCloud.blocks.practice;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.practice.SelectCorrectOptionAfterReadingText;
 import main.java.steps.CommonSteps;
@@ -9,6 +11,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
+@Epic("Content Cloud")
+@Feature("Editor adds Practice blocks to the screen")
+@Story("Editor adds SelectCorrectOptionAfterReadingText block")
 public class SelectCorrectOptionAfterReadingTextTest extends SuperTest {
     private CommonSteps steps;
     private SelectCorrectOptionAfterReadingText selectCorrectOptionAfterReadingText;
@@ -24,7 +29,6 @@ public class SelectCorrectOptionAfterReadingTextTest extends SuperTest {
     }
 
     @Test
-    @Story("Create SelectCorrectOptionAfterReading")
     @Description("Just create SelectCorrectOptionAfterReading")
     public void createSelectCorrectOptionAfterReading() {
         selectCorrectOptionAfterReadingText.questionsWithAnswers.add(new SelectCorrectOptionAfterReadingText.QuestionsWithAnswer());
@@ -33,7 +37,6 @@ public class SelectCorrectOptionAfterReadingTextTest extends SuperTest {
     }
 
     @Test
-    @Story("Create SelectCorrectOptionAfterReading")
     @Description("Can't create SelectCorrectOptionAfterReading without questions")
     public void createSelectCorrectOptionAfterReadingWithoutQuestions() {
         steps.createEntity(selectCorrectOptionAfterReadingText);
@@ -41,7 +44,6 @@ public class SelectCorrectOptionAfterReadingTextTest extends SuperTest {
     }
 
     @Test
-    @Story("Create SelectCorrectOptionAfterReading")
     @Description("Can't create SelectCorrectOptionAfterReading with 11 questions")
     public void createSelectCorrectOptionAfterReadingWith20questions() {
         for (int i=0;i<11;i++){

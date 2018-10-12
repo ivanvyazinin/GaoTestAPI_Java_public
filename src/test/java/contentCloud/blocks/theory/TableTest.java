@@ -1,6 +1,7 @@
 package test.java.contentCloud.blocks.theory;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.theory.Table;
@@ -14,7 +15,9 @@ import static main.java.properties.Constants.*;
 import static main.java.utils.Generator.getRandomText;
 import static main.java.utils.Generator.getTable;
 
-@Feature("Theory Blocks")
+@Epic("Content Cloud")
+@Feature("Editor adds Theory blocks to the screen")
+@Story("Editor adds Table block")
 public class TableTest extends SuperTest {
     private CommonSteps steps;
     private Table table;
@@ -27,12 +30,12 @@ public class TableTest extends SuperTest {
     @BeforeMethod
     public void prepareEntity(){
         table  = new Table();
-        table.content = getTable(getRandomText(16000));
+        table.content = getTable(getRandomText(15000));
     }
 
     @Test
     @Story("Create Table")
-    @Description("Just create table")
+    @Description("Just Create table")
     public void createTable() {
         steps.createEntity(table);
         steps.checkStatusCode(201);
@@ -40,7 +43,7 @@ public class TableTest extends SuperTest {
 
     @Test
     @Story("Create Table")
-    @Description("Check, that you can create table with empty cell")
+    @Description("Check, that you can Create table with empty cell")
     public void createEmptyTable() {
         table.content = getTable("");
         steps.createEntity(table);
@@ -49,7 +52,7 @@ public class TableTest extends SuperTest {
 
     @Test
     @Story("Create Table")
-    @Description("Check, that you cannot create table with more then 1600 symbols in a cell")
+    @Description("Check, that you cannot Create table with more then 1600 symbols in a cell")
     public void createTableWithHugeCell() {
         table.content = getTable(getRandomText(16001));
         steps.createEntity(table);
@@ -59,7 +62,7 @@ public class TableTest extends SuperTest {
 
     @Test
     @Story("Create Table")
-    @Description("Check, that you cannot create table broken html structure")
+    @Description("Check, that you cannot Create table broken html structure")
     public void createTableWithBrokenHMTL() {
         table.content = getTable(getRandomText(33)).substring(7);
         steps.createEntity(table);
@@ -67,7 +70,7 @@ public class TableTest extends SuperTest {
         steps.checkThatJsonContains(ERROR_TABLE_STRUCTURE_INVALID, PATH_ERROR);
     }
 
-    @Test
+    @Test (enabled = false)
     public void editTable() {
         table = steps.createEntity(table);
         table.content = getTable("Changed");

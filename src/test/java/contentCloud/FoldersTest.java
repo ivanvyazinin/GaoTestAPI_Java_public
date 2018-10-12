@@ -1,7 +1,6 @@
 package test.java.contentCloud;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
@@ -16,6 +15,8 @@ import test.java.SuperTest;
 
 import static main.java.properties.Constants.*;
 
+@Epic("Content Cloud")
+@Feature("Editor creates and works with folder")
 public class FoldersTest extends SuperTest {
     private CommonSteps steps;
     private ScreenSteps screenSteps;
@@ -36,6 +37,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor creates folder")
     public void createFolderInDaRoot(){
         steps.createEntity(
                 new Folder(ROOT_FOLDER));
@@ -43,12 +45,14 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor creates folder")
     public void createFolderInDaFolder(){
         steps.createEntity(testFolder);
         steps.checkStatusCode(201);
     }
 
     @Test
+    @Story("Editor creates folder")
     public void createFolderWithSameName() {
         steps.createEntity(testFolder);
         steps.createEntity(testFolder);
@@ -56,6 +60,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor renames folder")
     public void editFolderName(){
         testFolder = steps.createEntity(testFolder);
 
@@ -65,6 +70,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor moves folder in the hierarchy")
     public void moveFolder() {
         testFolder = steps.createEntity(testFolder);
         Folder destination = steps.createEntity(
@@ -82,15 +88,15 @@ public class FoldersTest extends SuperTest {
         steps.checkStatusCode(200);
     }
 
-    //TODO fix createFiftyFoldersv2
-   // @Test(groups = "Slow")
-    @Story("Create folder")
+    @Test(groups = "Slow")
+    @Story("Editor creates folder")
     @Description("Cannot create a hierarchy with 51 folder")
-    public void createFiftyFoldersv2() {
-        steps.createEntity(testFolder);
-                for(int i=0; i<47; i++){
-            testFolder.parentFolder=testFolder.id;
-            steps.createEntity(testFolder);
+    public void createFiftyFolders() {
+        testFolder = steps.createEntity(testFolder);
+
+        for(int i=0; i<47; i++){
+            testFolder = steps.createEntity(
+                    new Folder(testFolder.id));
         }
 
         steps.createEntity(
@@ -100,7 +106,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
-    @Story("Delete folder")
+    @Story("Editor deletes folder")
     @Description("Delete empty folder")
     public void deleteEmptyFolder() {
         testFolder = steps.createEntity(testFolder);
@@ -113,7 +119,7 @@ public class FoldersTest extends SuperTest {
 
 
     @Test
-    @Story("Delete folder")
+    @Story("Editor deletes folder")
     @Description("Delete folder with CI, screen and block")
     public void deleteFolderWithScreenBlockCI(){
         testFolder = steps.createEntity(testFolder);
@@ -128,7 +134,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
-    @Story("Delete folder")
+    @Story("Editor deletes folder")
     @Description("Delete folder with screen and block into it")
     public void deleteFolderWithScreenAndBlock(){
         testFolder = steps.createEntity(testFolder);
@@ -142,7 +148,7 @@ public class FoldersTest extends SuperTest {
     }
 
     @Test
-    @Story("Delete folder")
+    @Story("Editor deletes folder")
     @Description("Delete folder with CI and screen into it")
     public void deleteFolderWithCIwithScreen(){
         testFolder = steps.createEntity(testFolder);

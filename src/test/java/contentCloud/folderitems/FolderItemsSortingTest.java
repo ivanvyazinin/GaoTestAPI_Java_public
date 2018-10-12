@@ -1,6 +1,8 @@
 package test.java.contentCloud.folderitems;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
@@ -13,6 +15,8 @@ import test.java.SuperTest;
 
 import static main.java.utils.Generator.getRandomTextField;
 
+@Epic("Content Cloud")
+@Feature("Editor sort items in Content Cloud")
 public class FolderItemsSortingTest extends SuperTest {
     private FolderSteps folderSteps;
     private Folder testFolder;

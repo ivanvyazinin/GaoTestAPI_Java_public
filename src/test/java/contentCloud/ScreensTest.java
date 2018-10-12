@@ -1,6 +1,10 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import main.java.entities.contentCloud.blocks.AbstractBlock;
+import main.java.entities.contentCloud.blocks.theory.Title;
 import main.java.entities.contentCloud.folderItems.ContentItem;
 import main.java.entities.contentCloud.folderItems.Folder;
 import main.java.entities.contentCloud.folderItems.Screen;
@@ -14,9 +18,14 @@ import org.testng.annotations.Test;
 import main.java.steps.ScreenSteps;
 import test.java.SuperTest;
 
+import java.util.ArrayList;
+
 import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
+import static main.java.utils.Generator.getRandomTextField;
 
+@Epic("Content Cloud")
+@Feature("Editor creates and works with screen")
 public class ScreensTest extends SuperTest {
     private ScreenSteps screenSteps;
     private ContentItemSteps contentItemSteps;
@@ -37,7 +46,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test
-    @Story("Create screen")
+    @Story("Editor creates new screen")
     public void createScreenInDaFolder() {
         steps.createEntity(testScreen);
         steps.checkStatusCode(201);
@@ -45,7 +54,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Create screen")
+    @Story("Editor creates new screen")
     public void createScreenWithoutDescription() {
         testScreen.description=null;
         steps.createEntity(testScreen);
@@ -54,7 +63,7 @@ public class ScreensTest extends SuperTest {
 
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Create screen")
+    @Story("Editor creates new screen")
     public void createScreenWithSameName() {
         steps.createEntity(testScreen);
         steps.createEntity(testScreen);
@@ -63,6 +72,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
+    @Story("Editor edits screen parameters")
     public void editScreenNameAndDescription() {
         testScreen = steps.createEntity(testScreen);
 
@@ -76,8 +86,8 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Delete screen")
-    public void deleteScreen() {
+    @Story("Editor deletes screen")
+    public void deleteScreen(){
         testScreen = steps.createEntity(testScreen);
 
         steps.deleteEntity(testScreen);
@@ -88,7 +98,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Delete screen with block")
+    @Story("Editor deletes screen")
     public void deleteScreenWithBlock() {
         testScreen = screenSteps.getScreenWithBlock(
                 new Screen(context.getTestFolder()),
@@ -99,7 +109,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Delete screen")
+    @Story("Editor deletes screen")
     public void deleteScreenUsedInCI() {
         testScreen = steps.createEntity(
                 new Screen(context.getTestFolder()));
@@ -112,7 +122,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Move screen")
+    @Story("Editor moves screen in the hierarchy")
     public void moveScreen(){
         Folder destination = steps.createEntity(
                 new Folder(context.getTestFolder()));
@@ -126,7 +136,7 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test (dependsOnMethods = "createScreenInDaFolder")
-    @Story("Copy screen")
+    @Story("Editor copies screen")
     public void copyEmptyScreenTwice(){
         Folder destination = steps.createEntity(
                 new Folder(context.getTestFolder()));
@@ -143,14 +153,14 @@ public class ScreensTest extends SuperTest {
     }
 
     @Test ()
-    @Story("Copy screen")
+    @Story("Editor copies screen")
     public void copyScreenWithBlock(){
         Paragraph testBlock = new Paragraph();
         Folder destination = steps.createEntity(
                 new Folder(context.getTestFolder()));
         testScreen = screenSteps.getScreenWithBlock(
                 new Screen(context.getTestFolder()), testBlock);
-        testBlock.id = screenSteps.getScreenBlocks(testScreen).items.get(0).id;
+        testBlock.id = screenSteps.getScreenBlocks(testScreen).getItem(0).id;
 
         Screen screenCopy = steps.copyEntity(testScreen,destination.id);
         steps.checkStatusCode(200);
@@ -160,4 +170,47 @@ public class ScreensTest extends SuperTest {
         screenSteps.checkThatBodyHasNotValue(testBlock.id);
         screenSteps.checkThatBodyHasValue(testBlock.paragraph);
     }
+
+    @Test
+    @Story("Editor edits screen structure")
+    public void blockNameUniquenessValidation(){
+        String paragraphName = getRandomTextField("Paragraph");
+
+        steps.createEntity(
+                new Paragraph(context.getTestFolder(), context.getLevel()).setName(paragraphName));
+
+        Paragraph testBlock = new Paragraph();
+        testScreen = screenSteps.getScreenWithBlock(
+                new Screen(context.getTestFolder()), testBlock);
+
+        testScreen = screenSteps.getScreenWithBlock(
+                new Screen(context.getTestFolder()),
+                new Paragraph(context.getTestFolder(),context.getLevel()).setId(testBlock.id).setName(paragraphName));
+
+        screenSteps.checkThatBodyHasValue(paragraphName + "(1)");
+    }
+
+    @Test
+    @Story("Editor edits screen structure")
+    public void editScreenStructure(){
+        ArrayList<AbstractBlock> screenStructure = new ArrayList(){};
+        Paragraph testParagraph = steps.createEntity(
+                new Paragraph());
+
+        Title testTitle = new Title();
+
+        Screen testScreen = screenSteps.getScreenWithBlock(
+                new Screen(commonObjects.getTestFolder().id), testTitle
+        );
+        screenSteps.getScreenBlocks(testScreen);
+        screenSteps.checkThatBodyHasValue(testTitle.title);
+
+        screenStructure.add(testParagraph);
+        screenSteps.updateScreenStructure(testScreen,
+                screenStructure);
+        screenSteps.getScreenBlocks(testScreen);
+        screenSteps.checkThatBodyHasNotValue(testTitle.title);
+        screenSteps.checkThatBodyHasValue(testParagraph.paragraph);
+    }
+
 }

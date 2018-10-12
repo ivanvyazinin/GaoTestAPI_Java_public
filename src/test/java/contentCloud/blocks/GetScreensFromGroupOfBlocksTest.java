@@ -1,6 +1,9 @@
 package test.java.contentCloud.blocks;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.entities.contentCloud.blocks.GroupOfBlocks;
 import main.java.entities.contentCloud.blocks.theory.Paragraph;
 import main.java.entities.contentCloud.folderItems.ContentItem;
@@ -16,7 +19,8 @@ import test.java.SuperTest;
 
 import static main.java.utils.Generator.getRandomTextField;
 
-
+@Epic("Content Cloud")
+@Feature("Editor creates and works with Group of blocks")
 public class GetScreensFromGroupOfBlocksTest extends SuperTest {
     private CommonSteps steps;
     private ContentItemSteps contentItemSteps;
@@ -42,6 +46,7 @@ public class GetScreensFromGroupOfBlocksTest extends SuperTest {
     }
 
     @Test
+    @Story("Editor adds a Group of blocks")
     @Description("Get screens of blocks Group, where one block used in a few screens")
     public void createGroupOfBlocks(){
         ScreenSteps screenSteps = new ScreenSteps();

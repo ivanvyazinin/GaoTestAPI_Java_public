@@ -1,5 +1,6 @@
 package test.java.contentCloud;
 
+import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import main.java.entities.contentCloud.folderItems.ContentItem;
@@ -13,7 +14,8 @@ import static main.java.properties.Constants.ERROR_RESOURCE_ALREADY_EXISTS;
 import static main.java.properties.Constants.PATH_ERROR;
 import static main.java.properties.Constants.ROOT_FOLDER;
 
-@Feature("Content Items")
+@Epic("Content Cloud")
+@Feature("Editor creates and works with content item")
 public class ContentItemsTest extends SuperTest {
     private CommonSteps steps;
 
@@ -29,16 +31,15 @@ public class ContentItemsTest extends SuperTest {
         testContentItem = new ContentItem(context.getTestFolder());
     }
 
-
     @Test
-    @Story("Create Content Item")
+    @Story("Editor creates new content item")
     public void createContentItem() {
         steps.createEntity(testContentItem);
         steps.checkStatusCode(201);
     }
 
     @Test(dependsOnMethods = "createContentItem")
-    @Story("Create Content Item")
+    @Story("Editor creates new content item")
     public void createContentItemWithoutDescription() {
         testContentItem.description = null;
         steps.createEntity(testContentItem);
@@ -53,7 +54,7 @@ public class ContentItemsTest extends SuperTest {
     }
 
     @Test(dependsOnMethods = "createContentItem")
-    @Story("Edit Content Item")
+    @Story("Editor edits content item parameters")
     public void editContentItem() {
         testContentItem = steps.createEntity(testContentItem);
         testContentItem.name = "Changed" + testContentItem.name;
@@ -66,7 +67,7 @@ public class ContentItemsTest extends SuperTest {
     }
 
     @Test(dependsOnMethods = "createContentItem")
-    @Story("Move Content Item")
+    @Story("Editor moves content item in the hierarchy")
     public void moveContentItem() {
         testContentItem = steps.createEntity(
                 new ContentItem(ROOT_FOLDER));
@@ -78,7 +79,7 @@ public class ContentItemsTest extends SuperTest {
     }
 
     @Test(dependsOnMethods = "createContentItem")
-    @Story("Move Content Item")
+    @Story("Editor moves content item in the hierarchy")
     public void moveContentItemToFolderWithSameContentItem() {
         testContentItem = steps.createEntity(
                 new ContentItem(ROOT_FOLDER));
@@ -93,9 +94,10 @@ public class ContentItemsTest extends SuperTest {
     }
 
     @Test(dependsOnMethods = "createContentItem")
-    @Story("Delete Content Item")
+    @Story("Editor deletes content item")
     public void deleteContentItem() {
         testContentItem  = steps.createEntity(testContentItem);
+
         steps.deleteEntity(testContentItem);
         steps.checkStatusCode(204);
         steps.getEntity(testContentItem);

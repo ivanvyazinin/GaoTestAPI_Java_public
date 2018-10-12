@@ -14,10 +14,16 @@ public abstract class Publication extends AbstractEntity {
     public String description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String language;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public String license;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public ArrayList<String> studies;
+    public String license;
+    public String author;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String sourceLink;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String licenseNotes;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer status;
 
     @JsonSetter("language")
     public void setLanguage(AbstractDirectory lang){
@@ -27,16 +33,6 @@ public abstract class Publication extends AbstractEntity {
     @JsonGetter("language")
     public String getLanguage(){
         return language;
-    }
-
-    @JsonSetter("license")
-    public void setLicense(AbstractDirectory license){
-            this.license= license.id;
-    }
-
-    @JsonGetter("license")
-    public String getLicense(){
-        return license;
     }
 
     @JsonSetter("studies")
@@ -50,5 +46,4 @@ public abstract class Publication extends AbstractEntity {
     public ArrayList<String> getStudies(){
         return studies;
     }
-
 }

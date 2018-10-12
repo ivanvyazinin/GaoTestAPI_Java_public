@@ -17,12 +17,6 @@ public class ContentItem extends FolderItem {
         this.parentFolder = parent;
     }
 
-    public ContentItem(String name, String description, String parent) {
-        this.name = name;
-        this.description = description;
-        this.parentFolder = parent;
-    }
-
     public ContentItem(){
         super();
     }

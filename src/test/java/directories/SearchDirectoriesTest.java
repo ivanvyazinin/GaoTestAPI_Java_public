@@ -1,11 +1,15 @@
 package test.java.directories;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import main.java.entities.directories.*;
 import main.java.steps.CommonSteps;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import test.java.SuperTest;
 
+@Epic("Editor works with directories")
+@Feature("Editors searches a record in directory")
 public class SearchDirectoriesTest extends SuperTest {
     private CommonSteps steps;
 
